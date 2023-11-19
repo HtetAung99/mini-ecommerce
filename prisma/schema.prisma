@@ -33,7 +33,6 @@ model Attribute {
   id              Int              @id @default(autoincrement())
   name            String           @unique @db.VarChar(255)
   attributeValues AttributeValue[]
-  
 }
 
 model AttributeValue {
@@ -41,28 +40,29 @@ model AttributeValue {
   name        String    @unique @db.VarChar(255)
   attributeId Int
   attribute   Attribute @relation(fields: [attributeId], references: [id])
-  variants Variant[]
+  variants    Variant[]
 }
 
 model Variant {
-  id         Int         @id @default(autoincrement())
-  productId  Int
-  product    Product     @relation(fields: [productId], references: [id])
-  attributeValues AttributeValue[]
-  price      Float
+  id                    Int                   @id @default(autoincrement())
+  productId             Int
+  product               Product               @relation(fields: [productId], references: [id])
+  attributeValues       AttributeValue[]
+  priceDiff             Float
   variantAvailabilities VariantAvailability[]
 }
 
 model Product {
-  id             Int                   @id @default(autoincrement())
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
-  title          String                @db.VarChar(255)
-  description    String?
-  published      Boolean               @default(false)
-  categoryId     Int
-  category       Category              @relation(fields: [categoryId], references: [id])
-  variants       Variant[]
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  title       String    @db.VarChar(255)
+  description String?
+  published   Boolean   @default(false)
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  variants    Variant[]
+  price       Float
 }
 
 model Category {
