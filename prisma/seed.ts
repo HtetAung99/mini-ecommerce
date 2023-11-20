@@ -31,252 +31,191 @@ const userData: Prisma.UserCreateInput[] = [
 ];
 
 const categoryData = [
-  {
-    name: "Electronics",
-    children: {
-      create: [
-        {
-          name: "Smartphones",
-          children: {
-            create: [
-              {
-                name: "Apple",
-                products: {
-                  create: [
-                    {
-                      title: "Apple iPhone 13",
-                      price: 1249.99,
-                      description:
-                        "The iPhone 13 offers advanced features and a powerful A15 Bionic chip. With a stunning Super Retina XDR display and improved camera capabilities, it is a flagship smartphone that meets the demands of modern users.",
-                      variants: {
-                        create: [
-                          {
-                            attributeValues: {
-                              connect: [
-                                {
-                                  name: "red",
-                                },
-                                {
-                                  name: "512GB",
-                                },
-                              ],
-                            },
-                            priceDiff: 100,
-                            variantAvailabilities: {
-                              create: {
-                                store: {
-                                  connect: { name: "store1" },
-                                },
-                                quantity: 10,
-                              },
-                            },
-                          },
-                          {
-                            attributeValues: {
-                              connect: [
-                                {
-                                  name: "blue",
-                                },
-                                {
-                                  name: "256GB",
-                                },
-                              ],
-                            },
-                            priceDiff: -10,
-                            variantAvailabilities: {
-                              create: {
-                                store: {
-                                  connect: { name: "store2" },
-                                },
-                                quantity: 10,
-                              },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                name: "Samsung",
-                products: {
-                  create: [
-                    {
-                      price: 1199.99,
-                      title: "Samsung Galaxy S22",
-                      description:
-                        "The Galaxy S22 offers cutting-edge features and a stunning display. With a powerful Exynos processor and versatile camera system, it's a flagship smartphone for tech enthusiasts.",
-                      variants: {
-                        create: [
-                          {
-                            attributeValues: {
-                              connect: [{ name: "black" }, { name: "256GB" }],
-                            },
-                            priceDiff: 0,
-                            variantAvailabilities: {
-                              create: {
-                                store: {
-                                  connect: { name: "store1" },
-                                },
-                                quantity: 15,
-                              },
-                            },
-                          },
-                          {
-                            attributeValues: {
-                              connect: [{ name: "silver" }, { name: "512GB" }],
-                            },
-                            priceDiff: 150,
-                            variantAvailabilities: {
-                              create: {
-                                store: {
-                                  connect: { name: "store2" },
-                                },
-                                quantity: 10,
-                              },
-                            },
-                          },
-                          // Add more variants for the Samsung Galaxy S22 as needed.
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              // Add more smartphone brands and models as needed
-            ],
-          },
-        },
-        {
-          name: "Laptops",
-          children: {
-            create: [
-              {
-                name: "Ultrabooks",
-                products: {
-                  create: [
-                    {
-                      title: "Dell XPS 17",
-                      description:
-                        "The Dell XPS 17 is a premium ultrabook with a stunning 4K OLED display. It's powered by the latest Intel processors and offers an exceptional computing experience.",
-                      price: 1799.99,
-                      variants: {
-                        create: [
-                          {
-                            attributeValues: {
-                              connect: [
-                                { name: "rose gold" },
-                                { name: "512GB" },
-                              ],
-                            },
-                            priceDiff: -100,
-                            variantAvailabilities: {
-                              create: {
-                                store: {
-                                  connect: { name: "store1" },
-                                },
-                                quantity: 8,
-                              },
-                            },
-                          },
-                          // Add more variants for the Dell XPS 17 as needed.
-                        ],
-                      },
-                    },
-                    // Add more ultrabook models as needed.
-                  ],
-                },
-              },
-              {
-                name: "Gaming Laptops",
-                products: {
-                  create: [
-                    {
-                      title: "ASUS ROG Zephyrus G14",
-                      price: 1399.99,
-                      description:
-                        "The ASUS ROG Zephyrus G14 is a gaming laptop that combines performance and portability. With a powerful Ryzen processor and dedicated NVIDIA graphics, it delivers impressive gaming experiences in a compact form factor.",
-                      variants: {
-                        create: [
-                          {
-                            attributeValues: {
-                              connect: [
-                                {
-                                  name: "red",
-                                },
-                                {
-                                  name: "256GB",
-                                },
-                              ],
-                            },
-                            priceDiff: -200,
-                            variantAvailabilities: {
-                              create: {
-                                store: {
-                                  connect: { name: "store1" },
-                                },
-                                quantity: 10,
-                              },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                },
-              },
-              // Add more laptop categories and products as needed
-            ],
-          },
-        },
-        // Add more electronic categories and products as needed
-      ],
-    },
-  },
-  {
-    name: "Clothing",
-    children: {
-      create: [
-        {
-          name: "Men's Clothing",
-          products: {
-            create: [
-              {
-                title: "Men's Casual Shirt",
-                description:
-                  "A comfortable and stylish shirt for casual occasions.",
-                price: 29.99,
-                variants: {
-                  create: [
-                    {
-                      attributeValues: {
-                        connect: [{ name: "large" }, { name: "blue" }],
-                      },
-                      priceDiff: 5,
-                      variantAvailabilities: {
-                        create: {
-                          store: {
-                            connect: { name: "store3" },
-                          },
-                          quantity: 20,
-                        },
-                      },
-                    },
-                    // Add more variants for men's shirts as needed.
-                  ],
-                },
-              },
-              // Add more men's clothing products as needed.
-            ],
-          },
-        },
-        // Add more clothing categories and products as needed.
-      ],
-    },
-  },
+  { name: "Electronics" },
+  { name: "Smart Phone", parentId: 1 },
+  { name: "Apple", parentId: 2 },
+  { name: "Samsung", parentId: 2 },
+  { name: "Laptop", parentId: 1 },
+  { name: "Gaming Laptop", parentId: 5 },
+  { name: "Clothing" },
+  { name: "Men's Clothing", parentId: 7 },
+];
 
-  // Add more top-level categories as needed
+const productData = [
+  {
+    price: 1199.99,
+    title: "Samsung Galaxy S22",
+    categoryId: 4,
+    description:
+      "The Galaxy S22 offers cutting-edge features and a stunning display. With a powerful Exynos processor and versatile camera system, it's a flagship smartphone for tech enthusiasts.",
+    variants: {
+      create: [
+        {
+          attributeValues: {
+            connect: [{ name: "black" }, { name: "256GB" }],
+          },
+          priceDiff: 0,
+          variantAvailabilities: {
+            create: {
+              store: {
+                connect: { name: "store1" },
+              },
+              quantity: 15,
+            },
+          },
+        },
+        {
+          attributeValues: {
+            connect: [{ name: "silver" }, { name: "512GB" }],
+          },
+          priceDiff: 150,
+          variantAvailabilities: {
+            create: {
+              store: {
+                connect: { name: "store2" },
+              },
+              quantity: 10,
+            },
+          },
+        },
+        // Add more variants for the Samsung Galaxy S22 as needed.
+      ],
+    },
+  },
+  {
+    title: "Men's Casual Shirt",
+    description: "A comfortable and stylish shirt for casual occasions.",
+    price: 29.99,
+    categoryId: 8,
+    variants: {
+      create: [
+        {
+          attributeValues: {
+            connect: [{ name: "large" }, { name: "blue" }],
+          },
+          priceDiff: 5,
+          variantAvailabilities: {
+            create: {
+              store: {
+                connect: { name: "store3" },
+              },
+              quantity: 20,
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
+    title: "ASUS ROG Zephyrus G14",
+    price: 1399.99,
+    categoryId: 6,
+    description:
+      "The ASUS ROG Zephyrus G14 is a gaming laptop that combines performance and portability. With a powerful Ryzen processor and dedicated NVIDIA graphics, it delivers impressive gaming experiences in a compact form factor.",
+    variants: {
+      create: [
+        {
+          attributeValues: {
+            connect: [
+              {
+                name: "red",
+              },
+              {
+                name: "256GB",
+              },
+            ],
+          },
+          priceDiff: -200,
+          variantAvailabilities: {
+            create: {
+              store: {
+                connect: { name: "store1" },
+              },
+              quantity: 10,
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
+    title: "Dell XPS 17",
+    description:
+      "The Dell XPS 17 is a premium ultrabook with a stunning 4K OLED display. It's powered by the latest Intel processors and offers an exceptional computing experience.",
+    price: 1799.99,
+    categoryId: 5,
+    variants: {
+      create: [
+        {
+          attributeValues: {
+            connect: [{ name: "rose gold" }, { name: "512GB" }],
+          },
+          priceDiff: -100,
+          variantAvailabilities: {
+            create: {
+              store: {
+                connect: { name: "store1" },
+              },
+              quantity: 8,
+            },
+          },
+        },
+      ],
+    },
+  },
+  {
+    title: "Apple iPhone 13",
+    price: 1249.99,
+    categoryId: 3,
+    description:
+      "The iPhone 13 offers advanced features and a powerful A15 Bionic chip. With a stunning Super Retina XDR display and improved camera capabilities, it is a flagship smartphone that meets the demands of modern users.",
+    variants: {
+      create: [
+        {
+          attributeValues: {
+            connect: [
+              {
+                name: "red",
+              },
+              {
+                name: "512GB",
+              },
+            ],
+          },
+          priceDiff: 100,
+          variantAvailabilities: {
+            create: {
+              store: {
+                connect: { name: "store1" },
+              },
+              quantity: 10,
+            },
+          },
+        },
+        {
+          attributeValues: {
+            connect: [
+              {
+                name: "blue",
+              },
+              {
+                name: "256GB",
+              },
+            ],
+          },
+          priceDiff: -10,
+          variantAvailabilities: {
+            create: {
+              store: {
+                connect: { name: "store2" },
+              },
+              quantity: 10,
+            },
+          },
+        },
+      ],
+    },
+  },
 ];
 
 const attributeData = [
@@ -330,7 +269,29 @@ const storeData = [
     name: "store3",
     address: "789 Oak St",
   },
-  // Add more store entries as needed
+];
+
+const orderData: Prisma.OrderCreateInput[] = [
+  {
+    customer: { connect: { email: "htetaung@gmail.com" } },
+    totalAmount: 150.0,
+    orderItems: {
+      create: [
+        { quantity: 2, variantId: 1 },
+        { quantity: 1, variantId: 2 },
+      ],
+    },
+  },
+  {
+    customer: { connect: { email: "phyoUser@gmail.com" } },
+    totalAmount: 75.5,
+    orderItems: {
+      create: [
+        { quantity: 1, variantId: 3 },
+        { quantity: 3, variantId: 4 },
+      ],
+    },
+  },
 ];
 
 async function main() {
@@ -339,6 +300,8 @@ async function main() {
   await seedAttributes();
   await seedCategories();
   await seedUsers();
+  await seedProducts();
+  await seedOrders();
   console.log(`Seeding finished.`);
 }
 
@@ -373,6 +336,24 @@ const seedCategories = async () => {
       data: c,
     });
     console.log(`Created category with id: ${category.id}`);
+  }
+};
+
+const seedProducts = async () => {
+  for (const p of productData) {
+    const product = await prisma.product.create({
+      data: p,
+    });
+    console.log(`Created category with id: ${product.id}`);
+  }
+};
+
+const seedOrders = async () => {
+  for (const o of orderData) {
+    const order = await prisma.order.create({
+      data: o,
+    });
+    console.log(`Created order with id: ${order.id}`);
   }
 };
 main()

@@ -40,7 +40,7 @@ CREATE TABLE "AttributeValue" (
 CREATE TABLE "Variant" (
     "id" SERIAL NOT NULL,
     "productId" INTEGER NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
+    "priceDiff" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Variant_pkey" PRIMARY KEY ("id")
 );
@@ -54,6 +54,7 @@ CREATE TABLE "Product" (
     "description" TEXT,
     "published" BOOLEAN NOT NULL DEFAULT false,
     "categoryId" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );

@@ -13,7 +13,7 @@ export const getProductsWithCategories = cache(
           include: { attributeValues: { include: { attribute: true } } },
         },
       },
-      where: { published: true }, // need to change published to true
+      where: { published: false }, // need to change published to true
     });
 
     return products;

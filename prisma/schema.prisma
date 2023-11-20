@@ -50,6 +50,8 @@ model Variant {
   attributeValues       AttributeValue[]
   priceDiff             Float
   variantAvailabilities VariantAvailability[]
+  orderItems            OrderItem[]
+  
 }
 
 model Product {
@@ -122,7 +124,37 @@ model User {
   accounts      Account[]
   sessions      Session[]
   image         String?
+  orders        Order[]
 }
+
+model Order {
+  id           Int       @id @default(autoincrement())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  customerId   String    
+  customer     User      @relation(fields: [customerId], references: [id])
+  orderItems   OrderItem[]
+  totalAmount  Float
+  status       OrderStatus  @default(PENDING)
+}
+
+model OrderItem {
+  id          Int      @id @default(autoincrement())
+  variantId   Int
+  variant     Variant  @relation(fields: [variantId], references: [id])
+  quantity    Int
+  order       Order    @relation(fields: [orderId], references: [id])
+  orderId     Int
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
 
 enum Role {
   USER
