@@ -41,7 +41,7 @@ export default function ProductInfo({
         (prev, cur) => {
           return { ...prev, [cur.attribute.name]: cur.name };
         },
-        { p: Number(product.price) + Number(v.priceDiff) }
+        { p: (Number(product.price) + Number(v.priceDiff)).toFixed(2) }
       )
     );
 

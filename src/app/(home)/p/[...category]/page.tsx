@@ -7,7 +7,6 @@ import {
   getProductByFilters,
 } from "@/app/utils/products";
 import ProductList from "./components/product-list";
-import { ProductWithNestedData } from "@/app/types";
 
 export default async function P({
   params,
