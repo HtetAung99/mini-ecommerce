@@ -1,5 +1,5 @@
-import prisma from '../../../lib/prisma';
-import { VariantWithAttributeValues } from '../types';
+import prisma from "../../../lib/prisma";
+import { VariantWithAttributeValues } from "../types";
 
 export const attributesValuesByProductId = async (productId: number) => {
   const productVariants = await prisma.variant.findMany({
@@ -13,24 +13,28 @@ export const attributesValuesByProductId = async (productId: number) => {
 export const retrieveAttributesObject = (
   variants: VariantWithAttributeValues[]
 ) => {
-  return variants.reduce((prev: any, current) => {
+  const reducedVariants = variants.reduce((prev: any, current) => {
     current.attributeValues.forEach((av) => {
       if (prev[av.attribute.name]) {
-        prev[av.attribute.name].push({
-          id: av.id,
-          name: av.name,
-          attributeId: av.attributeId,
-        });
-      } else {
-        prev[av.attribute.name] = [
-          {
+        prev[av.attribute.name].add(
+          JSON.stringify({
             id: av.id,
             name: av.name,
             attributeId: av.attributeId,
-          },
-        ];
+          })
+        );
+      } else {
+        prev[av.attribute.name] = new Set([
+          JSON.stringify({
+            id: av.id,
+            name: av.name,
+            attributeId: av.attributeId,
+          }),
+        ]);
       }
     });
     return prev;
   }, {});
+
+  return reducedVariants;
 };

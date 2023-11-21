@@ -17,6 +17,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CircleDollarSign, CreditCard, ShoppingCart } from "lucide-react";
 import { retrieveAttributesObject } from "@/app/utils/variants";
+import { log } from "console";
 
 export default function ProductInfo({
   product,
@@ -80,7 +81,9 @@ export default function ProductInfo({
               </h3>
 
               <div className="flex flex-row justify-items-center gap-5">
-                {value.map((v: any) => {
+                {Array.from(value).map((v: any) => {
+                  v = JSON.parse(v);
+
                   if (key === "color") {
                     return (
                       <>
