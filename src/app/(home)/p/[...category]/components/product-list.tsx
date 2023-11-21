@@ -11,7 +11,7 @@ export default function ProductList({
     <ScrollArea className="max-h-[72vh] overflow-y-auto col-span-3 no-scrollbar">
       <div className="grid grid-cols-3 gap-x-7 gap-y-7 p-5">
         {products.map((product) => (
-          <ProductCard product={product} />
+          <ProductCard flex={false} product={product} />
         ))}
       </div>
     </ScrollArea>

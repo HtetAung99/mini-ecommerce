@@ -37,7 +37,7 @@ export const getCategoriesFullPath = async () => {
     const id = category.id;
     const parentId = normalized[`${id}`].parentId;
     if (parentId == null) return `${normalized[`${id}`].name}`;
-    return retrieveParentName(normalized[parentId]) + " / " + category.name;
+    return retrieveParentName(normalized[parentId]) + "/" + category.name;
   };
 
   return categories.map((category: CategoryWithChild) => ({

@@ -19,7 +19,7 @@ export default async function PLayout({
     decodeURIComponent(c)
   );
 
-  const categoryPathString = categoryPaths.join(" / ");
+  const categoryPathString = categoryPaths.join("/");
 
   if (categoryPathsFromDb.indexOf(categoryPathString) == -1)
     return <h1>Category Not Found!</h1>;

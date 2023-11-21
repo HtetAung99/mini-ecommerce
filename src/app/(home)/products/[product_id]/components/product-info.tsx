@@ -17,7 +17,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CircleDollarSign, CreditCard, ShoppingCart } from "lucide-react";
 import { retrieveAttributesObject } from "@/app/utils/variants";
-import { log } from "console";
 
 export default function ProductInfo({
   product,
@@ -45,7 +44,6 @@ export default function ProductInfo({
         { p: Number(product.price) + Number(v.priceDiff) }
       )
     );
-    console.log(variantList);
 
     setVariantOptions(variantList);
     const { p, ...firstVariant } = variantList[0];
