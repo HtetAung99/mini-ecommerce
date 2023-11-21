@@ -1,6 +1,7 @@
 import prisma from "../../lib/prisma";
 
 const attributeData = [
+  { name: "default", attributeValues: { create: [{ name: "default" }] } },
   {
     name: "color",
     attributeValues: {

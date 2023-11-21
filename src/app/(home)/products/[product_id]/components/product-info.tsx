@@ -46,21 +46,27 @@ export default function ProductInfo({
     );
 
     setVariantOptions(variantList);
-    const { p, ...firstVariant } = variantList[0];
+    const { p, ...firstVariant } =
+      variantList.length > 1 ? variantList[1] : variantList[0];
 
     setSelectedVariantPair(firstVariant);
   }, []);
 
   useEffect(() => {
-    const priceForSelected = variantOptions.filter((t: any) =>
-      Object.keys(t).every((k) => {
-        if (k != "p") {
-          return t[k] === selectedVariantPair[k];
-        } else return true;
-      })
-    )[0]?.p;
+    if (variantOptions.length === 1) {
+      setPrice(variantOptions[0].p);
+    } else {
+      const validPair = variantOptions.filter((t: any) => {
+        return Object.keys(t).every((k) => {
+          if (k != "p" && k !== "default") {
+            return t[k] === selectedVariantPair[k];
+          } else return true;
+        });
+      });
 
-    setPrice(priceForSelected);
+      const priceForSelected = validPair[1]?.p;
+      setPrice(priceForSelected);
+    }
   }, [selectedVariantPair]);
 
   return (
@@ -72,54 +78,55 @@ export default function ProductInfo({
 
       <CardContent>
         {Object.entries(attributeValues).map(([key, value]: [string, any]) => {
-          return (
-            <div key={key}>
-              <h3 className="capitalize font-semibold text-left text-base my-2 text-slate-700 pt-2 w-[10vw]">
-                {key}
-              </h3>
+          if (key !== "default")
+            return (
+              <div key={key}>
+                <h3 className="capitalize font-semibold text-left text-base my-2 text-slate-700 pt-2 w-[10vw]">
+                  {key}
+                </h3>
 
-              <div className="flex flex-row justify-items-center gap-5">
-                {Array.from(value).map((v: any) => {
-                  v = JSON.parse(v);
+                <div className="flex flex-row justify-items-center gap-5">
+                  {Array.from(value).map((v: any) => {
+                    v = JSON.parse(v);
 
-                  if (key === "color") {
-                    return (
-                      <>
-                        <div
-                          key={v.id}
-                          className={clsx(
-                            "cursor-pointer flex w-7 h-7 rounded-full justify-center items-center",
-                            selectedVariantPair[key] === v.name && [
-                              " border-gray-700 border",
-                            ]
-                          )}
-                          onClick={() => handleChange(key, v.name)}>
+                    if (key === "color") {
+                      return (
+                        <>
                           <div
+                            key={v.id}
                             className={clsx(
-                              "w-5 h-5 rounded-full border border-gray-500 ",
-                              `bg-${v.name}-500`
-                            )}></div>
-                        </div>
-                      </>
-                    );
-                  } else {
-                    return (
-                      <Button
-                        variant={
-                          selectedVariantPair[key] === v.name
-                            ? "default"
-                            : "outline"
-                        }
-                        key={v.id}
-                        onClick={() => handleChange(key, v.name)}>
-                        {v.name}
-                      </Button>
-                    );
-                  }
-                })}
+                              "cursor-pointer flex w-7 h-7 rounded-full justify-center items-center",
+                              selectedVariantPair[key] === v.name && [
+                                " border-gray-700 border",
+                              ]
+                            )}
+                            onClick={() => handleChange(key, v.name)}>
+                            <div
+                              className={clsx(
+                                "w-5 h-5 rounded-full border border-gray-500 ",
+                                `bg-${v.name}-500`
+                              )}></div>
+                          </div>
+                        </>
+                      );
+                    } else {
+                      return (
+                        <Button
+                          variant={
+                            selectedVariantPair[key] === v.name
+                              ? "default"
+                              : "outline"
+                          }
+                          key={v.id}
+                          onClick={() => handleChange(key, v.name)}>
+                          {v.name}
+                        </Button>
+                      );
+                    }
+                  })}
+                </div>
               </div>
-            </div>
-          );
+            );
         })}
 
         <Badge

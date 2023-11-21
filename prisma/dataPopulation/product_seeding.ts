@@ -1,5 +1,16 @@
 import prisma from "../../lib/prisma";
 
+export const defaultVariantData = {
+  create: [
+    {
+      attributeValues: {
+        connect: [{ name: "default" }],
+      },
+      priceDiff: 0,
+    },
+  ],
+};
+
 const productData = [
   {
     price: 1199.99,
@@ -7,12 +18,14 @@ const productData = [
     categoryId: 4,
     description:
       "The Galaxy S22 offers cutting-edge features and a stunning display. With a powerful Exynos processor and versatile camera system, it's a flagship smartphone for tech enthusiasts.",
+    variants: defaultVariantData,
   },
   {
     title: "Men's Casual Shirt",
     description: "A comfortable and stylish shirt for casual occasions.",
     price: 29.99,
     categoryId: 8,
+    variants: defaultVariantData,
   },
   {
     title: "ASUS ROG Zephyrus G14",
@@ -20,6 +33,7 @@ const productData = [
     categoryId: 6,
     description:
       "The ASUS ROG Zephyrus G14 is a gaming laptop that combines performance and portability. With a powerful Ryzen processor and dedicated NVIDIA graphics, it delivers impressive gaming experiences in a compact form factor.",
+    variants: defaultVariantData,
   },
   {
     title: "Dell XPS 17",
@@ -27,6 +41,7 @@ const productData = [
       "The Dell XPS 17 is a premium ultrabook with a stunning 4K OLED display. It's powered by the latest Intel processors and offers an exceptional computing experience.",
     price: 1799.99,
     categoryId: 5,
+    variants: defaultVariantData,
   },
   {
     title: "Apple iPhone 13",
@@ -34,6 +49,7 @@ const productData = [
     categoryId: 3,
     description:
       "The iPhone 13 offers advanced features and a powerful A15 Bionic chip. With a stunning Super Retina XDR display and improved camera capabilities, it is a flagship smartphone that meets the demands of modern users.",
+    variants: defaultVariantData,
   },
   // Additional products
   {
@@ -42,6 +58,7 @@ const productData = [
     categoryId: 1,
     description:
       "Experience cinematic visuals with the Sony Bravia 4K Smart TV. Enjoy vibrant colors and smart features for an immersive entertainment experience.",
+    variants: defaultVariantData,
   },
   {
     title: "Women's Running Shoes",
@@ -49,6 +66,7 @@ const productData = [
       "High-performance running shoes for women, designed for comfort and durability.",
     price: 79.99,
     categoryId: 9,
+    variants: defaultVariantData,
   },
   {
     title: "Lenovo Legion Y540 Gaming Desktop",
@@ -56,6 +74,7 @@ const productData = [
     categoryId: 6,
     description:
       "Immerse yourself in gaming with the Lenovo Legion Y540 Gaming Desktop. Packed with powerful hardware, it delivers a smooth gaming experience.",
+    variants: defaultVariantData,
   },
   {
     title: "Modern Coffee Table",
@@ -63,6 +82,7 @@ const productData = [
       "Enhance your living room with this modern coffee table. Sleek design and ample storage space.",
     price: 249.99,
     categoryId: 22,
+    variants: defaultVariantData,
   },
   {
     title: "Canon EOS R5 Mirrorless Camera",
@@ -70,6 +90,7 @@ const productData = [
     categoryId: 4,
     description:
       "Capture stunning images and videos with the Canon EOS R5 Mirrorless Camera. It features a high-resolution sensor and advanced autofocus technology.",
+    variants: defaultVariantData,
   },
   {
     price: 49.99,
@@ -77,6 +98,7 @@ const productData = [
     categoryId: 10,
     description:
       "Enjoy the freedom of wireless audio with these high-quality earbuds. They provide clear sound and a comfortable fit for all-day use.",
+    variants: defaultVariantData,
   },
   {
     title: "Smart Thermostat",
@@ -84,6 +106,7 @@ const productData = [
       "Control your home's temperature from anywhere with this smart thermostat. Energy-efficient and easy to use.",
     price: 129.99,
     categoryId: 1,
+    variants: defaultVariantData,
   },
   {
     title: "Outdoor Camping Tent",
@@ -91,6 +114,7 @@ const productData = [
       "Explore the great outdoors with this durable and spacious camping tent. Perfect for weekend getaways.",
     price: 179.99,
     categoryId: 15,
+    variants: defaultVariantData,
   },
   {
     title: "LG UltraWide Gaming Monitor",
@@ -98,6 +122,7 @@ const productData = [
     categoryId: 1,
     description:
       "Elevate your gaming setup with the LG UltraWide Gaming Monitor. Its immersive display and high refresh rate provide a competitive edge.",
+    variants: defaultVariantData,
   },
   {
     title: "Leather Office Chair",
@@ -105,6 +130,7 @@ const productData = [
       "Upgrade your workspace with this ergonomic leather office chair. Comfortable and stylish for long hours of work.",
     price: 249.99,
     categoryId: 21,
+    variants: defaultVariantData,
   },
   {
     title: "Fitness Tracker",
@@ -112,6 +138,7 @@ const productData = [
       "Monitor your fitness goals with this advanced fitness tracker. It tracks steps, heart rate, and sleep patterns for a healthier lifestyle.",
     price: 79.99,
     categoryId: 10,
+    variants: defaultVariantData,
   },
   {
     title: "Portable Bluetooth Speaker",
@@ -119,6 +146,7 @@ const productData = [
       "Take your music anywhere with this portable Bluetooth speaker. It delivers crisp sound and long battery life.",
     price: 59.99,
     categoryId: 10,
+    variants: defaultVariantData,
   },
   {
     title: "Ultra-Thin Laptop Sleeve",
@@ -126,6 +154,7 @@ const productData = [
       "Protect your laptop in style with this ultra-thin laptop sleeve. Sleek design and padded interior for maximum protection.",
     price: 29.99,
     categoryId: 5,
+    variants: defaultVariantData,
   },
   {
     title: "Smart Home Security Camera",
@@ -133,6 +162,7 @@ const productData = [
     categoryId: 1,
     description:
       "Keep your home secure with this smart home security camera. It offers high-definition video and real-time alerts for peace of mind.",
+    variants: defaultVariantData,
   },
   {
     title: "Classic Men's Watch",
@@ -140,6 +170,7 @@ const productData = [
       "Enhance your style with this classic men's watch. Timeless design and reliable precision for any occasion.",
     price: 129.99,
     categoryId: 10,
+    variants: defaultVariantData,
   },
   {
     title: "Yoga Mat",
@@ -147,6 +178,7 @@ const productData = [
       "Practice yoga comfortably with this high-quality yoga mat. Non-slip surface and easy to clean for a perfect workout.",
     price: 34.99,
     categoryId: 9,
+    variants: defaultVariantData,
   },
   {
     title: "Wireless Charging Pad",
@@ -154,6 +186,7 @@ const productData = [
       "Charge your devices wirelessly with this sleek charging pad. Compatible with a variety of smartphones and accessories.",
     price: 19.99,
     categoryId: 1,
+    variants: defaultVariantData,
   },
   {
     title: "Backpack with USB Charging Port",
@@ -161,6 +194,7 @@ const productData = [
       "Stay connected on the go with this backpack featuring a built-in USB charging port. Stylish and functional for daily use.",
     price: 49.99,
     categoryId: 1,
+    variants: defaultVariantData,
   },
   {
     title: "Powerful Blender",
@@ -168,6 +202,7 @@ const productData = [
       "Create delicious smoothies and soups with this powerful blender. High-speed motor and durable blades for optimal blending.",
     price: 89.99,
     categoryId: 1,
+    variants: defaultVariantData,
   },
   {
     title: "Digital Drawing Tablet",
@@ -175,6 +210,7 @@ const productData = [
     categoryId: 1,
     description:
       "Unleash your creativity with this digital drawing tablet. Pressure-sensitive stylus and customizable controls for precise digital art.",
+    variants: defaultVariantData,
   },
   {
     title: "Portable External Hard Drive",
@@ -182,6 +218,7 @@ const productData = [
       "Expand your storage space with this portable external hard drive. High capacity and fast data transfer for your digital files.",
     price: 129.99,
     categoryId: 1,
+    variants: defaultVariantData,
   },
   {
     title: "Stylish Sunglasses",
@@ -189,6 +226,7 @@ const productData = [
       "Protect your eyes in style with these fashionable sunglasses. UV-resistant lenses for a comfortable and clear vision.",
     price: 39.99,
     categoryId: 10,
+    variants: defaultVariantData,
   },
 ];
 

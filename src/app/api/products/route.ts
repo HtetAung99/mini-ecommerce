@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { isAdmin, isAuthenticted } from "../../../../lib/session";
+import { defaultVariantData } from "../../../../prisma/dataPopulation/product_seeding";
 
 export async function POST(request: NextRequest) {
   const res = await request.json();
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const new_product = await prisma.product.create({
-      data: res,
+      data: { ...res, variants: defaultVariantData },
     });
   } catch (e) {
     console.error(e);
