@@ -1,5 +1,6 @@
 'use client';
 
+import { addCategory } from '@/app/actions/category';
 import { useRouter } from 'next/navigation';
 import React, { useCallback } from 'react';
 import { useForm, Resolver } from 'react-hook-form';
@@ -34,21 +35,14 @@ export default function ModalForm({
   } = useForm<FormValues>({ resolver });
   const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
-    console.log('Form', data);
-
-    const response = await fetch('/api/categories', {
-      method: 'POST',
-      body: JSON.stringify({
-        ...data,
-        parentId: Number(parent) || null,
-      }),
+    await addCategory({
+      ...data,
+      parentId: Number(parent) || null,
     });
-    if (response.ok) {
-      onDismiss();
-      router.refresh();
-    }
-    console.log(response);
+
+    onDismiss();
   });
+
   const onDismiss = useCallback(() => {
     router.back();
   }, [router]);
