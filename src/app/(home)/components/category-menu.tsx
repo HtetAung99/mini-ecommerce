@@ -22,7 +22,7 @@ export default function CatMenuList({
   });
 
   return (
-    <div className='h-full grid grid-cols-3 gap-2'>
+    <div className='h-[400px] grid grid-cols-3 gap-2'>
       <ScrollArea className=' border-r col-span-1  border-slate-200 flex flex-col pr-2 mr-4'>
         {parentCategories.map((category: CategoryWithChild) => (
           <Button

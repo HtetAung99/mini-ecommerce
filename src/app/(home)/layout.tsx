@@ -1,15 +1,10 @@
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { ShoppingCart, User } from 'lucide-react';
+import { Menu, ShoppingCart, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getServerSession } from 'next-auth';
 import { authOption } from '../api/auth/[...nextauth]/route';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import { getCategories } from '../utils/categories';
 import { CategoryWithChild } from '../types';
 import {
@@ -22,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import CategoryMenu from './components/category-menu';
+import { DialogContent, Dialog, DialogTrigger } from '@/components/ui/dialog';
 import MenuIcon from './components/menu-icon';
 
 export default async function HomeLayout({
@@ -39,7 +35,7 @@ export default async function HomeLayout({
     <div className=''>
       <div
         id='label-bar'
-        className='w-full  flex flex-row bg-[#F8F8F8] py-3 px-[15vw] gap-5 justify-end items-center'
+        className='w-full flex flex-row bg-[#F8F8F8] py-3 px-[15vw] gap-5 justify-end items-center'
       >
         <Link className={buttonVariants({ variant: 'ghost' })} href={''}>
           Customize Your Spec
@@ -54,19 +50,14 @@ export default async function HomeLayout({
         className='m-auto my-3 px-[15vw] flex flex-row justify-between py-2 items-center'
       >
         <div className='w-[15vw]'>
-          <Popover>
-            <PopoverTrigger>
-              <MenuIcon />
-            </PopoverTrigger>
-
-            <PopoverContent
-              className={cn(
-                'w-[100vw] h-[30vw] mt-6 px-[15vw] bg-[#F8F8F8] border-0 '
-              )}
-            >
+          <Dialog>
+            <DialogTrigger>
+              <Menu size={25} />
+            </DialogTrigger>
+            <DialogContent className='px-[15vw]'>
               <CategoryMenu categories={categories} />
-            </PopoverContent>
-          </Popover>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <Input
