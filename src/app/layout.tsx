@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html className="" lang="en">
-      <body className={cn(inter.className, "")}>
+      <body className={cn(inter.className, "h-[80-vw]")}>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

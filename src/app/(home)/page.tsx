@@ -13,7 +13,7 @@ export default async function Home({}) {
     <div className="flex max-h-fit flex-col m-auto items-center justify-between  py-2">
       {/* {user && <Link href={"/api/auth/signout"}>{user.name}</Link>} */}
       <h1 className="text-4xl font-bold">Products</h1>
-      <div className="flex flex-row gap-5 w-full overflow-x-auto">
+      <div className="flex flex-col gap-5 w-full overflow-auto md:flex-row">
         {products.map((product) => (
           <ProductCard flex={true} product={product} />
         ))}
