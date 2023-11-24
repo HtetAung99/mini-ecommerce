@@ -1,10 +1,10 @@
-import React from "react";
-import Checkout from "../components/checkout";
-import OrderItemList from "./order-item-list";
+import React from 'react';
+import Checkout from '../components/checkout';
+import OrderItemList from './components/order-item-list';
 
 export default function CartPage() {
   return (
-    <div className="flex flex-row gap-5">
+    <div className='flex flex-row gap-5'>
       <OrderItemList />
       <Checkout next={true} />
     </div>

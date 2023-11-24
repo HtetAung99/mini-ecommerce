@@ -17,7 +17,17 @@ export interface VariantWithAttributeValues extends Variant {
   attributeValues: AttributeValueWithAttribute[];
 }
 
+export interface VariantWithProductAndAttributeValues
+  extends VariantWithAttributeValues {
+  product: Product;
+}
+
 export interface AttributeValueWithAttribute extends Attribute {
   attributeId: Number;
   attribute: Attribute;
+}
+
+export interface CartItem {
+  variantId: number;
+  quantity: number;
 }
