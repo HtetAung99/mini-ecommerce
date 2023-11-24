@@ -10,9 +10,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
+import ShippingAddress from "../shipping-address";
+import { Badge } from "@/components/ui/badge";
 
-export default function AddressCreateForm() {
+export default function AddressSelection({
+  setSelection,
+}: {
+  setSelection: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <>
       <DialogHeader>
@@ -24,16 +30,26 @@ export default function AddressCreateForm() {
             </Button>
           </DialogClose>
         </DialogTitle>
+        <Button
+          onClick={() => setSelection(false)}
+          variant={"link"}
+          className="inline-flex justify-start text-destructive gap-2">
+          <Plus size="14px" />
+          <p>Add new address</p>
+        </Button>
+        <div className="px-5 border border-destructive rounded-md">
+          <ShippingAddress withTitle={false} edit={true} />
+          <Badge className="ml-3 mb-5">Default address</Badge>
+        </div>
       </DialogHeader>
-      <DialogContent></DialogContent>
-      <DialogFooter>
+
+      <DialogFooter className="border-t border-destructive  pt-3">
         <DialogClose asChild>
           <Button variant="default" onClick={() => console.log("cancel")}>
             Use selected address
           </Button>
         </DialogClose>
       </DialogFooter>
-      ;
     </>
   );
 }
