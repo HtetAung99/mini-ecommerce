@@ -10,7 +10,7 @@ export default async function filterBar() {
   const categories: CategoryWithChild[] = await getCategoriesNested();
 
   return (
-    <div className='col-span-1 mt-5 flex flex-col gap-5 overflow-y-auto max-h-[72vh] '>
+    <div className='col-span-1 mt-5 flex flex-col gap-4 overflow-y-auto'>
       <div className='flex items-center space-x-3 mx-4'>
         <Checkbox id='stock' />
         <label

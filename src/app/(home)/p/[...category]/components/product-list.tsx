@@ -8,8 +8,8 @@ export default function ProductList({
   products: ProductWithNestedData[];
 }) {
   return (
-    <ScrollArea className='max-h-[72vh] overflow-y-auto col-span-3 no-scrollbar'>
-      <div className='grid grid-cols-3 gap-x-7 gap-y-7 p-5'>
+    <ScrollArea className='pl-4 overflow-y-auto col-span-3'>
+      <div className='grid grid-cols-3 gap-x-7 gap-y-7 p-4'>
         {products.map((product) => (
           <ProductCard flex={false} product={product} />
         ))}

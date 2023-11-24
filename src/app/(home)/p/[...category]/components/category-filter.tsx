@@ -23,7 +23,7 @@ export default function CategoryFilter({
     >
       <div className='flex items-center justify-between space-x-4 px-4'>
         <CollapsibleTrigger className='flex w-full justify-between items-center mb-2'>
-          <h4 className='text-md  font-medium leading-none'>Category</h4>
+          <h4 className='text-md font-medium leading-none'>Category</h4>
           {open ? <Minus size={'14px'} /> : <Plus size={'14px'} />}
         </CollapsibleTrigger>
       </div>
