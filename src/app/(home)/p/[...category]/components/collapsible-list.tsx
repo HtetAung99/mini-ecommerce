@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Minus, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function CollapsibleList({
   category,
@@ -18,9 +18,9 @@ export default function CollapsibleList({
   category: CategoryWithChild;
   parentUrl: string;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  const pathnameArray = usePathname().split('/');
+  const pathnameArray = usePathname().split('/').slice(2).map(decodeURI);
   const categoryInURL = pathnameArray[pathnameArray.length - 1];
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function CollapsibleList({
   }, []);
 
   return (
-    <Collapsible onOpenChange={setOpen} open={open} key={category.id}>
+    <Collapsible onOpenChange={setOpen} open={open}>
       <div className='rounded-md px-4 py-2 text-slate-600 text-sm '>
         <CollapsibleTrigger
           className={'flex w-full justify-between items-center mb-2'}
