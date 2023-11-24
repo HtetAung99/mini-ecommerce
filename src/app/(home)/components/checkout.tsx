@@ -15,7 +15,10 @@ import Link from "next/link";
 export default function Checkout({ next }: { next: boolean }) {
   return (
     <Card
-      className={cn("w-[35%] mt-5 bg-[#F8F8F8] border-0 shrink max-h-[320px]")}>
+      className={cn(
+        "w-[42%] mt-5 bg-[#F8F8F8] border-0 shrink max-h-[320px]",
+        next && "w-[35%]"
+      )}>
       <CardContent>
         <div className="flex border-b border-slate-200 py-3 px-0 mx-0 w-full max-w-sm items-center space-x-2">
           <Input
