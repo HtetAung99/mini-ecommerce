@@ -2,18 +2,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Pen } from "lucide-react";
 import React from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox";
-import AddressSelection from "./address-selection";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import AddressModal from "./(addressModal)/address-modal";
 
 export default function ShippingAddress({
   withTitle,
@@ -30,13 +20,15 @@ export default function ShippingAddress({
           <Dialog>
             <DialogTrigger asChild>
               <Button
+                onClick={() => console.log("edit")}
                 variant={"ghost"}
                 className={cn(" text-base flex gap-4 items-center ")}>
                 <Pen size="20px" /> <p>Edit</p>
               </Button>
             </DialogTrigger>
-            <DialogContent className={cn("w-[50%] shadow-xl")}>
-              <AddressSelection />
+            <DialogContent
+              className={cn("w-[50%] top-[50%] shadow-xl h-[500px]")}>
+              <AddressModal />
             </DialogContent>
           </Dialog>
         )}

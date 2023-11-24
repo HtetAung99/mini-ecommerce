@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import CategoryMenu from "./components/category-menu";
 import { DialogContent, Dialog, DialogTrigger } from "@/components/ui/dialog";
-import MenuIcon from "./components/menu-icon";
 
 export default async function HomeLayout({
   children,
