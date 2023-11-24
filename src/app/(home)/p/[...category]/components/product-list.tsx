@@ -1,6 +1,7 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ProductWithNestedData } from '@/app/types';
 import ProductCard from './product-card';
+import Link from 'next/link';
 
 export default function ProductList({
   products,
