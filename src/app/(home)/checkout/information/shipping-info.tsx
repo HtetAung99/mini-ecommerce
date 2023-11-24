@@ -1,26 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import { Edit, Truck } from "lucide-react";
 import React, { useState } from "react";
 import ShippingAddress from "./shipping-address";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import ShippingForm from "./shipping-form";
 
 export default function ShippingInformation() {
