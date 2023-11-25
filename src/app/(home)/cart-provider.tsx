@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { createContext, useState, ReactNode, useEffect } from 'react';
-import { CartItem } from '../types';
+import { createContext, useState, ReactNode, useEffect } from "react";
+import { CartItem } from "../types";
 
 interface CartContextProps {
   items: CartItem[];
@@ -25,7 +25,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
 
   const addItem = (i: CartItem) => {
-    localStorage.setItem('cartItems', JSON.stringify([...items, i]));
+    localStorage.setItem("cartItems", JSON.stringify([...items, i]));
     setItems([...items, i]);
   };
 
@@ -38,11 +38,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
 
     setItems(newItemList);
-    localStorage.setItem('cartItems', JSON.stringify(newItemList));
+    localStorage.setItem("cartItems", JSON.stringify(newItemList));
   };
 
   const addItemQuantity = (id: number) => {
-    let newItemList = items.map((item) => {
+    let newItemList = items.map((item: CartItem) => {
       if (item.variantId === id) {
         item.quantity++;
       }
@@ -50,29 +50,21 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
 
     setItems(newItemList);
-    localStorage.setItem('cartItems', JSON.stringify(newItemList));
+    localStorage.setItem("cartItems", JSON.stringify(newItemList));
   };
 
   const reduceItemQuantity = (id: number) => {
-    let targetItem: CartItem | undefined;
-    let filteredItems = items.filter((item: CartItem) => {
-      if (item.variantId === id) {
-        targetItem = item;
-      }
-      return item.variantId !== id;
-    });
+    let newItemList = items
+      .map((item: CartItem) => {
+        if (item.variantId === id) {
+          item.quantity--;
+        }
+        return item;
+      })
+      .filter((i: CartItem) => i.quantity > 0);
 
-    if (targetItem && targetItem.quantity > 1) {
-      targetItem.quantity--;
-      setItems([...filteredItems, targetItem]);
-      localStorage.setItem(
-        'cartItems',
-        JSON.stringify([...filteredItems, targetItem])
-      );
-    } else {
-      setItems(filteredItems);
-      localStorage.setItem('cartItems', JSON.stringify(filteredItems));
-    }
+    setItems(newItemList);
+    localStorage.setItem("cartItems", JSON.stringify(newItemList));
   };
 
   const removeItem = (id: number) => {
@@ -81,14 +73,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
 
     setItems(filteredItems);
-    localStorage.setItem('cartItems', JSON.stringify(filteredItems));
+    localStorage.setItem("cartItems", JSON.stringify(filteredItems));
   };
 
   useEffect(() => {
-    if (localStorage.getItem('cartItems')) {
-      setItems(JSON.parse(localStorage.getItem('cartItems')!));
+    if (localStorage.getItem("cartItems")) {
+      setItems(JSON.parse(localStorage.getItem("cartItems")!));
     }
-    console.log(localStorage.getItem('cartItems'));
   }, []);
 
   return (
@@ -100,8 +91,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         setItemQuantity,
         removeItem,
         reduceItemQuantity,
-      }}
-    >
+      }}>
       {children}
     </CartContext.Provider>
   );

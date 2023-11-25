@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Pen } from "lucide-react";
 import React from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import AddressModal from "./(addressModal)/address-modal";
+import AddressModal from "./@addressModal/address-modal";
 
 export default function ShippingAddress({
   withTitle,
