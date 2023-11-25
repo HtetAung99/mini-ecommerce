@@ -1,8 +1,10 @@
-'use client';
+"use client";
 
-import { useCart } from '@/app/hooks/useCart';
+import { useCart } from "@/app/hooks/useCart";
 
 export default function CartHeader() {
   const { items } = useCart();
-  return <h5>{`Cart ( ${items.length} )`}</h5>;
+  return (
+    <h5 className="text-lg font-semibold">{`Cart ( ${items.length} )`}</h5>
+  );
 }
