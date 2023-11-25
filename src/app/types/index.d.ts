@@ -1,4 +1,4 @@
-import type { Attribute, Category, Product, Variant } from '@prisma/client';
+import type { Attribute, Category, Product, Variant } from "@prisma/client";
 
 export interface CategoryWithChild extends Category {
   children: Category[];
@@ -29,5 +29,7 @@ export interface AttributeValueWithAttribute extends Attribute {
 
 export interface CartItem {
   variantId: number;
+  price: number;
+  priceDiff: number;
   quantity: number;
 }

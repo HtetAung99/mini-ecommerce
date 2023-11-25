@@ -70,7 +70,6 @@ export default function ProductInfo({
       const priceForSelected = validPair[1]?.p;
       setPrice(priceForSelected);
     }
-    console.log(selectedVariantPair);
   }, [selectedVariantPair]);
 
   const handleAddToCard = () => {
@@ -81,7 +80,14 @@ export default function ProductInfo({
         }
       });
     });
-    addItem({ variantId: variants[0].id, quantity: 1 });
+    console.log(variants);
+
+    addItem({
+      variantId: variants[0].id,
+      quantity: 1,
+      price: product.price,
+      priceDiff: variants[0].priceDiff,
+    });
   };
 
   return (

@@ -1,3 +1,4 @@
+"use client";
 import { useCart } from "@/app/hooks/useCart";
 import { CartItem, VariantWithProductAndAttributeValues } from "@/app/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,7 +29,7 @@ export default function OrderItem({ item }: { item: CartItem }) {
     };
 
     fetchData();
-  }, []);
+  }, [item]);
   if (!cartItem) return null;
   return (
     <div className="flex items-center  border-b border-slate-200 py-4">
@@ -36,7 +37,7 @@ export default function OrderItem({ item }: { item: CartItem }) {
         <AvatarImage src="/images/Dummy.jpeg" alt="Avatar" />
         <AvatarFallback>OM</AvatarFallback>
       </Avatar>
-      <div className="ml-4 space-y-1">
+      <div className="ml-4 space-y-1 min-w-[12vw]">
         <p className="text-sm font-medium leading-none">
           {cartItem?.product.title}
         </p>
@@ -50,7 +51,7 @@ export default function OrderItem({ item }: { item: CartItem }) {
       </div>
       <div className="ml-auto space-y-1">
         <p className="text-sm font-medium leading-none">
-          ${cartItem?.priceDiff + cartItem?.product.price}
+          ${(cartItem?.priceDiff + cartItem?.product.price).toFixed(2)}
         </p>
         <p className="text-xs  mt-1 text-destructive">save $100</p>
       </div>
