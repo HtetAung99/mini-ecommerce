@@ -18,139 +18,184 @@ export const getProductsWithCategories = cache(
 
     return products;
   }
-);
+); // main Page
 
 export const getProductByFilters = cache(
-  async (filters: any): Promise<ProductWithNestedData[]> => {
-    let products: any = [];
-    let root: any;
-    const { rest, price, categoryId } = filters;
-    if (price) {
-      const [min, max] = price
-        ? price.split("-")
-        : [Number.MIN_VALUE, Number.MAX_VALUE];
-      console.log(min, max);
+  async (filters: any): Promise<[ProductWithNestedData[], number]> => {
+    const { rest, price, categoryId, pageNum = 1, pageSize = 9 } = filters;
+    const category = await prisma.category.findUnique({
+      where: { id: categoryId },
+      include: { children: { include: { children: true } } },
+    });
 
-      root = await prisma.category.findUnique({
-        where: { id: categoryId },
-        include: {
-          children: {
-            include: {
-              children: {
-                include: {
-                  products: {
-                    include: { variants: true },
-                    where: {
-                      AND: [
-                        { published: false },
-                        { price: { gte: +min } },
-                        { price: { lte: +max } },
-                      ],
-                    },
-                  },
-                },
-              },
-              products: {
-                include: { variants: true },
-                where: {
-                  AND: [
-                    { published: false },
-                    { price: { gte: +min } },
-                    { price: { lte: +max } },
-                  ],
-                },
-              },
-            },
-          },
-          products: {
-            include: { variants: true },
-            where: {
-              AND: [
-                { published: false },
-                { price: { gte: +min } },
-                { price: { lte: +max } },
-              ],
-            },
-          },
-        },
-      });
-      console.log(products);
-    } else {
-      root = await prisma.category.findUnique({
-        where: { id: categoryId },
-        include: {
-          children: {
-            include: {
-              children: {
-                include: { products: { include: { variants: true } } },
-              },
-              products: { include: { variants: true } },
-            },
-          },
-          products: { include: { variants: true } },
-        },
-      });
-    }
-    if (!root) return [];
-
-    let current = root;
+    let current = category;
+    let categoryIds: number[] = [];
     let queue: any = [current];
     while (current) {
-      products = [...products, ...current.products];
+      categoryIds.push(current.id);
       if (current.children) {
         queue = [...queue, ...current?.children];
       }
-
       queue.shift();
       current = queue[0];
     }
 
-    return products;
-  }
-  // where: {
-  //   AND: [
-  //     { published: false },
-  //     { categoryId },
-  //     { price: { gte: +min } },
-  //     { price: { lte: +max } },
-  //   ],
-  // },
-);
+    let products: ProductWithNestedData[] = [];
 
-export const getProductByCategoryId = cache(
-  async (categoryId: number): Promise<ProductWithNestedData[]> => {
-    const root = await prisma.category.findUnique({
-      where: { id: categoryId },
+    products = await prisma.product.findMany({
+      skip: (pageNum - 1) * pageSize,
+      take: parseInt(pageSize),
+      where: {
+        AND: generateFilters(price, categoryIds),
+      },
       include: {
-        children: {
-          include: {
-            children: {
-              include: { products: { include: { variants: true } } },
-            },
-            products: { include: { variants: true } },
-          },
-        },
-        products: { include: { variants: true } },
+        variants: { include: { attributeValues: true } },
+        category: true,
       },
     });
 
-    if (!root) return [];
-    let products: any = [];
+    const count = await prisma.product.count({
+      where: { AND: generateFilters(price, categoryIds) },
+    });
 
-    let current = root;
-    let queue: any = [current];
-    while (current) {
-      products = [...products, ...current.products];
-      if (current.children) {
-        queue = [...queue, ...current?.children];
-      }
-
-      queue.shift();
-      current = queue[0];
-    }
-    return products;
+    return [products, count];
   }
 );
+
+const generateFilters = (price: string, categoryIds: number[]) => {
+  const [min, max] = price
+    ? price.split("-")
+    : [Number.MIN_VALUE, Number.MAX_VALUE];
+  return [
+    { categoryId: { in: categoryIds } },
+    { published: false },
+    { price: { gte: +min } },
+    { price: { lte: +max } },
+  ];
+};
+
+// export const getProductByFilters = cache(
+//   async (filters: any): Promise<ProductWithNestedData[]> => {
+//     let products: any = [];
+//     let root: any;
+//     const { rest, price, categoryId } = filters;
+//     if (price) {
+//       const [min, max] = price
+//         ? price.split("-")
+//         : [Number.MIN_VALUE, Number.MAX_VALUE];
+//       console.log(min, max);
+
+//       root = await prisma.category.findUnique({
+//         where: { id: categoryId },
+//         include: {
+//           children: {
+//             include: {
+//               children: {
+//                 include: {
+//                   products: {
+//                     include: { variants: true },
+//                     where: {
+//                       AND: [
+//                         { published: false },
+//                         { price: { gte: +min } },
+//                         { price: { lte: +max } },
+//                       ],
+//                     },
+//                   },
+//                 },
+//               },
+//               products: {
+//                 include: { variants: true },
+//                 where: {
+//                   AND: [
+//                     { published: false },
+//                     { price: { gte: +min } },
+//                     { price: { lte: +max } },
+//                   ],
+//                 },
+//               },
+//             },
+//           },
+//           products: {
+//             include: { variants: true },
+//             where: {
+//               AND: [
+//                 { published: false },
+//                 { price: { gte: +min } },
+//                 { price: { lte: +max } },
+//               ],
+//             },
+//           },
+//         },
+//       });
+//     } else {
+//       root = await prisma.category.findUnique({
+//         where: { id: categoryId },
+//         include: {
+//           children: {
+//             include: {
+//               children: {
+//                 include: { products: { include: { variants: true } } },
+//               },
+//               products: { include: { variants: true } },
+//             },
+//           },
+//           products: { include: { variants: true } },
+//         },
+//       });
+//     }
+//     if (!root) return [];
+
+//     let current = root;
+//     let queue: any = [current];
+//     while (current) {
+//       products = [...products, ...current.products];
+//       if (current.children) {
+//         queue = [...queue, ...current?.children];
+//       }
+
+//       queue.shift();
+//       current = queue[0];
+//     }
+
+//     return products;
+//   }
+// );
+
+// export const getProductByCategoryId = cache(
+//   async (categoryId: number): Promise<ProductWithNestedData[]> => {
+//     const root = await prisma.category.findUnique({
+//       where: { id: categoryId },
+//       include: {
+//         children: {
+//           include: {
+//             children: {
+//               include: { products: { include: { variants: true } } },
+//             },
+//             products: { include: { variants: true } },
+//           },
+//         },
+//         products: { include: { variants: true } },
+//       },
+//     });
+
+//     if (!root) return [];
+//     let products: any = [];
+
+//     let current = root;
+//     let queue: any = [current];
+//     while (current) {
+//       products = [...products, ...current.products];
+//       if (current.children) {
+//         queue = [...queue, ...current?.children];
+//       }
+
+//       queue.shift();
+//       current = queue[0];
+//     }
+//     return products;
+//   }
+// );
 
 export const getProductById = cache(
   async (id: number): Promise<ProductWithNestedData | null> => {

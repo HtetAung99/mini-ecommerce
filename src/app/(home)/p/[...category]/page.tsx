@@ -1,9 +1,9 @@
-import { getCategoryByName } from '@/app/utils/categories';
-import React from 'react';
-import FilterBar from './components/filter-bar';
-import { redirect } from 'next/navigation';
-import { getProductByFilters } from '@/app/utils/products';
-import ProductList from './components/product-list';
+import { getCategoryByName } from "@/app/utils/categories";
+import React from "react";
+import FilterBar from "./components/filter-bar";
+import { redirect } from "next/navigation";
+import { getProductByFilters } from "@/app/utils/products";
+import ProductList from "./components/product-list";
 
 export default async function P({
   params,
@@ -18,18 +18,19 @@ export default async function P({
   const category = await getCategoryByName(categoryName);
 
   if (!category) {
-    return redirect('/');
+    return redirect("/");
   }
 
-  const filteredProducts = await getProductByFilters({
+  const [filteredProducts, count] = await getProductByFilters({
     ...searchParams,
     categoryId: category.id,
   });
+  console.log(count);
 
   return (
     <>
       <FilterBar />
-      <ProductList products={filteredProducts} />
+      <ProductList count={count} products={filteredProducts} />
     </>
   );
 }
