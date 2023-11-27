@@ -3,19 +3,21 @@ import { cn } from "@/lib/utils";
 import { Pen } from "lucide-react";
 import React from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import AddressModal from "./@addressModal/address-modal";
+import AddressModal from "../(addressModal)/address-modal";
 
-export default function ShippingAddress({
+export default function SelectedAddress({
   withTitle,
+  title,
   edit,
 }: {
   withTitle: boolean;
+  title: string | null;
   edit: boolean;
 }) {
   return (
     <span className="inline-flex flex-col w-full py-3  text-base">
       <span className="inline-flex justify-between items-center">
-        {withTitle && <p className="w-1/3 font-semibold">Shipping address</p>}
+        {withTitle && <p className="w-1/3 font-semibold">{title}</p>}
         {withTitle && edit && (
           <Dialog>
             <DialogTrigger asChild>
@@ -28,12 +30,12 @@ export default function ShippingAddress({
             </DialogTrigger>
             <DialogContent
               className={cn("w-[50%] top-[50%] shadow-xl h-[500px]")}>
-              <AddressModal />
+              <AddressModal title={"My shipping address"} />
             </DialogContent>
           </Dialog>
         )}
       </span>
-      <span className="inline-flex w-full p-4 text-sm ">
+      <span className="inline-flex w-full mt-2 p-4 text-sm ">
         <p className="w-1/3 text-muted-foreground">Receiver Name :</p>
         <p className="grow ">Phyo Pyae</p>
       </span>

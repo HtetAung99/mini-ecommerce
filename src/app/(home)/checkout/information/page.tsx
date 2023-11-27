@@ -1,6 +1,6 @@
 import React from "react";
 import Checkout from "../../components/checkout";
-import InformationColumn from "./information-column";
+import InformationColumn from "./components/information-column";
 
 export default function CheckoutPage() {
   return (

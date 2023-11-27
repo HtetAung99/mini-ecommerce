@@ -5,8 +5,8 @@ import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import { Edit, Truck } from "lucide-react";
 import React, { useState } from "react";
-import ShippingAddress from "./shipping-address";
 import ShippingForm from "./shipping-form";
+import SelectedAddress from "./selected-address";
 
 export default function ShippingInformation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +42,11 @@ export default function ShippingInformation() {
                 Standard (estimate within 1 - 3 shipping days*)
               </p>
             </span>
-            <ShippingAddress withTitle={true} edit={false} />
+            <SelectedAddress
+              withTitle={true}
+              title={"Shipping address"}
+              edit={false}
+            />
           </div>
         )}
       </div>

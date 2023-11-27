@@ -11,19 +11,21 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
-import ShippingAddress from "../shipping-address";
+import ShippingAddress from "../(shipping)/selected-address";
 import { Badge } from "@/components/ui/badge";
 
 export default function AddressSelection({
   setSelection,
+  title,
 }: {
   setSelection: React.Dispatch<React.SetStateAction<boolean>>;
+  title: string;
 }) {
   return (
     <>
       <DialogHeader>
         <DialogTitle className="inline-flex justify-between items-center">
-          <p>My Shipping Address</p>
+          <p>{title}</p>
           <DialogClose asChild>
             <Button variant="ghost">
               <X size={"20px"} />
@@ -37,8 +39,8 @@ export default function AddressSelection({
           <Plus size="14px" />
           <p>Add new address</p>
         </Button>
-        <div className="px-5 border border-destructive rounded-md">
-          <ShippingAddress withTitle={false} edit={true} />
+        <div className="px-3 mx-5 border border-destructive rounded-md">
+          <ShippingAddress withTitle={false} title={null} edit={true} />
           <Badge className="ml-3 mb-5">Default address</Badge>
         </div>
       </DialogHeader>
