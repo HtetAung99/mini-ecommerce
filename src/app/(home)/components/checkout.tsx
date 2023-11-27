@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { Minus } from "lucide-react";
 import Link from "next/link";
 import { useCart } from "@/app/hooks/useCart";
+import CouponSection from "./coupon-section";
+import ShippingFees from "./shipping-fee";
 
 export default function Checkout({ next }: { next: boolean }) {
   const { subTotal } = useCart();
@@ -17,16 +19,7 @@ export default function Checkout({ next }: { next: boolean }) {
         next && "w-[35%]"
       )}>
       <CardContent>
-        <div className="flex border-b border-slate-200 py-3 px-0 mx-0 w-full max-w-sm items-center space-x-2">
-          <Input
-            className="border-0"
-            type="coupon"
-            placeholder="Enter coupon code"
-          />
-          <Button variant={"outline"} type="submit">
-            Apply
-          </Button>
-        </div>
+        <CouponSection />
         <div className="flex items-center text-sm font-normal pt-5 px-2 justify-between">
           <p>Subtotal</p>
           <p>$ {subTotal.toFixed(2)}</p>
@@ -35,6 +28,7 @@ export default function Checkout({ next }: { next: boolean }) {
           <p>Discount</p>
           <p className="inline-flex items-center gap-1">-$ 2500</p>
         </div>
+        <ShippingFees />
         <div className="flex items-center font-semibold text-base py-5 px-2 justify-between">
           <p>Total</p>
           <p className="inline-flex items-center gap-2">$ 50000</p>

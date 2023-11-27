@@ -29,7 +29,7 @@ export default async function P({
 
   return (
     <>
-      <FilterBar />
+      <FilterBar params={params} />
       <ProductList count={count} products={filteredProducts} />
     </>
   );
