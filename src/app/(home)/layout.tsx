@@ -1,18 +1,18 @@
-import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { buttonVariants } from "@/components/ui/button";
-import { Menu, ShoppingCart, User } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { getServerSession } from "next-auth";
-import { authOption } from "../api/auth/[...nextauth]/route";
-import { getCategories } from "../utils/categories";
-import { CategoryWithChild } from "../types";
-import CategoryMenu from "./components/category-menu";
-import { DialogContent, Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { CartProvider } from "./cart-provider";
-import CartSpan from "./cart-span";
-import UserDropdown from "./components/user-dropdown";
-import { $Enums } from "@prisma/client";
+import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
+import { Menu, ShoppingCart, User } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { getServerSession } from 'next-auth';
+import { authOption } from '../api/auth/[...nextauth]/route';
+import { getCategories } from '../utils/categories';
+import { CategoryWithChild } from '../types';
+import CategoryMenu from './components/category-menu';
+import { DialogContent, Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { CartProvider } from './cart-provider';
+import CartSpan from './cart-span';
+import UserDropdown from './components/user-dropdown';
+import { $Enums } from '@prisma/client';
+import SearchBar from './components/search-bar';
 
 export default async function HomeLayout({
   children,
@@ -31,66 +31,67 @@ export default async function HomeLayout({
   const categories: CategoryWithChild[] = await getCategories();
 
   return (
-    <div className="">
+    <div className=''>
       <CartProvider>
         <div
-          id="label-bar"
-          className="w-full flex flex-row bg-[#F8F8F8] py-3 px-[13vw] gap-5 justify-end items-center">
-          <Link className={buttonVariants({ variant: "ghost" })} href={""}>
+          id='label-bar'
+          className='w-full flex flex-row bg-[#F8F8F8] py-3 px-[13vw] gap-5 justify-end items-center'
+        >
+          <Link className={buttonVariants({ variant: 'ghost' })} href={''}>
             Customize Your Spec
           </Link>
 
-          <Link className={buttonVariants({ variant: "ghost" })} href={""}>
+          <Link className={buttonVariants({ variant: 'ghost' })} href={''}>
             Find Your Nearest Store
           </Link>
         </div>
         <div
-          id="app-bar"
-          className="m-auto my-3 px-[13vw] flex flex-row justify-between py-2 items-center">
-          <div className="w-[15vw]">
+          id='app-bar'
+          className='m-auto my-3 px-[13vw] flex flex-row justify-between py-2 items-center'
+        >
+          <div className='w-[15vw]'>
             <Dialog>
               <DialogTrigger>
                 <Menu size={25} />
               </DialogTrigger>
-              <DialogContent className="px-[15vw]">
+              <DialogContent className='px-[15vw]'>
                 <CategoryMenu categories={categories} />
               </DialogContent>
             </Dialog>
           </div>
 
-          <Input
-            className="w-[45%]"
-            placeholder="Search your items, brands ..."
-          />
-          <div className="flex-row flex justify-center items-center gap-5">
+          <SearchBar />
+          <div className='flex-row flex justify-center items-center gap-5'>
             {user ? (
               <UserDropdown user={user} />
             ) : (
               <Link
                 className={cn(
-                  buttonVariants({ variant: "ghost" }),
-                  "gap-3 text-base"
+                  buttonVariants({ variant: 'ghost' }),
+                  'gap-3 text-base'
                 )}
-                href="/authTab/">
+                href='/authTab/'
+              >
                 <User />
                 Sign In
               </Link>
             )}
-            <div className="h-5  border-slate-600 border-solid border"></div>
+            <div className='h-5  border-slate-600 border-solid border'></div>
             <Link
               className={cn(
-                buttonVariants({ variant: "ghost" }),
-                "gap-3 text-base "
+                buttonVariants({ variant: 'ghost' }),
+                'gap-3 text-base '
               )}
-              href="/cart/">
+              href='/cart/'
+            >
               <CartSpan>
-                <ShoppingCart className="" size={"24px"} />
+                <ShoppingCart className='' size={'24px'} />
               </CartSpan>
             </Link>
           </div>
         </div>
-        <hr className="mx-[13vw]" />
-        <main className="px-[13vw] py-5">{children}</main>
+        <hr className='mx-[13vw]' />
+        <main className='px-[13vw] py-5'>{children}</main>
       </CartProvider>
       {auth}
     </div>
