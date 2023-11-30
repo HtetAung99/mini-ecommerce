@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Root, Track, Thumb, Range } from "@radix-ui/react-slider";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,6 +20,19 @@ export default function PriceSlider() {
   const paramsWithoutPrice = searchParams
     .filter(([key, value]) => key !== "price")
     .reduce((prev, [key, value]) => `${prev}${key}=${value}&`, "");
+
+  useEffect(() => {
+    const splittedPriceArray = searchParams
+      .filter(([key, value]) => key === "price")[0]?.[1]
+      .split("-");
+
+    if (splittedPriceArray) {
+      setLowest(Number(splittedPriceArray[0]));
+      setHighest(Number(splittedPriceArray[1]));
+      setOpen(true);
+    }
+  }, []);
+
   return (
     <Collapsible
       open={open}

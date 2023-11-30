@@ -34,7 +34,7 @@ export default async function filterBar({ params }: { params: any }) {
         className="m-0 self-end p-0 text-red-500"
         variant={"link"}
       >
-        <Link href={`/p/${params.category.join("/")}`}>Clear all filters</Link>
+        <a href={`/p/${params.category.join("/")}`}>Clear all filters</a>
       </Button>
     </div>
   );

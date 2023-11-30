@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
-import ShippingAddress from "../(shipping)/selected-address";
+import ShippingAddress from "../shipping/selected-address";
 import { Badge } from "@/components/ui/badge";
 
 export default function AddressSelection({

@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
-
 import React from "react";
-import ShippingInformation from "./(shipping)/shipping-info";
-import PaymentInformation from "./(payment)/payment-info";
+import ShippingInformation from "./shipping/shipping-info";
+import PaymentInformation from "./payment/payment-info";
 import CheckoutStage from "./checkout-stage";
 
 export default function InformationColumn() {

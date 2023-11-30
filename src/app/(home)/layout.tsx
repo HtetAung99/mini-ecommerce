@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
 import { buttonVariants } from "@/components/ui/button";
 import { Menu, ShoppingCart, User } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,6 +12,7 @@ import { CartProvider } from "./cart-provider";
 import CartSpan from "./cart-span";
 import UserDropdown from "./components/user-dropdown";
 import { $Enums } from "@prisma/client";
+import SearchBar from "./components/search-bar";
 
 export default async function HomeLayout({
   children,
@@ -60,10 +60,7 @@ export default async function HomeLayout({
             </Dialog>
           </div>
 
-          <Input
-            className="w-[45%]"
-            placeholder="Search your items, brands ..."
-          />
+          <SearchBar />
           <div className="flex flex-row items-center justify-center gap-5">
             {user ? (
               <UserDropdown user={user} />
