@@ -1,11 +1,11 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { CategoryWithChild } from '../../types';
-import clsx from 'clsx';
-import CategoryChildrenList from './category-children-list';
+"use client";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import React, { useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { CategoryWithChild } from "../../types";
+import clsx from "clsx";
+import CategoryChildrenList from "./category-children-list";
 
 export default function CatMenuList({
   categories,
@@ -13,7 +13,7 @@ export default function CatMenuList({
   categories: CategoryWithChild[];
 }) {
   const parentCategories = categories.filter(
-    (cat: CategoryWithChild) => cat.parentId === null
+    (cat: CategoryWithChild) => cat.parentId === null,
   );
 
   const [selectedParent, setSelectedParent] = useState({
@@ -22,8 +22,8 @@ export default function CatMenuList({
   });
 
   return (
-    <div className='h-[400px] grid grid-cols-3 gap-2'>
-      <ScrollArea className=' border-r col-span-1  border-slate-200 flex flex-col pr-2 mr-4'>
+    <div className="grid h-[400px] grid-cols-3 gap-2">
+      <ScrollArea className=" col-span-1 mr-4  flex flex-col border-r border-slate-200 pr-2">
         {parentCategories.map((category: CategoryWithChild) => (
           <Button
             key={category.id}
@@ -31,18 +31,18 @@ export default function CatMenuList({
               setSelectedParent({ name: category.name, id: category.id })
             }
             className={clsx(
-              selectedParent.id === category.id && 'bg-slate-300'
+              selectedParent.id === category.id && "bg-slate-300",
             )}
-            variant={'ghost'}
+            variant={"ghost"}
             asChild
           >
             <Link
-              target='_blank'
-              className='flex justify-between w-full'
+              target="_blank"
+              className="flex w-full justify-between"
               href={`/p/${category.name}`}
             >
               {category.name}
-              <span className='text-xl'>&gt;</span>
+              <span className="text-xl">&gt;</span>
             </Link>
           </Button>
         ))}

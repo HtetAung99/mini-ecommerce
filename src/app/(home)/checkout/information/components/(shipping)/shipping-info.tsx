@@ -14,11 +14,12 @@ export default function ShippingInformation() {
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="min-h-[30vh] bg-secondary rounded-lg">
+      className="min-h-[30vh] rounded-lg bg-secondary"
+    >
       <div className={cn("w-full  ")}>
-        <div className="flex  flex-row items-center rounded-t-lg justify-between bg-black text-white text-xl p-2  font-semibold">
-          <div className="flex gap-5 items-center pl-4">
-            <h6 className="rounded-full p-2 bg-white text-base  text-black leading-none">
+        <div className="flex  flex-row items-center justify-between rounded-t-lg bg-black p-2 text-xl font-semibold  text-white">
+          <div className="flex items-center gap-5 pl-4">
+            <h6 className="rounded-full bg-white p-2 text-base  leading-none text-black">
               1
             </h6>
             Shipping
@@ -26,13 +27,14 @@ export default function ShippingInformation() {
           <Button
             onClick={() => setIsOpen(!isOpen)}
             variant={"ghost"}
-            className={cn(" text-base flex gap-4 items-center ")}>
+            className={cn(" flex items-center gap-4 text-base ")}
+          >
             <Edit size="20px" /> <p>Edit</p>
           </Button>
         </div>
         {!isOpen && (
-          <div className="flex flex-col justify-between px-6 items-center gap-2 rounded-b-lg">
-            <span className="inline-flex w-full  py-3 mt-3 text-base">
+          <div className="flex flex-col items-center justify-between gap-2 rounded-b-lg px-6">
+            <span className="mt-3 inline-flex  w-full py-3 text-base">
               <p className="w-1/3 font-semibold">Shipping Type</p>
               <p className="grow">Delivery</p>
             </span>

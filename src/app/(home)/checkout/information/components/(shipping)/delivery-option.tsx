@@ -14,17 +14,18 @@ export default function DeliveryOption() {
         title={"Shipping address"}
         edit={true}
       />
-      <div className="flex mt-2 items-center space-x-2 gap-1">
+      <div className="mt-2 flex items-center gap-1 space-x-2">
         <Checkbox id="billing-address" />
         <label
           htmlFor="billing-address"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
           Billing address is same as shipping address
         </label>
       </div>
       <div className="mt-2 py-3">
         <p className="w-1/3  font-semibold">Shipping method</p>
-        <div className="border-2 border-yellow-400 rounded-md my-3 p-5">
+        <div className="my-3 rounded-md border-2 border-yellow-400 p-5">
           <span className="flex flex-row items-center justify-between text-sm font-semibold">
             <span className="inline-flex items-center gap-3">
               <Truck size="20px" />

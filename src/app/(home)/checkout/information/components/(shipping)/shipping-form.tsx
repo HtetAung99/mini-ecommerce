@@ -8,13 +8,14 @@ import PickUpOption from "./pick-up-option";
 export default function ShippingForm() {
   const [option, setOption] = React.useState("default");
   return (
-    <div className="flex flex-col mb-4">
-      <div className="mt-2 border-b pb-5 border-slate-300">
-        <p className="w-1/3 font-semibold my-3">Shipping Type</p>
+    <div className="mb-4 flex flex-col">
+      <div className="mt-2 border-b border-slate-300 pb-5">
+        <p className="my-3 w-1/3 font-semibold">Shipping Type</p>
         <RadioGroup
           onValueChange={setOption}
           className="mx-3 gap-4"
-          defaultValue={option}>
+          defaultValue={option}
+        >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="default" id="r1" />
             <Label htmlFor="r1">Delivery</Label>

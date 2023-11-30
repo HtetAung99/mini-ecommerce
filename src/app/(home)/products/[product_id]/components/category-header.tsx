@@ -1,6 +1,6 @@
-import CategoryBreadcrumb from '@/app/(home)/components/category-breadcrumb';
-import { getCategoriesFullPath } from '@/app/utils/categories';
-import { getProductById } from '@/app/utils/products';
+import CategoryBreadcrumb from "@/app/(home)/components/category-breadcrumb";
+import { getCategoriesFullPath } from "@/app/utils/categories";
+import { getProductById } from "@/app/utils/products";
 
 export default async function CategoryHeader({
   product_id,
@@ -14,7 +14,7 @@ export default async function CategoryHeader({
     return <p>Not found</p>;
   }
   const category = categories.filter((c) => c.id === product.categoryId)[0];
-  const categoryPaths = category.name.split('/');
+  const categoryPaths = category.name.split("/");
   categoryPaths.push(product.title);
   return <CategoryBreadcrumb categoryPaths={categoryPaths} />;
 }

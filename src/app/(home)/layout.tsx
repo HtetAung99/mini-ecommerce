@@ -35,7 +35,8 @@ export default async function HomeLayout({
       <CartProvider>
         <div
           id="label-bar"
-          className="w-full flex flex-row bg-[#F8F8F8] py-3 px-[13vw] gap-5 justify-end items-center">
+          className="flex w-full flex-row items-center justify-end gap-5 bg-[#F8F8F8] px-[13vw] py-3"
+        >
           <Link className={buttonVariants({ variant: "ghost" })} href={""}>
             Customize Your Spec
           </Link>
@@ -46,7 +47,8 @@ export default async function HomeLayout({
         </div>
         <div
           id="app-bar"
-          className="m-auto my-3 px-[13vw] flex flex-row justify-between py-2 items-center">
+          className="m-auto my-3 flex flex-row items-center justify-between px-[13vw] py-2"
+        >
           <div className="w-[15vw]">
             <Dialog>
               <DialogTrigger>
@@ -62,27 +64,29 @@ export default async function HomeLayout({
             className="w-[45%]"
             placeholder="Search your items, brands ..."
           />
-          <div className="flex-row flex justify-center items-center gap-5">
+          <div className="flex flex-row items-center justify-center gap-5">
             {user ? (
               <UserDropdown user={user} />
             ) : (
               <Link
                 className={cn(
                   buttonVariants({ variant: "ghost" }),
-                  "gap-3 text-base"
+                  "gap-3 text-base",
                 )}
-                href="/authTab/">
+                href="/authTab/"
+              >
                 <User />
                 Sign In
               </Link>
             )}
-            <div className="h-5  border-slate-600 border-solid border"></div>
+            <div className="h-5  border border-solid border-slate-600"></div>
             <Link
               className={cn(
                 buttonVariants({ variant: "ghost" }),
-                "gap-3 text-base "
+                "gap-3 text-base ",
               )}
-              href="/cart/">
+              href="/cart/"
+            >
               <CartSpan>
                 <ShoppingCart className="" size={"24px"} />
               </CartSpan>

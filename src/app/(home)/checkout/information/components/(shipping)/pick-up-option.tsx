@@ -18,8 +18,8 @@ import { Input } from "@/components/ui/input";
 export default function PickUpOption() {
   return (
     <div className="flex flex-col">
-      <h5 className="text-base font-semibold py-3 mt-2">Address Information</h5>
-      <div className="grid grid-cols-2 mt-1 gap-3">
+      <h5 className="mt-2 py-3 text-base font-semibold">Address Information</h5>
+      <div className="mt-1 grid grid-cols-2 gap-3">
         <div className="grid w-full items-center gap-2">
           <Label htmlFor="state">State</Label>
           <Select>
@@ -47,20 +47,22 @@ export default function PickUpOption() {
           </Select>
         </div>
       </div>
-      <h5 className="text-base font-semibold py-3 mt-2">Billing address</h5>
+      <h5 className="mt-2 py-3 text-base font-semibold">Billing address</h5>
       <div className="relative">
-        <Skeleton className="w-full h-[200px] border-dashed border bg-white border-slate-800" />
+        <Skeleton className="h-[200px] w-full border border-dashed border-slate-800 bg-white" />
         <Dialog>
           <DialogTrigger asChild>
             <Button
-              className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              variant={"secondary"}>
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
+              variant={"secondary"}
+            >
               <Plus className="mr-2" size="20px" />
               Add new address
             </Button>
           </DialogTrigger>
           <DialogContent
-            className={cn("w-[50%] top-[50%] shadow-xl h-[500px]")}>
+            className={cn("top-[50%] h-[500px] w-[50%] shadow-xl")}
+          >
             <AddressModal title="My billing address" />
           </DialogContent>
         </Dialog>

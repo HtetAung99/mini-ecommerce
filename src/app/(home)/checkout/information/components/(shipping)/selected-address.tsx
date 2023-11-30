@@ -15,8 +15,8 @@ export default function SelectedAddress({
   edit: boolean;
 }) {
   return (
-    <span className="inline-flex flex-col w-full py-3  text-base">
-      <span className="inline-flex justify-between items-center">
+    <span className="inline-flex w-full flex-col py-3  text-base">
+      <span className="inline-flex items-center justify-between">
         {withTitle && <p className="w-1/3 font-semibold">{title}</p>}
         {withTitle && edit && (
           <Dialog>
@@ -24,18 +24,20 @@ export default function SelectedAddress({
               <Button
                 onClick={() => console.log("edit")}
                 variant={"ghost"}
-                className={cn(" text-base flex gap-4 items-center ")}>
+                className={cn(" flex items-center gap-4 text-base ")}
+              >
                 <Pen size="20px" /> <p>Edit</p>
               </Button>
             </DialogTrigger>
             <DialogContent
-              className={cn("w-[50%] top-[50%] shadow-xl h-[500px]")}>
+              className={cn("top-[50%] h-[500px] w-[50%] shadow-xl")}
+            >
               <AddressModal title={"My shipping address"} />
             </DialogContent>
           </Dialog>
         )}
       </span>
-      <span className="inline-flex w-full mt-2 p-4 text-sm ">
+      <span className="mt-2 inline-flex w-full p-4 text-sm ">
         <p className="w-1/3 text-muted-foreground">Receiver Name :</p>
         <p className="grow ">Phyo Pyae</p>
       </span>

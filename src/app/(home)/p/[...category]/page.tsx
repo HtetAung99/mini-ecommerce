@@ -13,7 +13,7 @@ export default async function P({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const categoryName = decodeURIComponent(
-    params.category[params.category.length - 1]
+    params.category[params.category.length - 1],
   );
   const category = await getCategoryByName(categoryName);
 

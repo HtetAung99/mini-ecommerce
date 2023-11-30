@@ -88,7 +88,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const calculateSubTotal = (items: CartItem[]) => {
     const subTotal = items.reduce(
       (prev, cur) => prev + cur.quantity * (cur.price + cur.priceDiff),
-      0
+      0,
     );
     setSubTotal(subTotal);
   };
@@ -113,7 +113,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         setItemQuantity,
         removeItem,
         reduceItemQuantity,
-      }}>
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

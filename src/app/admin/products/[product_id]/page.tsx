@@ -1,9 +1,9 @@
-import { getProductById } from '@/app/utils/products';
-import React from 'react';
-import prisma from '../../../../../lib/prisma';
-import StoreList from './store-list';
-import StoreDropDown from './store-dropdown';
-import { attributesValuesByProductId } from '@/app/utils/variants';
+import { getProductById } from "@/app/utils/products";
+import React from "react";
+import prisma from "../../../../../lib/prisma";
+import StoreList from "./store-list";
+import StoreDropDown from "./store-dropdown";
+import { attributesValuesByProductId } from "@/app/utils/variants";
 
 export default async function ProductDetail({
   params,

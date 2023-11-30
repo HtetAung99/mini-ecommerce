@@ -31,15 +31,17 @@ export default function CollapsibleList({
 
   return (
     <Collapsible onOpenChange={setOpen} open={open}>
-      <div className="rounded-md px-4 py-2 text-slate-600 text-sm ">
+      <div className="rounded-md px-4 py-2 text-sm text-slate-600 ">
         <CollapsibleTrigger
-          className={"flex w-full justify-between items-center mb-2"}>
+          className={"mb-2 flex w-full items-center justify-between"}
+        >
           <Link
             className={cn(
               "text-md font-medium leading-none",
-              category.name === decodeURI(categoryInURL) && "text-destructive"
+              category.name === decodeURI(categoryInURL) && "text-destructive",
             )}
-            href={parentUrl}>
+            href={parentUrl}
+          >
             {category.name}
           </Link>
           {category.children?.length > 0 && (

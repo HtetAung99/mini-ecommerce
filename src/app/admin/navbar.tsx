@@ -38,12 +38,12 @@ export default function NavBar() {
   const role = user?.role;
 
   const filteredNavlinks = navlinks.filter((navlink) =>
-    navlink.access.includes(role!)
+    navlink.access.includes(role!),
   );
 
   const pathname = `/${usePathname().split("/")[2] || ""}`;
   return (
-    <nav className="w-56 bg-gray-100 fixed h-screen">
+    <nav className="fixed h-screen w-56 bg-gray-100">
       <ul className="py-8">
         {filteredNavlinks.map((navlink, index) => {
           return (
@@ -54,7 +54,8 @@ export default function NavBar() {
                   pathname == navlink.href
                     ? "text-blue-600"
                     : "text-gray-900 hover:text-gray-600"
-                }`}>
+                }`}
+              >
                 {navlink.name}
               </Link>
             </li>

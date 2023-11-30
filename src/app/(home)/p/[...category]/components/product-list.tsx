@@ -11,9 +11,9 @@ export default function ProductList({
   count: number;
 }) {
   return (
-    <div className="w-full col-span-3 ">
+    <div className="col-span-3 w-full ">
       <Pagination count={count} />
-      <ScrollArea className="pl-4 overflow-y-auto col-span-3">
+      <ScrollArea className="col-span-3 overflow-y-auto pl-4">
         <div className="grid grid-cols-3 gap-x-7 gap-y-7 p-4">
           {products.map((product) => (
             <ProductCard key={product.id} flex={false} product={product} />

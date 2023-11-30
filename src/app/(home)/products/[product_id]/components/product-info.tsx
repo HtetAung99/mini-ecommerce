@@ -44,8 +44,8 @@ export default function ProductInfo({
         (prev, cur) => {
           return { ...prev, [cur.attribute.name]: cur.name };
         },
-        { p: (Number(product.price) + Number(v.priceDiff)).toFixed(2) }
-      )
+        { p: (Number(product.price) + Number(v.priceDiff)).toFixed(2) },
+      ),
     );
 
     setVariantOptions(variantList);
@@ -91,7 +91,7 @@ export default function ProductInfo({
   };
 
   return (
-    <Card className="m-auto w-[40%] flex flex-col border-0">
+    <Card className="m-auto flex w-[40%] flex-col border-0">
       <CardHeader className={clsx("gap-8")}>
         <CardTitle>{product.title}</CardTitle>
         <CardDescription>{product.description}</CardDescription>
@@ -102,7 +102,7 @@ export default function ProductInfo({
           if (key !== "default")
             return (
               <div key={key}>
-                <h3 className="capitalize font-semibold text-left text-base my-2 text-slate-700 pt-2 w-[10vw]">
+                <h3 className="my-2 w-[10vw] pt-2 text-left text-base font-semibold capitalize text-slate-700">
                   {key}
                 </h3>
 
@@ -116,17 +116,19 @@ export default function ProductInfo({
                           <div
                             key={v.id}
                             className={clsx(
-                              "cursor-pointer flex w-7 h-7 rounded-full justify-center items-center",
+                              "flex h-7 w-7 cursor-pointer items-center justify-center rounded-full",
                               selectedVariantPair[key] === v.name && [
-                                " border-gray-700 border",
-                              ]
+                                " border border-gray-700",
+                              ],
                             )}
-                            onClick={() => handleChange(key, v.name)}>
+                            onClick={() => handleChange(key, v.name)}
+                          >
                             <div
                               className={clsx(
-                                "w-5 h-5 rounded-full border border-gray-500 ",
-                                `bg-${v.name}-500`
-                              )}></div>
+                                "h-5 w-5 rounded-full border border-gray-500 ",
+                                `bg-${v.name}-500`,
+                              )}
+                            ></div>
                           </div>
                         </>
                       );
@@ -139,7 +141,8 @@ export default function ProductInfo({
                               : "outline"
                           }
                           key={v.id}
-                          onClick={() => handleChange(key, v.name)}>
+                          onClick={() => handleChange(key, v.name)}
+                        >
                           {v.name}
                         </Button>
                       );
@@ -151,8 +154,9 @@ export default function ProductInfo({
         })}
 
         <Badge
-          className={clsx("px-3 py-2 flex-1 gap-3 mt-5 h-10")}
-          variant={"secondary"}>
+          className={clsx("mt-5 h-10 flex-1 gap-3 px-3 py-2")}
+          variant={"secondary"}
+        >
           {price ? (
             <>
               <CircleDollarSign />
@@ -167,12 +171,13 @@ export default function ProductInfo({
         <Button
           disabled={!price}
           onClick={() => handleAddToCard()}
-          className="flex justify-around items-center gap-3"
-          variant="outline">
+          className="flex items-center justify-around gap-3"
+          variant="outline"
+        >
           <ShoppingCart />
           Add To Cart
         </Button>
-        <Button className="flex justify-around items-center gap-3">
+        <Button className="flex items-center justify-around gap-3">
           <CreditCard />
           Buy Now
         </Button>

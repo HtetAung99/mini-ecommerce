@@ -29,15 +29,17 @@ export default function ProductCard({
   return (
     <Card
       key={product.id}
-      className={clsx("col-span-1 h-[400px]", flex && "min-w-[25%]")}>
-      <CardHeader className="w-full h-[55%] p-4">
-        <Avatar className="h-full rounded-sm hover:scale-105 w-full">
+      className={clsx("col-span-1 h-[400px]", flex && "min-w-[25%]")}
+    >
+      <CardHeader className="h-[55%] w-full p-4">
+        <Avatar className="h-full w-full rounded-sm hover:scale-105">
           <AvatarImage src="https://images.unsplash.com/photo-1577210897949-1f56f943bf82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=560&h=540&q=80&crop=bottom" />
 
-          <Bookmark className="bg-white p-1 rounded-sm text-red-600 absolute right-2 top-2" />
+          <Bookmark className="absolute right-2 top-2 rounded-sm bg-white p-1 text-red-600" />
           <Badge
-            className="absolute left-2 bottom-2 items-center"
-            variant={"destructive"}>
+            className="absolute bottom-2 left-2 items-center"
+            variant={"destructive"}
+          >
             {50}
             <Percent size={"14px"} />
           </Badge>
@@ -45,17 +47,17 @@ export default function ProductCard({
         </Avatar>
       </CardHeader>
       <CardContent className="pb-0">
-        <CardTitle className="flex flex-col text-base gap-2">
+        <CardTitle className="flex flex-col gap-2 text-base">
           <Link className="h-[5vh]" href={`/products/${product.id}`}>
             {product.title}
           </Link>
-          <span className="flex flex-row text-sm w-[40%] font-normal items-center">
+          <span className="flex w-[40%] flex-row items-center text-sm font-normal">
             <DollarSign size={"14px"} />
             {product.price}
           </span>
         </CardTitle>
 
-        <CardDescription className={cn("pt-3 flex gap-4 flex-col h-[70px]")}>
+        <CardDescription className={cn("flex h-[70px] flex-col gap-4 pt-3")}>
           <HoverCard openDelay={10}>
             <HoverCardTrigger className="line-clamp-3">
               {product.description}

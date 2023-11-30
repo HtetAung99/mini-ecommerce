@@ -23,15 +23,15 @@ export function Pagination({ count }: { count: number }) {
   const searchParams = Array.from(useSearchParams().entries());
 
   const pageNum = parseInt(
-    searchParams.find(([key]) => key === "pageNum")?.[1] ?? "1"
+    searchParams.find(([key]) => key === "pageNum")?.[1] ?? "1",
   );
 
   const pageSize = parseInt(
-    searchParams.find(([key]) => key === "pageSize")?.[1] ?? "9"
+    searchParams.find(([key]) => key === "pageSize")?.[1] ?? "9",
   );
 
   const [totalPages, setTotalPages] = useState(
-    Math.max(Math.ceil(count / pageSize), 1)
+    Math.max(Math.ceil(count / pageSize), 1),
   );
 
   const baseParamString = searchParams
@@ -49,7 +49,7 @@ export function Pagination({ count }: { count: number }) {
     setTotalPages(Math.max(Math.ceil(count / pageSize), 1));
   }, [count, pageSize]);
   return (
-    <div className="flex items-center  px-2 justify-end">
+    <div className="flex items-center  justify-end px-2">
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
@@ -58,10 +58,11 @@ export function Pagination({ count }: { count: number }) {
             onValueChange={(value) => {
               router.push(
                 `${fullPath}?${baseParamString}pageNum=${pageNum}&pageSize=${parseInt(
-                  value
-                )}`
+                  value,
+                )}`,
               );
-            }}>
+            }}
+          >
             <SelectTrigger className="h-8 w-[70px]">
               <SelectValue placeholder={pageSize} />
             </SelectTrigger>
@@ -84,9 +85,10 @@ export function Pagination({ count }: { count: number }) {
             className="hidden h-8 w-8 p-0 lg:flex"
             onClick={() => {
               router.push(
-                `${fullPath}?${baseParamString}pageNum=${1}&pageSize=${pageSize}`
+                `${fullPath}?${baseParamString}pageNum=${1}&pageSize=${pageSize}`,
               );
-            }}>
+            }}
+          >
             <span className="sr-only">Go to first page</span>
             <ChevronsLeft className="h-4 w-4" />
           </Button>
@@ -98,9 +100,10 @@ export function Pagination({ count }: { count: number }) {
               router.push(
                 `${fullPath}?${baseParamString}pageNum=${
                   pageNum - 1
-                }&pageSize=${pageSize}`
+                }&pageSize=${pageSize}`,
               );
-            }}>
+            }}
+          >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -112,9 +115,10 @@ export function Pagination({ count }: { count: number }) {
               router.push(
                 `${fullPath}?${baseParamString}pageNum=${
                   pageNum + 1
-                }&pageSize=${pageSize}`
+                }&pageSize=${pageSize}`,
               );
-            }}>
+            }}
+          >
             <span className="sr-only">Go to next page</span>
             <ChevronRight className="h-4 w-4" />
           </Button>
@@ -124,9 +128,10 @@ export function Pagination({ count }: { count: number }) {
             disabled={pageNum === totalPages}
             onClick={() => {
               router.push(
-                `${fullPath}?${baseParamString}pageNum=${totalPages}&pageSize=${pageSize}`
+                `${fullPath}?${baseParamString}pageNum=${totalPages}&pageSize=${pageSize}`,
               );
-            }}>
+            }}
+          >
             <span className="sr-only">Go to last page</span>
             <ChevronsRight className="h-4 w-4" />
           </Button>

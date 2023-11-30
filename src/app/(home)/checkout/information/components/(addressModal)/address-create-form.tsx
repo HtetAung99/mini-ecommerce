@@ -33,7 +33,7 @@ export default function AddressCreateForm({
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="inline-flex justify-between items-center">
+        <DialogTitle className="inline-flex items-center justify-between">
           <p>My Shipping Address</p>
           <DialogClose asChild>
             <Button variant="ghost">
@@ -45,7 +45,8 @@ export default function AddressCreateForm({
       <Button
         onClick={() => setSelection(true)}
         variant={"link"}
-        className="inline-flex justify-start text-destructive gap-2">
+        className="inline-flex justify-start gap-2 text-destructive"
+      >
         <ChevronLeft size="14px" />
         <p>Back to my address book</p>
       </Button>
@@ -54,7 +55,7 @@ export default function AddressCreateForm({
           <CardHeader>
             <h5 className="text-base font-semibold">Contact Information</h5>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-x-4 gap-y-5 mx-2">
+          <CardContent className="mx-2 grid grid-cols-2 gap-x-4 gap-y-5">
             <div className="grid w-full max-w-sm items-center gap-2">
               <Label htmlFor="first">First name</Label>
               <Input
@@ -81,7 +82,7 @@ export default function AddressCreateForm({
           <CardHeader>
             <h5 className="text-base font-semibold">Address Information</h5>
           </CardHeader>
-          <CardContent className="flex flex-col gap-x-4 gap-y-5 mx-2">
+          <CardContent className="mx-2 flex flex-col gap-x-4 gap-y-5">
             <div className="grid w-full items-center gap-2">
               <Label htmlFor="address-type">Address Type</Label>
               <Select>
@@ -106,10 +107,11 @@ export default function AddressCreateForm({
             <div className="grid grid-cols-2 gap-3">
               <div className="grid w-full items-center gap-2">
                 <Label
-                  className="inline-flex gap-4 items-center"
-                  htmlFor="first">
+                  className="inline-flex items-center gap-4"
+                  htmlFor="first"
+                >
                   <p>Address line 2</p>
-                  <p className="text-sm text-muted-foreground font-semibold">
+                  <p className="text-sm font-semibold text-muted-foreground">
                     ( Optional )
                   </p>
                 </Label>
@@ -169,12 +171,14 @@ export default function AddressCreateForm({
         </Card>
       </div>
       <DialogFooter
-        className={cn("items-center px-8 border-t border-destructive  pt-3")}>
-        <div className="flex mt-2 items-center space-x-2 gap-1">
+        className={cn("items-center border-t border-destructive px-8  pt-3")}
+      >
+        <div className="mt-2 flex items-center gap-1 space-x-2">
           <Checkbox id="default" />
           <label
             htmlFor="default"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
             Set as default address
           </label>
         </div>

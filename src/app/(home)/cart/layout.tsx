@@ -1,5 +1,5 @@
-import React from 'react';
-import CartHeader from './components/cart-header';
+import React from "react";
+import CartHeader from "./components/cart-header";
 
 export default function CartLayout({
   children,

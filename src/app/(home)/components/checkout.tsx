@@ -15,30 +15,32 @@ export default function Checkout({ next }: { next: boolean }) {
   return (
     <Card
       className={cn(
-        "w-[42%] mt-5 bg-[#F8F8F8] border-0 shrink max-h-[320px]",
-        next && "w-[35%]"
-      )}>
+        "mt-5 max-h-[320px] w-[42%] shrink border-0 bg-[#F8F8F8]",
+        next && "w-[35%]",
+      )}
+    >
       <CardContent>
         <CouponSection />
-        <div className="flex items-center text-sm font-normal pt-5 px-2 justify-between">
+        <div className="flex items-center justify-between px-2 pt-5 text-sm font-normal">
           <p>Subtotal</p>
           <p>$ {subTotal.toFixed(2)}</p>
         </div>
-        <div className="flex font-normal text-sm items-center py-5 px-2 justify-between">
+        <div className="flex items-center justify-between px-2 py-5 text-sm font-normal">
           <p>Discount</p>
           <p className="inline-flex items-center gap-1">-$ 2500</p>
         </div>
         <ShippingFees />
-        <div className="flex items-center font-semibold text-base py-5 px-2 justify-between">
+        <div className="flex items-center justify-between px-2 py-5 text-base font-semibold">
           <p>Total</p>
           <p className="inline-flex items-center gap-2">$ 50000</p>
         </div>
         {next && (
           <Button
             asChild
-            className="w-full mt-2"
+            className="mt-2 w-full"
             variant={"default"}
-            type="submit">
+            type="submit"
+          >
             <Link href={"/checkout/information"}>Proceed to checkout</Link>
           </Button>
         )}

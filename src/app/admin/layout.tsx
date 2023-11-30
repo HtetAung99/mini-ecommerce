@@ -24,7 +24,7 @@ export default async function DashboardLayout({
       {auth}
       <section className="h-full bg-gray-200">
         <NavBar />
-        <div className="ml-56 overflow-y-auto h-screen px-14 py-10">
+        <div className="ml-56 h-screen overflow-y-auto px-14 py-10">
           {children}
         </div>
       </section>

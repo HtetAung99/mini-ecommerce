@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { getCategories } from '@/app/utils/categories';
+import Link from "next/link";
+import { getCategories } from "@/app/utils/categories";
 
 export default async function CategoryTable({
   searchParams,
@@ -23,15 +23,15 @@ export default async function CategoryTable({
       : [];
 
   const rootCategories = categories.filter(
-    (category) => category.parentId === null
+    (category) => category.parentId === null,
   );
 
   return (
-    <div className='grid grid-cols-3 mt-16'>
-      <div className='h-96 overflow-y-scroll rounded-l-md flex flex-col gap-2 border bg-gray-100 border-r-0 border-gray-400'>
+    <div className="mt-16 grid grid-cols-3">
+      <div className="flex h-96 flex-col gap-2 overflow-y-scroll rounded-l-md border border-r-0 border-gray-400 bg-gray-100">
         <Link
           href={`/admin/categories/addCategory`}
-          className='cursor-pointer font-mono font-semibold py-2 pt-2.5 pl-2.5 hover:bg-slate-300 text-blue-700'
+          className="cursor-pointer py-2 pl-2.5 pt-2.5 font-mono font-semibold text-blue-700 hover:bg-slate-300"
         >
           + Add Category
         </Link>
@@ -40,20 +40,20 @@ export default async function CategoryTable({
           <Link
             key={rc.id}
             href={`/admin/categories?rootId=${rc.id}`}
-            className={`cursor-pointer font-mono text-sm py-2 pl-7 hover:bg-slate-300 
-            ${rc.id == selectedRoot ? 'bg-slate-300' : ''} `}
+            className={`cursor-pointer py-2 pl-7 font-mono text-sm hover:bg-slate-300 
+            ${rc.id == selectedRoot ? "bg-slate-300" : ""} `}
           >
             {rc.name}
           </Link>
         ))}
       </div>
-      <div className='h-96 overflow-y-scroll flex flex-col gap-2 border bg-gray-100 border-r-0 border-gray-400'>
+      <div className="flex h-96 flex-col gap-2 overflow-y-scroll border border-r-0 border-gray-400 bg-gray-100">
         {selectedRoot ? (
           <Link
             href={`/admin/categories/addCategory${
-              selectedRoot ? `?rootId=${selectedRoot}` : ''
+              selectedRoot ? `?rootId=${selectedRoot}` : ""
             }`}
-            className='cursor-pointer font-mono font-semibold py-2 pt-2.5 pl-2.5 hover:bg-slate-300 text-blue-700'
+            className="cursor-pointer py-2 pl-2.5 pt-2.5 font-mono font-semibold text-blue-700 hover:bg-slate-300"
           >
             + Add Category
           </Link>
@@ -62,21 +62,21 @@ export default async function CategoryTable({
           <Link
             key={fc.id}
             href={`/admin/categories?rootId=${selectedRoot}&firstId=${fc.id}`}
-            className={`cursor-pointer font-mono text-sm py-2 pl-7 hover:bg-slate-300 ${
-              fc.id == selectedFirst ? 'bg-slate-300' : ''
+            className={`cursor-pointer py-2 pl-7 font-mono text-sm hover:bg-slate-300 ${
+              fc.id == selectedFirst ? "bg-slate-300" : ""
             }`}
           >
             {fc.name}
           </Link>
         ))}
       </div>
-      <div className='h-96 overflow-y-scroll flex flex-col gap-2 rounded-r-md border bg-gray-100 border-gray-400'>
+      <div className="flex h-96 flex-col gap-2 overflow-y-scroll rounded-r-md border border-gray-400 bg-gray-100">
         {selectedFirst ? (
           <Link
             href={`/admin/categories/addCategory${
-              selectedRoot ? `?rootId=${selectedRoot}` : ''
-            }${selectedFirst ? `&firstId=${selectedFirst}` : ''}`}
-            className='cursor-pointer font-mono font-semibold py-2 pt-2.5 pl-2.5 hover:bg-slate-300 text-blue-700'
+              selectedRoot ? `?rootId=${selectedRoot}` : ""
+            }${selectedFirst ? `&firstId=${selectedFirst}` : ""}`}
+            className="cursor-pointer py-2 pl-2.5 pt-2.5 font-mono font-semibold text-blue-700 hover:bg-slate-300"
           >
             + Add Category
           </Link>
@@ -85,8 +85,8 @@ export default async function CategoryTable({
           <Link
             key={sc.id}
             href={`/admin/categories?rootId=${selectedRoot}&firstId=${selectedFirst}&secondId=${sc.id}`}
-            className={`cursor-pointer font-mono text-sm py-2 pl-7 hover:bg-slate-300 ${
-              sc.id == selectedSecond ? 'bg-slate-300' : ''
+            className={`cursor-pointer py-2 pl-7 font-mono text-sm hover:bg-slate-300 ${
+              sc.id == selectedSecond ? "bg-slate-300" : ""
             }`}
           >
             {sc.name}

@@ -6,7 +6,7 @@ export default function CartSpan({ children }: { children: React.ReactNode }) {
   const { items } = useCart();
   return (
     <div className="relative">
-      <span className="absolute -top-2 -right-2 w-5 h-5 text-center inline-block leading-5 bg-destructive text-xs font-medium text-white rounded-full">
+      <span className="absolute -right-2 -top-2 inline-block h-5 w-5 rounded-full bg-destructive text-center text-xs font-medium leading-5 text-white">
         {items.length}
       </span>
       {children}

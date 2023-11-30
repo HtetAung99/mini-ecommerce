@@ -12,11 +12,12 @@ export default async function filterBar({ params }: { params: any }) {
 
   return (
     <div className="col-span-1 mt-5 flex flex-col gap-4 overflow-y-auto">
-      <div className="flex items-center space-x-3 mx-4">
+      <div className="mx-4 flex items-center space-x-3">
         <Checkbox id="stock" />
         <label
           htmlFor="stock"
-          className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
           Show in-stock only
         </label>
       </div>
@@ -30,8 +31,9 @@ export default async function filterBar({ params }: { params: any }) {
 
       <Button
         asChild
-        className="text-red-500 self-end p-0 m-0"
-        variant={"link"}>
+        className="m-0 self-end p-0 text-red-500"
+        variant={"link"}
+      >
         <Link href={`/p/${params.category.join("/")}`}>Clear all filters</Link>
       </Button>
     </div>

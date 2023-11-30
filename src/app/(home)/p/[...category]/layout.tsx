@@ -12,11 +12,11 @@ export default async function PLayout({
   children: React.ReactNode;
 }) {
   const categoryPathsFromDb = (await getCategoriesFullPath()).map(
-    (c) => c.name
+    (c) => c.name,
   );
 
   const categoryPaths = params.category.map((c: string) =>
-    decodeURIComponent(c)
+    decodeURIComponent(c),
   );
 
   const categoryPathString = categoryPaths.join("/");
@@ -27,7 +27,7 @@ export default async function PLayout({
   return (
     <div className="">
       <CategoryBreadcrumb categoryPaths={categoryPaths} />
-      <div className="py-5 grid grid-cols-4">{children}</div>
+      <div className="grid grid-cols-4 py-5">{children}</div>
     </div>
   );
 }

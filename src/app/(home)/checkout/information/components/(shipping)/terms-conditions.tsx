@@ -16,7 +16,7 @@ import React from "react";
 export default function TermsConditions() {
   return (
     <Collapsible className="">
-      <div className="inline-flex gap-3 items-center">
+      <div className="inline-flex items-center gap-3">
         <Checkbox />
         <CollapsibleTrigger>
           <label className="text-sm font-medium  hover:cursor-pointer">

@@ -27,15 +27,16 @@ export default function UserRole() {
       <form onSubmit={handleSubmit} className="flex flex-row gap-5 ">
         <input
           onChange={(e) => setEmail(e.target.value)}
-          className="rounded-md border-slate-600 border-solid border-[0.5px] pl-5 w-[30%] "
+          className="w-[30%] rounded-md border-[0.5px] border-solid border-slate-600 pl-5 "
           type="text"
           name="email"
           id="email"
           placeholder="Email"
         />
         <button
-          className="px-4 py-3 bg-[#2663EB] rounded-md  text-white text-sm shadow-md"
-          type="submit">
+          className="rounded-md bg-[#2663EB] px-4 py-3  text-sm text-white shadow-md"
+          type="submit"
+        >
           Update User
         </button>
       </form>

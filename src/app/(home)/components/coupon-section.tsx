@@ -4,7 +4,7 @@ import React from "react";
 
 export default function CouponSection() {
   return (
-    <div className="flex border-b border-slate-200 py-3 px-0 mx-0 w-full max-w-sm items-center space-x-2">
+    <div className="mx-0 flex w-full max-w-sm items-center space-x-2 border-b border-slate-200 px-0 py-3">
       <Input
         className="border-0"
         type="coupon"

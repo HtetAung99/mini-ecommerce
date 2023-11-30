@@ -37,7 +37,7 @@ export default function OrderItem({ item }: { item: CartItem }) {
         <AvatarImage src="/images/Dummy.jpeg" alt="Avatar" />
         <AvatarFallback>OM</AvatarFallback>
       </Avatar>
-      <div className="ml-4 space-y-1 min-w-[12vw]">
+      <div className="ml-4 min-w-[12vw] space-y-1">
         <p className="text-sm font-medium leading-none">
           {cartItem?.product.title}
         </p>
@@ -53,12 +53,13 @@ export default function OrderItem({ item }: { item: CartItem }) {
         <p className="text-sm font-medium leading-none">
           ${(cartItem?.priceDiff + cartItem?.product.price).toFixed(2)}
         </p>
-        <p className="text-xs  mt-1 text-destructive">save $100</p>
+        <p className="mt-1  text-xs text-destructive">save $100</p>
       </div>
       <div className="ml-auto font-medium">
         <Button
           onClick={() => reduceItemQuantity(item.variantId)}
-          variant={"ghost"}>
+          variant={"ghost"}
+        >
           <Minus size={"12px"} />
         </Button>
 
@@ -69,12 +70,13 @@ export default function OrderItem({ item }: { item: CartItem }) {
             setItemQuantity(item.variantId, Number(e.target.value));
           }}
           className={cn(
-            "w-14 border rounded-sm p-2 h-8 m-auto text-sm text-center"
+            "m-auto h-8 w-14 rounded-sm border p-2 text-center text-sm",
           )}
         />
         <Button
           onClick={() => addItemQuantity(item.variantId)}
-          variant={"ghost"}>
+          variant={"ghost"}
+        >
           <Plus size={"12px"} />
         </Button>
       </div>

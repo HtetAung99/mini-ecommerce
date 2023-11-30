@@ -21,7 +21,7 @@ import {
 
 export function PaymentMethod() {
   return (
-    <Card className="border-0 shadow-none m-auto  bg-[#F5F5F5]">
+    <Card className="m-auto border-0 bg-[#F5F5F5]  shadow-none">
       <CardHeader>
         <CardTitle>Payment Method</CardTitle>
         <CardDescription>
@@ -34,7 +34,8 @@ export function PaymentMethod() {
             <RadioGroupItem value="card" id="card" className="peer sr-only" />
             <Label
               htmlFor="card"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+            >
               <Icons.card className="mb-3 h-6 w-6" />
               Card
             </Label>
@@ -47,7 +48,8 @@ export function PaymentMethod() {
             />
             <Label
               htmlFor="paypal"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+            >
               <Icons.paypal className="mb-3 h-6 w-6" />
               Paypal
             </Label>
@@ -56,7 +58,8 @@ export function PaymentMethod() {
             <RadioGroupItem value="apple" id="apple" className="peer sr-only" />
             <Label
               htmlFor="apple"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+            >
               <Icons.apple className="mb-3 h-6 w-6" />
               Apple
             </Label>

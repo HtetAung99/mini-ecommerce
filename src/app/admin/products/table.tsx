@@ -20,7 +20,7 @@ export default async function Table() {
   // console.log(products);
 
   return (
-    <div className="flex flex-col gap-2 mt-12">
+    <div className="mt-12 flex flex-col gap-2">
       {products.map((product) => (
         <Link href={`/admin/products/${product.id}`}>
           <Row product={product} />

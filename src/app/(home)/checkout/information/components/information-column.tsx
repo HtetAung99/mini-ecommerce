@@ -7,7 +7,7 @@ import CheckoutStage from "./checkout-stage";
 
 export default function InformationColumn() {
   return (
-    <div className="flex flex-col gap-7  w-full">
+    <div className="flex w-full flex-col  gap-7">
       <CheckoutStage stage={[true, false]} />
       <ShippingInformation />
       <PaymentInformation />

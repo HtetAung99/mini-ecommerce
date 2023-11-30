@@ -24,7 +24,7 @@ export default function AddressSelection({
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="inline-flex justify-between items-center">
+        <DialogTitle className="inline-flex items-center justify-between">
           <p>{title}</p>
           <DialogClose asChild>
             <Button variant="ghost">
@@ -35,13 +35,14 @@ export default function AddressSelection({
         <Button
           onClick={() => setSelection(false)}
           variant={"link"}
-          className="inline-flex justify-start text-destructive gap-2">
+          className="inline-flex justify-start gap-2 text-destructive"
+        >
           <Plus size="14px" />
           <p>Add new address</p>
         </Button>
-        <div className="px-3 mx-5 border border-destructive rounded-md">
+        <div className="mx-5 rounded-md border border-destructive px-3">
           <ShippingAddress withTitle={false} title={null} edit={true} />
-          <Badge className="ml-3 mb-5">Default address</Badge>
+          <Badge className="mb-5 ml-3">Default address</Badge>
         </div>
       </DialogHeader>
 

@@ -29,7 +29,8 @@ function StoreDropDown({
             defaultValue={storeId}
             name="store"
             id="store"
-            onChange={(e) => setStoreId(Number(e.target.value))}>
+            onChange={(e) => setStoreId(Number(e.target.value))}
+          >
             {filteredStores.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
