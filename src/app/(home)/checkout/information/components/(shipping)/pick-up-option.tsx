@@ -11,9 +11,9 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus } from "lucide-react";
 import React from "react";
-import AddressModal from "../(addressModal)/address-modal";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import AddressModal from "../addressModal/address-modal";
 
 export default function PickUpOption() {
   return (

@@ -1,10 +1,10 @@
 import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Truck } from "lucide-react";
-import TermsConditions from "./terms-conditions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SelectedAddress from "./selected-address";
+import TermsConditions from "../shipping/terms-conditions";
 
 export default function DeliveryOption() {
   return (
