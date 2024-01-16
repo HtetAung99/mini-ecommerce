@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Address, Role } from "@prisma/client";
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
@@ -8,8 +8,11 @@ declare module "next-auth" {
   interface Session {
     user: {
       /** The user's postal address. */
+      id: string;
       name: string;
       role: Role;
+      addresses: Address[];
+      selectedAddress: Address;
     };
   }
 }

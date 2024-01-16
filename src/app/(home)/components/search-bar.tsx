@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { useState } from 'react';
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { useRef, useState } from "react";
 
 export default function SearchBar() {
   const [suggestions, setSuggestions] = useState<ProductSuggestion[]>([]);
+  const [onFocus, setOnFocus] = useState(false);
 
   interface ResponseProductData {
     products: ProductSuggestion[];
@@ -25,21 +26,25 @@ export default function SearchBar() {
     setSuggestions(resJson.products);
   };
 
+  const searchRef = useRef<HTMLInputElement>(null);
+
   return (
-    <div className='w-[36%] relative'>
+    <div className="relative w-[36%]">
       <Input
+        onFocus={() => setOnFocus(true)}
+        onBlur={() => setOnFocus(false)}
         onChange={(e) => handleChange(e.target.value)}
-        className={cn('focus-visible:ring-offset-0 focus:shadow-lg')}
-        placeholder='Search your items, brands ...'
+        className={cn("focus:shadow-lg focus-visible:ring-offset-0")}
+        placeholder="Search your items, brands ..."
       />
-      {suggestions.length > 0 && (
-        <div className='bg-slate-50 cursor-pointer leading-10 text-sm absolute top-12 z-20 w-full overflow-hidden rounded-sm shadow-lg'>
+      {suggestions.length > 0 && onFocus && (
+        <div className="absolute top-12 z-20 w-full cursor-pointer overflow-hidden rounded-sm bg-slate-50 text-sm leading-10 shadow-lg">
           {suggestions.map((suggestion) => (
             <Link
               onClick={() => setSuggestions([])}
               href={`/products/${suggestion.id}`}
               key={suggestion.id}
-              className='pl-4 inline-flex w-full hover:font-semibold hover:bg-slate-200'
+              className="inline-flex w-full pl-4 hover:bg-slate-200 hover:font-semibold"
             >
               {suggestion.title}
             </Link>

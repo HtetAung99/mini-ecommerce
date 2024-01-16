@@ -112,25 +112,23 @@ export default function ProductInfo({
 
                     if (key === "color") {
                       return (
-                        <>
+                        <div
+                          key={v.id}
+                          className={clsx(
+                            "flex h-7 w-7 cursor-pointer items-center justify-center rounded-full",
+                            selectedVariantPair[key] === v.name && [
+                              " border border-gray-700",
+                            ],
+                          )}
+                          onClick={() => handleChange(key, v.name)}
+                        >
                           <div
-                            key={v.id}
                             className={clsx(
-                              "flex h-7 w-7 cursor-pointer items-center justify-center rounded-full",
-                              selectedVariantPair[key] === v.name && [
-                                " border border-gray-700",
-                              ],
+                              "h-5 w-5 rounded-full border border-gray-500 ",
+                              `bg-${v.name}-500`,
                             )}
-                            onClick={() => handleChange(key, v.name)}
-                          >
-                            <div
-                              className={clsx(
-                                "h-5 w-5 rounded-full border border-gray-500 ",
-                                `bg-${v.name}-500`,
-                              )}
-                            ></div>
-                          </div>
-                        </>
+                          ></div>
+                        </div>
                       );
                     } else {
                       return (

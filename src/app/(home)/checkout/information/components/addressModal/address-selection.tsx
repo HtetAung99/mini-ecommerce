@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
 import ShippingAddress from "../shipping/selected-address";
 import { Badge } from "@/components/ui/badge";
+import AddressLists from "./address-list";
 
 export default function AddressSelection({
   setSelection,
@@ -40,10 +41,7 @@ export default function AddressSelection({
           <Plus size="14px" />
           <p>Add new address</p>
         </Button>
-        <div className="mx-5 rounded-md border border-destructive px-3">
-          <ShippingAddress withTitle={false} title={null} edit={true} />
-          <Badge className="mb-5 ml-3">Default address</Badge>
-        </div>
+        <AddressLists />
       </DialogHeader>
 
       <DialogFooter className="border-t border-destructive  pt-3">

@@ -3,13 +3,17 @@ import { Button } from "@/components/ui/button";
 
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
-import { Edit, Truck } from "lucide-react";
+import { Edit, Pen, Truck } from "lucide-react";
 import React, { useState } from "react";
 import ShippingForm from "./shipping-form";
 import SelectedAddress from "./selected-address";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import AddressModal from "../addressModal/address-modal";
+import { useSession } from "next-auth/react";
 
 export default function ShippingInformation() {
   const [isOpen, setIsOpen] = useState(false);
+  const session = useSession();
   return (
     <Collapsible
       open={isOpen}
@@ -44,11 +48,13 @@ export default function ShippingInformation() {
                 Standard (estimate within 1 - 3 shipping days*)
               </p>
             </span>
-            <SelectedAddress
-              withTitle={true}
-              title={"Shipping address"}
-              edit={false}
-            />
+
+            <div className="flex w-full items-center justify-between py-3 ">
+              <span className="w-1/3 font-semibold">
+                <p>My Shipping Address</p>
+              </span>
+            </div>
+            <SelectedAddress />
           </div>
         )}
       </div>

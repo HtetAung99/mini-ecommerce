@@ -11,7 +11,7 @@ export default function CategoryBreadcrumb({
       {categoryPaths.map((c, idx) => {
         if (idx == categoryPaths.length - 1) {
           return (
-            <Badge key={idx} variant={"outline"}>
+            <Badge key={idx} className="cursor-default" variant={"outline"}>
               {c}
             </Badge>
           );

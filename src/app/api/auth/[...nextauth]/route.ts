@@ -5,6 +5,7 @@ import prisma from "../../../../../lib/prisma";
 
 import bcrpyt from "bcrypt";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { Address } from "@prisma/client";
 export const authOption: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -33,6 +34,7 @@ export const authOption: NextAuthOptions = {
       async authorize(credentials, req) {
         const user = await prisma.user.findUnique({
           where: { email: credentials?.email },
+          include: { addresses: true },
         });
 
         if (user) {
@@ -42,6 +44,7 @@ export const authOption: NextAuthOptions = {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                addresses: user.addresses,
               }
             : null;
         }
@@ -56,12 +59,28 @@ export const authOption: NextAuthOptions = {
   }, // 30 days},
   // pages: { signIn: "/admin/login" },
   callbacks: {
-    jwt: async ({ token, user }: any) => {
+    jwt: async ({ token, user, trigger, session }: any) => {
       user && (token.user = user);
+      if (trigger === "update" && session?.selectedAddress) {
+        // Note, that `session` can be any arbitrary object, remember to validate it!
+        token.user.selectedAddress = session.selectedAddress;
+      }
+
       return token;
     },
     session: async ({ session, token }: any) => {
       session.user = token.user;
+      const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        include: { addresses: true },
+      });
+      session.user.id = user?.id;
+      session.user.addresses = user?.addresses;
+
+      session.user.selectedAddress = session.user.selectedAddress
+        ? session.user.selectedAddress
+        : user?.addresses.filter((add: Address) => add?.default)[0];
+
       return session;
     },
 

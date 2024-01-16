@@ -51,7 +51,6 @@ model Variant {
   priceDiff             Float
   variantAvailabilities VariantAvailability[]
   orderItems            OrderItem[]
-  
 }
 
 model Product {
@@ -125,26 +124,50 @@ model User {
   sessions      Session[]
   image         String?
   orders        Order[]
+  addresses     Address[]
+}
+
+model Address {
+  id          Int         @id @default(autoincrement())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  type        AddressType
+  name        String
+  address     String
+  city        String
+  state       String
+  country     String
+  postalCode  String
+  phoneNumber String
+  default     Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now()) @updatedAt
+}
+
+enum AddressType {
+  HOUSE
+  CONDO
+  APARTMENT
 }
 
 model Order {
-  id           Int       @id @default(autoincrement())
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  customerId   String    
-  customer     User      @relation(fields: [customerId], references: [id])
-  orderItems   OrderItem[]
-  totalAmount  Float
-  status       OrderStatus  @default(PENDING)
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  customerId  String
+  customer    User        @relation(fields: [customerId], references: [id])
+  orderItems  OrderItem[]
+  totalAmount Float
+  status      OrderStatus @default(PENDING)
 }
 
 model OrderItem {
-  id          Int      @id @default(autoincrement())
-  variantId   Int
-  variant     Variant  @relation(fields: [variantId], references: [id])
-  quantity    Int
-  order       Order    @relation(fields: [orderId], references: [id])
-  orderId     Int
+  id        Int     @id @default(autoincrement())
+  variantId Int
+  variant   Variant @relation(fields: [variantId], references: [id])
+  quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   Int
 }
 
 enum OrderStatus {
@@ -154,7 +177,6 @@ enum OrderStatus {
   DELIVERED
   CANCELED
 }
-
 
 enum Role {
   USER
