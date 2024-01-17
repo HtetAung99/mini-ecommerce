@@ -1,19 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
-
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
-import { Edit, Pen, Truck } from "lucide-react";
-import React, { useState } from "react";
+import { Edit } from "lucide-react";
+import { Dispatch, SetStateAction, useState } from "react";
 import ShippingForm from "./shipping-form";
 import SelectedAddress from "./selected-address";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import AddressModal from "../addressModal/address-modal";
-import { useSession } from "next-auth/react";
 
-export default function ShippingInformation() {
-  const [isOpen, setIsOpen] = useState(false);
-  const session = useSession();
+export default function ShippingInformation({
+  setPaymentIsOpen,
+}: {
+  setPaymentIsOpen: Dispatch<SetStateAction<boolean>>;
+}) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   return (
     <Collapsible
       open={isOpen}
@@ -60,7 +60,10 @@ export default function ShippingInformation() {
       </div>
 
       <CollapsibleContent className="px-6 py-2">
-        <ShippingForm />
+        <ShippingForm
+          setPaymentIsOpen={setPaymentIsOpen}
+          setIsOpen={setIsOpen}
+        />
       </CollapsibleContent>
     </Collapsible>
   );

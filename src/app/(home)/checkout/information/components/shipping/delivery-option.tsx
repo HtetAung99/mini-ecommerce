@@ -71,9 +71,6 @@ export default function DeliveryOption() {
           placeholder="Ex. Please leave at the front door."
         />
       </div>
-      <Button className="w-1/3 " variant={"default"}>
-        Continue to Payment
-      </Button>
     </>
   );
 }
