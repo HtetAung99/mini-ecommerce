@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export default function SearchBar() {
   const [suggestions, setSuggestions] = useState<ProductSuggestion[]>([]);
@@ -26,19 +26,22 @@ export default function SearchBar() {
     setSuggestions(resJson.products);
   };
 
-  const searchRef = useRef<HTMLInputElement>(null);
-
   return (
     <div className="relative w-[36%]">
       <Input
         onFocus={() => setOnFocus(true)}
-        onBlur={() => setOnFocus(false)}
+        onBlur={() => {
+          setTimeout(() => setOnFocus(false), 100);
+        }}
         onChange={(e) => handleChange(e.target.value)}
         className={cn("focus:shadow-lg focus-visible:ring-offset-0")}
         placeholder="Search your items, brands ..."
       />
       {suggestions.length > 0 && onFocus && (
-        <div className="absolute top-12 z-20 w-full cursor-pointer overflow-hidden rounded-sm bg-slate-50 text-sm leading-10 shadow-lg">
+        <div
+          id="suggestion"
+          className="absolute top-12 z-20 w-full cursor-pointer overflow-hidden rounded-sm bg-slate-50 text-sm leading-10 shadow-lg"
+        >
           {suggestions.map((suggestion) => (
             <Link
               onClick={() => setSuggestions([])}

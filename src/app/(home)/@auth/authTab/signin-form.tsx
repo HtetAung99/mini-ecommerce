@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import React, { useCallback } from "react";
 import { Resolver, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -45,19 +45,17 @@ export default function SignInForm() {
   } = useForm<FormValues>({ resolver });
 
   const router: AppRouterInstance = useRouter();
-  const currentUrl: string = usePathname();
+  const callbackUrl = useSearchParams().get("callbackUrl") || "";
 
   const onSubmit = handleSubmit(async (data) => {
     signIn("credentials", {
       email: data.email,
       password: data.password,
       redirect: true,
-      callbackUrl: `${currentUrl}/..`,
+      callbackUrl: `/${callbackUrl}`,
     });
-    //     .then(() => {
-    //     onDismiss();
-    // });
   });
+
   const onDismiss = useCallback(() => {
     router.back();
   }, [router]);

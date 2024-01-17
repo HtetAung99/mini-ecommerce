@@ -86,10 +86,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const calculateSubTotal = (items: CartItem[]) => {
-    const subTotal = items.reduce(
-      (prev, cur) => prev + cur.quantity * (cur.price + cur.priceDiff),
-      0,
-    );
+    const subTotal = items.reduce((prev, cur) => {
+      console.log(cur);
+      return prev + cur.quantity * (cur.price + cur.priceDiff);
+    }, 0);
+
     setSubTotal(subTotal);
   };
 
