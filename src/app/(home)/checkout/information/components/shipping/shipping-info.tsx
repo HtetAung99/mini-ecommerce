@@ -22,7 +22,7 @@ export default function ShippingInformation({
       onOpenChange={setIsOpen}
       className="min-h-[30vh] rounded-lg bg-secondary"
     >
-      <div className={cn("w-full  ")}>
+      <div className={cn("w-full")}>
         <div className="flex  flex-row items-center justify-between rounded-t-lg bg-black p-2 text-xl font-semibold  text-white">
           <div className="flex items-center gap-5 pl-4">
             <h6 className="rounded-full bg-white p-2 text-base  leading-none text-black">
@@ -33,7 +33,7 @@ export default function ShippingInformation({
           <Button
             onClick={() => setIsOpen(!isOpen)}
             variant={"ghost"}
-            className={cn(" flex items-center gap-4 text-base ")}
+            className={cn("flex items-center gap-4 text-base ")}
           >
             <Edit size="20px" /> <p>Edit</p>
           </Button>
@@ -44,9 +44,9 @@ export default function ShippingInformation({
               <p className="w-1/3 font-semibold">Shipping Type</p>
               <p className="grow">{shippingType}</p>
             </span>
-            <span className="inline-flex w-full  py-3 text-base">
+            <span className="inline-flex w-full py-3 text-base">
               <p className="w-1/3 font-semibold">Shipping method</p>
-              <p className="grow ">
+              <p className="grow">
                 {shippingMethod} {shippingConstants[shippingMethod].duration}
               </p>
             </span>

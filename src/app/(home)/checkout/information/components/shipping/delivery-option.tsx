@@ -1,5 +1,4 @@
-import React from "react";
-import { Checkbox } from "@/components/ui/checkbox";
+import React, { useContext } from "react";
 import { Pen, Truck } from "lucide-react";
 import TermsConditions from "./terms-conditions";
 import { Input } from "@/components/ui/input";
@@ -8,8 +7,10 @@ import SelectedAddress from "./selected-address";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import AddressModal from "../addressModal/address-modal";
+import { OrderContext, shippingConstants } from "@/app/context/order-provider";
 
 export default function DeliveryOption() {
+  const { shippingMethod, setShippingMethod } = useContext(OrderContext);
   return (
     <>
       <div className="mt-4 flex w-full items-center justify-between ">
@@ -23,7 +24,8 @@ export default function DeliveryOption() {
               variant={"ghost"}
               className={cn(" flex items-center gap-4 text-base ")}
             >
-              <Pen size="20px" /> <p>Edit</p>
+              <Pen size="20px" />
+              <p>Edit</p>
             </Button>
           </DialogTrigger>
           <DialogContent
@@ -47,15 +49,27 @@ export default function DeliveryOption() {
       </div> */}
       <div className="pb-3">
         <p className="w-1/3  font-semibold">Shipping method</p>
-        <div className="my-3 rounded-md border-2 border-yellow-400 p-5">
-          <span className="flex flex-row items-center justify-between text-sm font-semibold">
-            <span className="inline-flex items-center gap-3">
-              <Truck size="20px" />
-              <p>Standard</p>
+
+        {Object.entries(shippingConstants).map(([key, value]) => (
+          <div
+            key={key}
+            onClick={() => setShippingMethod(key)}
+            className={cn(
+              "my-3 rounded-md border-2 p-5",
+              key === shippingMethod && "border-yellow-400",
+            )}
+          >
+            <span className="flex flex-row items-center justify-between text-sm font-semibold">
+              <span className="inline-flex items-center gap-3">
+                <Truck size="20px" />
+                <p className="capitalize">
+                  {key.toLowerCase()} {value.duration}
+                </p>
+              </span>
+              <p>$ {value.fee}</p>
             </span>
-            <p>Free</p>
-          </span>
-        </div>
+          </div>
+        ))}
       </div>
       <TermsConditions />
       <div className="my-5">
