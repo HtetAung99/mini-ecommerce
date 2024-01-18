@@ -5,25 +5,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { ArrowBigDownIcon } from "lucide-react";
 import React from "react";
 
 export default function TermsConditions() {
   return (
     <Collapsible className="">
-      <div className="inline-flex items-center gap-3">
-        <Checkbox />
-        <CollapsibleTrigger>
-          <label className="text-sm font-medium  hover:cursor-pointer">
-            Accept terms and conditions
-          </label>
-        </CollapsibleTrigger>
-      </div>
+      <CollapsibleTrigger>
+        <span className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-600">
+          <ArrowBigDownIcon size={18} />
+          Terms and conditions
+        </span>
+      </CollapsibleTrigger>
       <CollapsibleContent className="mt-3">
         <Card>
           <CardHeader>

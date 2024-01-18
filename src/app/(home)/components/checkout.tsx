@@ -1,17 +1,17 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Minus } from "lucide-react";
 import Link from "next/link";
 import { useCart } from "@/app/hooks/useCart";
 import CouponSection from "./coupon-section";
-import ShippingFees from "./shipping-fee";
+import { OrderContext, shippingConstants } from "@/app/context/order-provider";
 
 export default function Checkout({ next }: { next: boolean }) {
   const { subTotal } = useCart();
+  const { shippingMethod } = useContext(OrderContext);
+
   return (
     <Card
       className={cn(
@@ -29,7 +29,14 @@ export default function Checkout({ next }: { next: boolean }) {
           <p>Discount</p>
           <p className="inline-flex items-center gap-1">-$ 2500</p>
         </div>
-        <ShippingFees />
+        {!next && (
+          <div className="flex items-center justify-between px-2 py-5 text-sm font-normal">
+            <p>Shipping Fee</p>
+            <p className="inline-flex items-center gap-1">
+              $ {shippingConstants[shippingMethod].fee}
+            </p>
+          </div>
+        )}
         <div className="flex items-center justify-between px-2 py-5 text-base font-semibold">
           <p>Total</p>
           <p className="inline-flex items-center gap-2">$ 50000</p>

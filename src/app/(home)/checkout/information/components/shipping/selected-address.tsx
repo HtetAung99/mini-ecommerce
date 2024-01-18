@@ -1,14 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
-
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
 import AddressModal from "../addressModal/address-modal";
-import { Address } from "@prisma/client";
 
 export default function SelectedAddress() {
   const session = useSession();
@@ -20,11 +16,11 @@ export default function SelectedAddress() {
         <div className=" p-2 pb-4">
           <span className="inline-flex w-full p-4 text-sm ">
             <p className="w-1/3 text-muted-foreground">Receiver Name :</p>
-            <p className="grow ">{session.data?.user.name}</p>
+            <p className="grow ">{selectedAddress?.name}</p>
           </span>
           <span className="inline-flex w-full p-4 text-sm">
             <p className="w-1/3 text-muted-foreground">Address Type:</p>
-            <p className="grow ">{selectedAddress?.name}</p>
+            <p className="grow ">{selectedAddress?.type}</p>
           </span>
           <span className="inline-flex w-full p-4 text-sm">
             <p className="w-1/3 text-muted-foreground">Phone no.:</p>

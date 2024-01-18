@@ -151,14 +151,16 @@ enum AddressType {
 }
 
 model Order {
-  id          Int         @id @default(autoincrement())
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  customerId  String
-  customer    User        @relation(fields: [customerId], references: [id])
-  orderItems  OrderItem[]
-  totalAmount Float
-  status      OrderStatus @default(PENDING)
+  id             Int            @id @default(autoincrement())
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  customerId     String
+  customer       User           @relation(fields: [customerId], references: [id])
+  orderItems     OrderItem[]
+  totalAmount    Float
+  status         OrderStatus    @default(PENDING)
+  shippingType   ShippingType   @default(DELIVERY)
+  shippingMethod ShippingMethod @default(STANDARD)
 }
 
 model OrderItem {
@@ -182,4 +184,15 @@ enum Role {
   USER
   ADMIN
   SUPERADMIN
+}
+
+enum ShippingType {
+  DELIVERY
+  PICKUP
+}
+
+enum ShippingMethod {
+  STANDARD
+  NEXTDAY
+  ONEDAY
 }

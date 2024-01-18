@@ -36,7 +36,7 @@ export default function DeliveryOption() {
         </Dialog>
       </div>
       <SelectedAddress />
-      <div className="mt-2 flex items-center gap-1 space-x-2">
+      {/* <div className="mt-2 flex items-center gap-1 space-x-2">
         <Checkbox id="billing-address" />
         <label
           htmlFor="billing-address"
@@ -44,8 +44,8 @@ export default function DeliveryOption() {
         >
           Billing address is same as shipping address
         </label>
-      </div>
-      <div className="mt-2 py-3">
+      </div> */}
+      <div className="pb-3">
         <p className="w-1/3  font-semibold">Shipping method</p>
         <div className="my-3 rounded-md border-2 border-yellow-400 p-5">
           <span className="flex flex-row items-center justify-between text-sm font-semibold">

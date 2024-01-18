@@ -8,7 +8,7 @@ import { getCategories } from "../utils/categories";
 import { CategoryWithChild } from "../types";
 import CategoryMenu from "./components/category-menu";
 import { DialogContent, Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { CartProvider } from "./cart-provider";
+import { CartProvider } from "../context/cart-provider";
 import CartSpan from "./cart-span";
 import UserDropdown from "./components/user-dropdown";
 import { $Enums } from "@prisma/client";

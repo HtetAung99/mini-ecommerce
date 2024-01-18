@@ -32,7 +32,7 @@ export default function AddressLists() {
           <RemoveButton id={address.id} />
           <span className="inline-flex w-full px-4 py-2 text-sm">
             <p className="w-1/3 text-muted-foreground">Address Type:</p>
-            <p className="grow ">{address?.name}</p>
+            <p className="grow ">{address?.type}</p>
           </span>
           <span className="inline-flex w-full px-4 py-2 text-sm">
             <p className="w-1/3 text-muted-foreground">Phone no.:</p>

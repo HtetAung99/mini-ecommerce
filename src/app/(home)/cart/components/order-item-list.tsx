@@ -13,7 +13,7 @@ export default function OrderIemlist() {
   return (
     <div className="mt-5 max-h-[38vw] grow overflow-x-auto px-1 py-3">
       {items.map((item) => (
-        <OrderItem item={item} />
+        <OrderItem key={item.variantId} item={item} />
       ))}
       <Button
         onClick={() => router.back()}

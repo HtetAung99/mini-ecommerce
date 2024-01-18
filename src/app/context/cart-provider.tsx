@@ -2,7 +2,6 @@
 
 import { createContext, useState, ReactNode, useEffect } from "react";
 import { CartItem } from "../types";
-import { set } from "react-hook-form";
 
 interface CartContextProps {
   items: CartItem[];
