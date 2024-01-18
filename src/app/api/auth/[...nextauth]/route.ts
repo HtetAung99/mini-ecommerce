@@ -45,6 +45,9 @@ export const authOption: NextAuthOptions = {
                 email: user.email,
                 role: user.role,
                 addresses: user.addresses,
+                selectedAddress: user?.addresses.filter(
+                  (add: Address) => add?.default,
+                )[0],
               }
             : null;
         }
@@ -64,6 +67,14 @@ export const authOption: NextAuthOptions = {
       if (trigger === "update" && session?.selectedAddress) {
         // Note, that `session` can be any arbitrary object, remember to validate it!
         token.user.selectedAddress = session.selectedAddress;
+      }
+
+      if (
+        trigger === "update" &&
+        session?.isDeleteCall &&
+        token?.user.selectedAddress?.id === session?.id
+      ) {
+        token.user.selectedAddress = null;
       }
 
       return token;

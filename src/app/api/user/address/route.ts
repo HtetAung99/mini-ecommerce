@@ -37,3 +37,26 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: e });
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  const isLogin: boolean = await isAuthenticted();
+
+  if (!isLogin) redirect("/admin/categories/?message=authFailed");
+
+  const userId = (await getCurrentUser())?.id;
+  const { id } = await request.json();
+
+  try {
+    const deleted = await prisma.address.delete({
+      where: {
+        id,
+        userId,
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (e) {
+    console.log(e);
+    return NextResponse.json({ success: false, error: e });
+  }
+}

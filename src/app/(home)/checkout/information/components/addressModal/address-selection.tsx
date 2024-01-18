@@ -44,13 +44,13 @@ export default function AddressSelection({
         <AddressLists />
       </DialogHeader>
 
-      <DialogFooter className="border-t border-destructive  pt-3">
+      {/* <DialogFooter className="border-t border-destructive  pt-3">
         <DialogClose asChild>
           <Button variant="default" onClick={() => console.log("cancel")}>
             Use selected address
           </Button>
         </DialogClose>
-      </DialogFooter>
+      </DialogFooter> */}
     </>
   );
 }

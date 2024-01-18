@@ -1,8 +1,6 @@
 import { cache } from "react";
 import prisma from "../../../lib/prisma";
-import { Product } from "@prisma/client";
 import { ProductWithNestedData } from "../types";
-import { log } from "console";
 
 export const getProductsWithCategories = cache(
   async (): Promise<ProductWithNestedData[]> => {
@@ -17,7 +15,7 @@ export const getProductsWithCategories = cache(
     });
 
     return products;
-  }
+  },
 ); // main Page
 
 export const getProductByFilters = cache(
@@ -59,7 +57,7 @@ export const getProductByFilters = cache(
     });
 
     return [products, count];
-  }
+  },
 );
 
 const generateFilters = (price: string, categoryIds: number[]) => {
@@ -210,5 +208,5 @@ export const getProductById = cache(
     });
 
     return product;
-  }
+  },
 );
