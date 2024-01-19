@@ -1,8 +1,10 @@
 "use client";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
-import { Dispatch, SetStateAction, useState } from "react";
-import { PaymentMethod } from "./payment-method";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
+import PaymentMethod from "./payment-method";
 import { useSession } from "next-auth/react";
+import { OrderContext } from "@/app/context/order-provider";
+import StripePayment from "./stripe-payment";
 
 export default function PaymentInformation({
   isOpen,
@@ -40,7 +42,8 @@ export default function PaymentInformation({
         </div>
 
         <CollapsibleContent className="px-6 py-2">
-          <PaymentMethod />
+          {/* <PaymentMethod /> */}
+          <StripePayment />
         </CollapsibleContent>
       </Collapsible>
     </div>

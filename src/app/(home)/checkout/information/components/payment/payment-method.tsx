@@ -1,3 +1,8 @@
+"use client";
+
+import { OrderContext, shippingConstants } from "@/app/context/order-provider";
+import { useCart } from "@/app/hooks/useCart";
+import { CartItem } from "@/app/types";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,8 +23,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useContext } from "react";
 
-export function PaymentMethod() {
+export default function PaymentMethod() {
+  // const { shippingMethod } = useContext(OrderContext);
+  // const { items } = useCart();
+  // const orderItems = items.map((item: CartItem) => {
+  //   return { id: item.variantId, quantity: item.quantity };
+  // });
+  // const handleOrder = async () => {
+  //   const res = await fetch("/api/checkout/create-paymentIntent", {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       items: orderItems,
+  //       shippingFee: shippingConstants[shippingMethod].fee,
+  //       tax: 8.5,
+  //     }),
+  //   });
+  //   const { clientSecret } = await res.json();
+  // };
   return (
     <Card className="m-auto border-0 bg-[#F5F5F5]  shadow-none">
       <CardHeader>
