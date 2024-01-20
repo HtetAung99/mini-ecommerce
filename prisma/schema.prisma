@@ -142,6 +142,7 @@ model Address {
   default     Boolean     @default(false)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @default(now()) @updatedAt
+  orders      Order[]  
 }
 
 enum AddressType {
@@ -161,6 +162,9 @@ model Order {
   status         OrderStatus    @default(PENDING)
   shippingType   ShippingType   @default(DELIVERY)
   shippingMethod ShippingMethod @default(STANDARD)
+  paymentStatus  PaymentStatus  @default(PENDING)
+  addressID      Int            
+  address        Address        @relation(fields: [addressID], references: [id])
 }
 
 model OrderItem {
@@ -170,6 +174,12 @@ model OrderItem {
   quantity  Int
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   Int
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
 }
 
 enum OrderStatus {

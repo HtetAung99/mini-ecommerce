@@ -9,7 +9,7 @@ import { CartItem } from "@/app/types";
 import StripeCheckout from "./stripe-checkout";
 
 const stripePromise = loadStripe(
-  "pk_test_51Oa4wCK7zKEHuA8LoYcmP2irlxEhxh2SbFVNapADUkFiGaPngVTJgBKnxbDWvguo1JN5fdTC32Dg9ryUhXLd3gS900Jx3TkRIc",
+  process.env.NEXT_PUBLIC_STRIPE_API_CLIENT_ID as string,
 );
 
 export default function StripePayment() {

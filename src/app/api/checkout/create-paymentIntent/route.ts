@@ -3,10 +3,15 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../../lib/prisma";
+import { isAuthenticted } from "../../../../../lib/session";
+import { redirect } from "next/navigation";
 
 const stripe = require("stripe")(process.env.STRIPE_API_CLIENT_SECRET);
 
 export async function POST(request: NextRequest) {
+  const isLogin: boolean = await isAuthenticted();
+
+  if (!isLogin) redirect("/admin/categories/?message=authFailed");
   const { items, shippingFee, tax } = await request.json();
 
   const total = await calculateTotal(items, shippingFee, tax);
@@ -22,7 +27,11 @@ export async function POST(request: NextRequest) {
   //   return NextResponse.json({ clientSecret: "test" });
 }
 
-const calculateTotal = async (items: any, shippingFee: number, tax: number) => {
+export const calculateTotal = async (
+  items: any,
+  shippingFee: number,
+  tax: number,
+) => {
   const orderItems = await prisma.variant.findMany({
     where: { id: { in: items.map((item: any) => item.id) } },
     include: { product: true },
@@ -35,7 +44,9 @@ const calculateTotal = async (items: any, shippingFee: number, tax: number) => {
         items.find((item: any) => item.id === cur.id).quantity
     );
   }, 0);
+
   total += shippingFee;
   total *= 1 + tax / 100;
+
   return Math.round(total * 100);
 };

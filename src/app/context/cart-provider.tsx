@@ -11,6 +11,7 @@ interface CartContextProps {
   setItemQuantity: (id: number, qty: number) => void;
   removeItem: (id: number) => void;
   reduceItemQuantity: (id: number) => void;
+  clearCart: () => void;
 }
 
 export const CartContext = createContext<CartContextProps>({
@@ -21,11 +22,17 @@ export const CartContext = createContext<CartContextProps>({
   setItemQuantity: () => {},
   removeItem: () => {},
   reduceItemQuantity: () => {},
+  clearCart: () => {},
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [subTotal, setSubTotal] = useState<number>(0);
+
+  const clearCart = () => {
+    setItems([]);
+    localStorage.removeItem("cartItems");
+  };
 
   const addItem = (i: CartItem) => {
     if (items.some((item) => item.variantId === i.variantId)) {
@@ -113,6 +120,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         setItemQuantity,
         removeItem,
         reduceItemQuantity,
+        clearCart,
       }}
     >
       {children}
