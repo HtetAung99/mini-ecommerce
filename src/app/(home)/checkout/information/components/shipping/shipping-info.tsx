@@ -20,7 +20,7 @@ export default function ShippingInformation({
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="min-h-[30vh] rounded-lg bg-secondary"
+      className="mt-5 min-h-[30vh] rounded-lg bg-secondary"
     >
       <div className={cn("w-full")}>
         <div className="flex  flex-row items-center justify-between rounded-t-lg bg-black p-2 text-xl font-semibold  text-white">

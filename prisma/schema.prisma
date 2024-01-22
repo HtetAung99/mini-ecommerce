@@ -23,7 +23,6 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -64,6 +63,7 @@ model Product {
   category    Category  @relation(fields: [categoryId], references: [id])
   variants    Variant[]
   price       Float
+  orderCount  Int       @default(0)
 }
 
 model Category {
@@ -152,7 +152,7 @@ enum AddressType {
 }
 
 model Order {
-  id             Int            @id @default(autoincrement())
+  id             String         @id @default(uuid())
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   customerId     String
@@ -173,7 +173,7 @@ model OrderItem {
   variant   Variant @relation(fields: [variantId], references: [id])
   quantity  Int
   order     Order   @relation(fields: [orderId], references: [id])
-  orderId   Int
+  orderId   String
 }
 
 enum PaymentStatus {

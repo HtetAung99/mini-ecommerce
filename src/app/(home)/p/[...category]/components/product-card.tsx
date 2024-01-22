@@ -18,18 +18,19 @@ import {
 import { ProductWithNestedData } from "@/app/types";
 import clsx from "clsx";
 import Link from "next/link";
+import { Product } from "@prisma/client";
 
 export default function ProductCard({
   product,
   flex,
 }: {
-  product: ProductWithNestedData;
+  product: Product;
   flex: boolean;
 }) {
   return (
     <Card
       key={product.id}
-      className={clsx("col-span-1 h-[400px]", flex && "min-w-[25%]")}
+      className={clsx("col-span-1 h-[400px] shadow-sm", flex && "min-w-[20%]")}
     >
       <CardHeader className="h-[55%] w-full p-4">
         <Avatar className="h-full w-full rounded-sm hover:scale-105">

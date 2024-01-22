@@ -10,7 +10,7 @@ export default function InformationColumn() {
 
   return (
     <div className="flex w-full flex-col  gap-7">
-      <CheckoutStage stage={[true, false]} />
+      {/* <CheckoutStage stage={[true, false]} /> */}
       <ShippingInformation setPaymentIsOpen={setPaymentIsOpen} />
       <PaymentInformation isOpen={paymentIsOpen} setIsOpen={setPaymentIsOpen} />
     </div>

@@ -35,7 +35,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       message: "order create success",
       orderId: newOrder.id,
-    }); // stocking
+    });
+    // increase product->orderCount
+    // stocking
   } catch (error) {
     console.log("order create error", error);
     return NextResponse.json({ message: "order create failed" });

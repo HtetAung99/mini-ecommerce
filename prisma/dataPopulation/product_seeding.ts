@@ -19,6 +19,7 @@ const productData = [
     description:
       "The Galaxy S22 offers cutting-edge features and a stunning display. With a powerful Exynos processor and versatile camera system, it's a flagship smartphone for tech enthusiasts.",
     variants: defaultVariantData,
+    orderCount: 3,
   },
   {
     title: "Men's Casual Shirt",
@@ -26,6 +27,7 @@ const productData = [
     price: 29.99,
     categoryId: 8,
     variants: defaultVariantData,
+    orderCount: 2,
   },
   {
     title: "ASUS ROG Zephyrus G14",
@@ -34,6 +36,7 @@ const productData = [
     description:
       "The ASUS ROG Zephyrus G14 is a gaming laptop that combines performance and portability. With a powerful Ryzen processor and dedicated NVIDIA graphics, it delivers impressive gaming experiences in a compact form factor.",
     variants: defaultVariantData,
+    orderCount: 5,
   },
   {
     title: "Dell XPS 17",
@@ -42,6 +45,7 @@ const productData = [
     price: 1799.99,
     categoryId: 5,
     variants: defaultVariantData,
+    orderCount: 4,
   },
   {
     title: "Apple iPhone 13",
@@ -50,6 +54,7 @@ const productData = [
     description:
       "The iPhone 13 offers advanced features and a powerful A15 Bionic chip. With a stunning Super Retina XDR display and improved camera capabilities, it is a flagship smartphone that meets the demands of modern users.",
     variants: defaultVariantData,
+    orderCount: 18,
   },
   // Additional products
   {
@@ -59,6 +64,7 @@ const productData = [
     description:
       "Experience cinematic visuals with the Sony Bravia 4K Smart TV. Enjoy vibrant colors and smart features for an immersive entertainment experience.",
     variants: defaultVariantData,
+    orderCount: 1,
   },
   {
     title: "Women's Running Shoes",
@@ -67,6 +73,7 @@ const productData = [
     price: 79.99,
     categoryId: 9,
     variants: defaultVariantData,
+    orderCount: 6,
   },
   {
     title: "Lenovo Legion Y540 Gaming Desktop",
@@ -75,6 +82,7 @@ const productData = [
     description:
       "Immerse yourself in gaming with the Lenovo Legion Y540 Gaming Desktop. Packed with powerful hardware, it delivers a smooth gaming experience.",
     variants: defaultVariantData,
+    orderCount: 3,
   },
   {
     title: "Modern Coffee Table",
@@ -83,6 +91,7 @@ const productData = [
     price: 249.99,
     categoryId: 22,
     variants: defaultVariantData,
+    orderCount: 23,
   },
   {
     title: "Canon EOS R5 Mirrorless Camera",
@@ -91,6 +100,7 @@ const productData = [
     description:
       "Capture stunning images and videos with the Canon EOS R5 Mirrorless Camera. It features a high-resolution sensor and advanced autofocus technology.",
     variants: defaultVariantData,
+    orderCount: 9,
   },
   {
     price: 49.99,
@@ -99,6 +109,7 @@ const productData = [
     description:
       "Enjoy the freedom of wireless audio with these high-quality earbuds. They provide clear sound and a comfortable fit for all-day use.",
     variants: defaultVariantData,
+    orderCount: 33,
   },
   {
     title: "Smart Thermostat",
@@ -107,6 +118,7 @@ const productData = [
     price: 129.99,
     categoryId: 1,
     variants: defaultVariantData,
+    orderCount: 7,
   },
   {
     title: "Outdoor Camping Tent",
@@ -115,7 +127,9 @@ const productData = [
     price: 179.99,
     categoryId: 15,
     variants: defaultVariantData,
+    orderCount: 2,
   },
+
   {
     title: "LG UltraWide Gaming Monitor",
     price: 899.99,
@@ -123,6 +137,7 @@ const productData = [
     description:
       "Elevate your gaming setup with the LG UltraWide Gaming Monitor. Its immersive display and high refresh rate provide a competitive edge.",
     variants: defaultVariantData,
+    orderCount: 25,
   },
   {
     title: "Leather Office Chair",
@@ -131,6 +146,7 @@ const productData = [
     price: 249.99,
     categoryId: 21,
     variants: defaultVariantData,
+    orderCount: 12,
   },
   {
     title: "Fitness Tracker",
@@ -139,6 +155,7 @@ const productData = [
     price: 79.99,
     categoryId: 10,
     variants: defaultVariantData,
+    orderCount: 14,
   },
   {
     title: "Portable Bluetooth Speaker",
@@ -147,6 +164,7 @@ const productData = [
     price: 59.99,
     categoryId: 10,
     variants: defaultVariantData,
+    orderCount: 98,
   },
   {
     title: "Ultra-Thin Laptop Sleeve",
@@ -155,6 +173,7 @@ const productData = [
     price: 29.99,
     categoryId: 5,
     variants: defaultVariantData,
+    orderCount: 33,
   },
   {
     title: "Smart Home Security Camera",
@@ -171,6 +190,7 @@ const productData = [
     price: 129.99,
     categoryId: 10,
     variants: defaultVariantData,
+    orderCount: 12,
   },
   {
     title: "Yoga Mat",
@@ -179,6 +199,7 @@ const productData = [
     price: 34.99,
     categoryId: 9,
     variants: defaultVariantData,
+    orderCount: 11,
   },
   {
     title: "Wireless Charging Pad",
@@ -187,6 +208,7 @@ const productData = [
     price: 19.99,
     categoryId: 1,
     variants: defaultVariantData,
+    orderCount: 3,
   },
   {
     title: "Backpack with USB Charging Port",
@@ -195,6 +217,7 @@ const productData = [
     price: 49.99,
     categoryId: 1,
     variants: defaultVariantData,
+    orderCount: 19,
   },
   {
     title: "Powerful Blender",
@@ -203,6 +226,7 @@ const productData = [
     price: 89.99,
     categoryId: 1,
     variants: defaultVariantData,
+    orderCount: 13,
   },
   {
     title: "Digital Drawing Tablet",
@@ -211,6 +235,7 @@ const productData = [
     description:
       "Unleash your creativity with this digital drawing tablet. Pressure-sensitive stylus and customizable controls for precise digital art.",
     variants: defaultVariantData,
+    orderCount: 11,
   },
   {
     title: "Portable External Hard Drive",
@@ -219,6 +244,7 @@ const productData = [
     price: 129.99,
     categoryId: 1,
     variants: defaultVariantData,
+    orderCount: 113,
   },
   {
     title: "Stylish Sunglasses",
@@ -227,6 +253,7 @@ const productData = [
     price: 39.99,
     categoryId: 10,
     variants: defaultVariantData,
+    orderCount: 38,
   },
 ];
 
@@ -237,6 +264,6 @@ export const seedProducts = async () => {
     const product = await prisma.product.create({
       data: p,
     });
-    console.log(`Created category with id: ${product.id}`);
+    console.log(`Created product with id: ${product.id}`);
   }
 };
