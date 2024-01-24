@@ -1,7 +1,4 @@
-import Link from "next/link";
 import React from "react";
-import { Progress } from "@/components/ui/progress";
-import Image from "next/image";
 import OrderCardHeader from "./order_card_header";
 import OrderCardBody from "./order_card_body";
 

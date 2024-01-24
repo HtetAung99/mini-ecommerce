@@ -7,10 +7,10 @@ export default function OrderCardHeader() {
       <span className="flex-1 leading-8 tracking-wider">
         <strong>Online Order : </strong>BBY01-806830591220
       </span>
-      <span className="basis-1/4 tracking-wide ">Nov 27, 2022</span>
+      <span className="basis-1/5 tracking-wide ">Nov 27, 2022</span>
       <Link
         className="basis-1/3 text-end font-medium tracking-wide text-accent-foreground"
-        href={"#"}
+        href={"/order/BBY01-806830591220"}
       >
         See Details &gt;
       </Link>

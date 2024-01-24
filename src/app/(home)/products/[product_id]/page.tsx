@@ -9,7 +9,6 @@ export default async function ProductDetailPage({
   params,
 }: {
   params: { product_id: Number };
-  children: ReactNode;
 }) {
   const product: ProductWithNestedData | null = await getProductById(
     Number(params.product_id),
