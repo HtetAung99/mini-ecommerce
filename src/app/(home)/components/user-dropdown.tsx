@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User } from "lucide-react";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 
 export default function UserDropdown({ user }: { user: any }) {
@@ -27,7 +28,9 @@ export default function UserDropdown({ user }: { user: any }) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Orders</DropdownMenuItem>
+          <Link href={"/order"}>
+            <DropdownMenuItem>Order</DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
