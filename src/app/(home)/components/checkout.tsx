@@ -43,7 +43,7 @@ export default function Checkout({ next }: { next: boolean }) {
         )}
         <div className="flex items-center justify-between px-2 pt-5 text-sm font-normal">
           <p>Tax</p>
-          <p className="inline-flex items-center gap-1">{tax.toFixed(2)}</p>
+          <p className="inline-flex items-center gap-1">$ {tax.toFixed(2)}</p>
         </div>
         <Separator className="my-5" />
         <div className="flex items-center justify-between px-2 pb-4 text-base font-semibold">
