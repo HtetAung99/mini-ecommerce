@@ -50,6 +50,9 @@ model Variant {
   priceDiff             Float
   variantAvailabilities VariantAvailability[]
   orderItems            OrderItem[]
+  promotionId           Int?
+  promotion             Promotion?            @relation(fields: [promotionId], references: [id])
+
 }
 
 model Product {
@@ -174,6 +177,23 @@ model OrderItem {
   quantity  Int
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   String
+}
+
+model Promotion {
+  id          Int         @id @default(autoincrement())
+  name        String      
+  description String?
+  discount    Float
+  discountType DiscountType
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean     @default(true)
+  variants    Variant[]   
+}
+
+enum DiscountType {
+  FLAT_PRICE
+  PERCENTAGE
 }
 
 enum PaymentStatus {

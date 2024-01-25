@@ -4,8 +4,10 @@ import OrderCard from "./components/order_card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import OrderSearch from "./components/order_search_bar";
+import { getOrders } from "@/app/utils/orders";
 
-export default function OrderPage() {
+export default async function OrderPage() {
+  const orders = await getOrders();
   return (
     <>
       <span className="flex items-center justify-between">
@@ -23,9 +25,9 @@ export default function OrderPage() {
       <OrderSearch />
       <OrderFilter />
       <div className="my-4 flex h-full w-full flex-col gap-4 overflow-auto">
-        <OrderCard />
-        <OrderCard />
-        <OrderCard />
+        {orders.map((order) => (
+          <OrderCard key={order.id} order={order} />
+        ))}
       </div>
     </>
   );

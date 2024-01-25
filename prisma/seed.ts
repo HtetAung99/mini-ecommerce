@@ -8,6 +8,7 @@ import { seedVariantAvailabilities } from "./dataPopulation/variantAvailability_
 import { seedCategories } from "./dataPopulation/category_seeding";
 import { seedOrders } from "./dataPopulation/order_seeding";
 import { seedAddresses } from "./dataPopulation/address_seeding";
+import { seedPromotion } from "./dataPopulation/promotion_seeding";
 
 const prisma = new PrismaClient();
 
@@ -22,6 +23,7 @@ async function main() {
   await seedVariantAvailabilities();
   await seedOrders();
   await seedAddresses();
+  await seedPromotion();
 
   console.log(`Seeding finished.`);
 }

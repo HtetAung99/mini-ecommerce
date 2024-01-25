@@ -1,10 +1,17 @@
+import { AttributeValue } from "@prisma/client";
 import React from "react";
+import prisma from "../../../../../../lib/prisma";
 
-export default function OrderDetailItem() {
+export default async function OrderDetailItem({ item }: { item: any }) {
+  const category = await prisma.category.findUnique({
+    where: { id: item.product.categoryId },
+  });
+  const price = item.product.price + item.priceDiff;
   return (
     <div className="border border-slate-300 p-2">
-      <h3 className="p-2 text-lg tracking-wide">
-        Apple - AirPods Max - Sky Blue
+      <h3 className="p-3 text-lg capitalize tracking-wide">
+        {category?.name} - {item.product.title} -{" "}
+        {item.attributeValues.map((att: AttributeValue) => att.name).join(" ")}
       </h3>
       <div className="flex flex-row justify-between gap-4">
         <div className="flex gap-10">
@@ -14,28 +21,32 @@ export default function OrderDetailItem() {
             alt="airpods max"
           />
           <div className="flex flex-col gap-2 py-2">
-            <span className="flex w-48 gap-2  text-sm tracking-wide">
+            <span className="flex w-56 gap-2  text-sm tracking-wide">
               <p className="w-1/2 font-semibold  ">Item Id:</p>
-              <p>MGYL3AM/A</p>
+              <p>{item.id}</p>
             </span>
-            <span className="flex w-48 gap-2 text-sm tracking-wide">
+            <span className="flex w-56 gap-2 text-sm tracking-wide">
               <p className="w-1/2 font-semibold ">Variant:</p>
-              <p>Sky Blue</p>
+              <p className="capitalize">
+                {item.attributeValues
+                  .map((att: AttributeValue) => att.name)
+                  .join(" ")}
+              </p>
             </span>
-            <span className="flex w-48 gap-2 text-sm tracking-wide">
+            <span className="flex w-56 gap-2 text-sm tracking-wide">
               <p className="w-1/2 font-semibold ">Quantity:</p>
-              <p>3</p>
+              <p>{item.quantity}</p>
             </span>
           </div>
         </div>
         <div className="flex basis-1/5 flex-col gap-2 py-2">
           <span className="flex text-sm tracking-wide">
             <p className="w-1/2 font-semibold">Item Price:</p>
-            <p>$ 400</p>
+            <p>$ {price}</p>
           </span>
           <span className="flex text-sm tracking-wide">
             <p className="w-1/2 font-semibold ">Item Total:</p>
-            <p>$ 1200</p>
+            <p>$ {price * item.quantity}</p>
           </span>
         </div>
       </div>

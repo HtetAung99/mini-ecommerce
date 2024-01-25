@@ -1,10 +1,10 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bookmark, DollarSign, Percent } from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -15,18 +15,29 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { ProductWithNestedData } from "@/app/types";
 import clsx from "clsx";
 import Link from "next/link";
-import { Product } from "@prisma/client";
+import { Product, Promotion } from "@prisma/client";
+import { useEffect, useState } from "react";
 
 export default function ProductCard({
   product,
   flex,
+  promotionId,
 }: {
   product: Product;
   flex: boolean;
+  promotionId?: number | null;
 }) {
+  const [promotion, setPromotion] = useState<Promotion | null>();
+  useEffect(() => {
+    if (promotionId) {
+      fetch("/api/promotions/?promotionId=" + promotionId).then(async (res) => {
+        setPromotion(await res.json());
+      });
+    }
+  });
+
   return (
     <Card
       key={product.id}
@@ -37,13 +48,22 @@ export default function ProductCard({
           <AvatarImage src="https://images.unsplash.com/photo-1577210897949-1f56f943bf82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=560&h=540&q=80&crop=bottom" />
 
           <Bookmark className="absolute right-2 top-2 rounded-sm bg-white p-1 text-red-600" />
-          <Badge
-            className="absolute bottom-2 left-2 items-center"
-            variant={"destructive"}
-          >
-            {50}
-            <Percent size={"14px"} />
-          </Badge>
+          {promotionId && (
+            <Badge
+              className="absolute bottom-2 left-2 items-center"
+              variant={"destructive"}
+            >
+              {promotion?.discountType === "PERCENTAGE" ? (
+                <>
+                  {promotion.discount} <Percent size={"14px"} />
+                </>
+              ) : (
+                <>
+                  <DollarSign size={"14px"} /> {promotion?.discount}
+                </>
+              )}
+            </Badge>
+          )}
           <AvatarFallback>{product.title}</AvatarFallback>
         </Avatar>
       </CardHeader>

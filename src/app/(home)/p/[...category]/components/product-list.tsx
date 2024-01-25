@@ -15,9 +15,17 @@ export default function ProductList({
       <Pagination count={count} />
       <ScrollArea className="col-span-3 overflow-y-auto pl-4">
         <div className="grid grid-cols-3 gap-x-7 gap-y-7 p-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} flex={false} product={product} />
-          ))}
+          {products.map((product) => {
+            const promotion = product.variants.filter((v) => v.promotionId)[0];
+            return (
+              <ProductCard
+                key={product.id}
+                flex={false}
+                product={product}
+                promotionId={product.variants[0].promotionId}
+              />
+            );
+          })}
         </div>
       </ScrollArea>
     </div>

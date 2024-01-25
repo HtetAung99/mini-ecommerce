@@ -3,14 +3,27 @@ import Link from "next/link";
 import React from "react";
 import OrderDetailHeader from "./components/order_detail_header";
 import OrderDetailBody from "./components/order_detail_body";
+import { getOrderById } from "@/app/utils/orders";
+import prisma from "../../../../../lib/prisma";
 
-export default function OrderDetailPage({
+export default async function OrderDetailPage({
   params,
 }: {
-  params: { order_id: String };
+  params: { order_id: string };
 }) {
   const order_id = params.order_id;
 
+  const order = await getOrderById(order_id);
+  const items = await Promise.all(
+    order!.orderItems.map(async (item) => {
+      const temp = await prisma.variant.findUnique({
+        where: { id: item.variantId },
+        include: { product: true, attributeValues: true },
+      });
+
+      return { ...temp, quantity: item.quantity };
+    }),
+  );
   return (
     <div>
       <span className="flex items-center justify-between border-b border-slate-300 pb-3">
@@ -25,8 +38,12 @@ export default function OrderDetailPage({
           See all orders
         </Link>
       </span>
-      <OrderDetailHeader />
-      <OrderDetailBody />
+      {/* {order && (
+        <> */}
+      <OrderDetailHeader order={order!} />
+      <OrderDetailBody order={order!} items={items} />
+      {/* </>
+      )} */}
     </div>
   );
 }

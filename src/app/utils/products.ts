@@ -1,7 +1,7 @@
 import { cache } from "react";
 import prisma from "../../../lib/prisma";
-import { ProductWithNestedData } from "../types";
-import { Product } from "@prisma/client";
+import { ProductWithNestedData, ProductWithPromotion } from "../types";
+import { Product, Variant } from "@prisma/client";
 
 export const getProductsWithCategories = cache(
   async (): Promise<ProductWithNestedData[]> => {
@@ -228,3 +228,23 @@ export const getNewArrivals = cache(async (): Promise<Product[]> => {
   });
   return products;
 });
+
+export const getPromotions = cache(
+  async (): Promise<ProductWithPromotion[]> => {
+    const promotions = await prisma.promotion.findMany({
+      include: { variants: { include: { product: true } } },
+      where: { isActive: true },
+    });
+    let products: ProductWithPromotion[] = [];
+    promotions.forEach((promotion) => {
+      const tmp: ProductWithPromotion[] = [
+        ...promotion.variants.map((variant) => {
+          return { ...variant.product, promotion };
+        }),
+      ];
+      products.push(...tmp);
+    });
+    // it should be set
+    return products;
+  },
+);

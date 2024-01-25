@@ -1,4 +1,11 @@
-import type { Attribute, Category, Product, Variant } from "@prisma/client";
+import type {
+  Attribute,
+  Category,
+  OrderItem,
+  Product,
+  Variant,
+  Order,
+} from "@prisma/client";
 
 export interface CategoryWithChild extends Category {
   children: Category[];
@@ -15,6 +22,14 @@ export interface ProductWithNestedData extends Product {
 
 export interface VariantWithAttributeValues extends Variant {
   attributeValues: AttributeValueWithAttribute[];
+}
+
+export interface ProductWithPromotion extends Product {
+  promotion: Promotion;
+}
+
+export interface OrderWithItems extends Order {
+  orderItems: OrderItem[];
 }
 
 export interface VariantWithProductAndAttributeValues
