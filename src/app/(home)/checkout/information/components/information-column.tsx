@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import ShippingInformation from "./shipping/shipping-info";
 import PaymentInformation from "./payment/payment-info";
-import CheckoutStage from "./checkout-stage";
 
 export default function InformationColumn() {
   const [paymentIsOpen, setPaymentIsOpen] = useState<boolean>(false);

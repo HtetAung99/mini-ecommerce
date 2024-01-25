@@ -6,6 +6,7 @@ import OrderAddress from "./order_address";
 
 import { OrderWithItems } from "@/app/types";
 import { Headphones } from "lucide-react";
+import { OrderStatus } from "@prisma/client";
 
 export default async function OrderCardBody({
   order,
@@ -14,6 +15,21 @@ export default async function OrderCardBody({
   order: OrderWithItems;
   item: any;
 }) {
+  const calculateProgress = (status: OrderStatus) => {
+    switch (status) {
+      case OrderStatus.PENDING:
+        return 10;
+      case OrderStatus.PROCESSING:
+        return 40;
+      case OrderStatus.SHIPPED:
+        return 80;
+      case OrderStatus.DELIVERED:
+        return 100;
+
+      default:
+        return 0;
+    }
+  };
   return (
     <div className="flex overflow-hidden rounded-sm border-t">
       <div className="mr-2 flex flex-1 items-start  gap-2 px-2 py-4 text-sm font-light tracking-tight">
@@ -43,7 +59,10 @@ export default async function OrderCardBody({
           <span className="capitalize">{order.status.toLowerCase()}</span>
           <span> on {new Date(order.updatedAt).toDateString()}</span>
         </h4>
-        <Progress className="my-4 h-2 w-[80%] bg-slate-300" value={67} />
+        <Progress
+          className="my-4 h-2 w-[80%] bg-slate-300"
+          value={calculateProgress(order.status)}
+        />
         <Button className="flex flex-row items-center gap-3 px-8 py-2">
           <Headphones size={18} className="font-semibold" />
           Support Options

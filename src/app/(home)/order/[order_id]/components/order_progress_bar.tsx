@@ -21,7 +21,7 @@ export default function OrderProgressBar({ stage }: { stage: OrderStatus }) {
 
   return (
     <div className=" flex justify-center gap-32 text-xs text-slate-400">
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex w-12 flex-col items-center gap-2">
         <div
           className={cn(
             " relative h-5 w-5 rounded-full  bg-slate-200",
@@ -37,7 +37,7 @@ export default function OrderProgressBar({ stage }: { stage: OrderStatus }) {
         </div>
         <span className="tracking-wide">Processing</span>
       </div>
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex w-12  flex-col items-center gap-2">
         <div
           className={cn(
             "relative h-5 w-5 rounded-full bg-slate-200",
@@ -46,7 +46,7 @@ export default function OrderProgressBar({ stage }: { stage: OrderStatus }) {
         ></div>
         <span>Shipped</span>
       </div>
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex w-12  flex-col items-center gap-2">
         <div
           className={cn(
             "relative h-5 w-5 rounded-full bg-slate-200",

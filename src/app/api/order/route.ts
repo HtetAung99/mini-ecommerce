@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { calculateTotal } from "../checkout/create-paymentIntent/route";
+import { calculateTotal } from "../checkout/route";
 import prisma from "../../../../lib/prisma";
 import { getCurrentUser } from "../../../../lib/session";
 import { redirect } from "next/navigation";
-import { connect } from "http2";
 
 export async function POST(request: NextRequest) {
   const user = await getCurrentUser();
@@ -30,13 +29,26 @@ export async function POST(request: NextRequest) {
         shippingMethod: shippingMethod,
         shippingType: shippingType,
       },
+      include: { orderItems: { include: { variant: true } } },
+    });
+    // increase product->orderCount
+
+    newOrder.orderItems.forEach(async (item: any) => {
+      await prisma.product.update({
+        where: { id: item.variant.productId },
+        data: {
+          orderCount: {
+            increment: item.quantity,
+          },
+        },
+      });
     });
 
     return NextResponse.json({
       message: "order create success",
       orderId: newOrder.id,
     });
-    // increase product->orderCount
+
     // stocking
   } catch (error) {
     console.log("order create error", error);
@@ -44,12 +56,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function UPDATE(request: NextRequest) {
-  const { orderId, paymentStatus } = await request.json();
+export async function PUT(request: NextRequest) {
+  const { orderId, paymentStatus, orderStatus } = await request.json();
+  console.log(orderId, paymentStatus, orderStatus);
+
   const res = await prisma.order.update({
     where: { id: orderId },
     data: {
       paymentStatus: paymentStatus,
+      status: orderStatus,
     },
   });
   return NextResponse.json({ message: "order update success" });

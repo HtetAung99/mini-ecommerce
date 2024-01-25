@@ -10,7 +10,7 @@ import { OrderContext, shippingConstants } from "@/app/context/order-provider";
 import { Separator } from "@/components/ui/separator";
 
 export default function Checkout({ next }: { next: boolean }) {
-  const { subTotal } = useCart();
+  const { subTotal, items } = useCart();
   const { shippingMethod } = useContext(OrderContext);
   const taxRate = 8.5;
   const beforeTax = subTotal + shippingConstants[shippingMethod].fee;
@@ -52,12 +52,17 @@ export default function Checkout({ next }: { next: boolean }) {
         </div>
         {next && (
           <Button
-            asChild
-            className={cn("mt-2 w-full")}
+            className={cn("mt-2 w-full ")}
             variant={"default"}
             type="submit"
+            disabled={items.length === 0}
+            asChild
           >
-            <Link href={"/checkout/information"}>Proceed to checkout</Link>
+            {
+              <Link href={items.length === 0 ? "#" : "/checkout/information"}>
+                Proceed to checkout
+              </Link>
+            }
           </Button>
         )}
       </CardContent>

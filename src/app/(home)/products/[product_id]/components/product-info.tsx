@@ -80,7 +80,6 @@ export default function ProductInfo({
         }
       });
     });
-    console.log(variants);
 
     addItem({
       variantId: variants[0].id,

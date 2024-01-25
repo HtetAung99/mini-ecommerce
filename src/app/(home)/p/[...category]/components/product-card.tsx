@@ -36,7 +36,7 @@ export default function ProductCard({
         setPromotion(await res.json());
       });
     }
-  });
+  }, []);
 
   return (
     <Card

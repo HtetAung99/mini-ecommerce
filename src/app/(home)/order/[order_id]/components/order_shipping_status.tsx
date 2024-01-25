@@ -3,11 +3,12 @@ import OrderAddress from "../../components/order_address";
 import OrderProgressBar from "./order_progress_bar";
 
 import { OrderWithItems } from "@/app/types";
+import { Order } from "@prisma/client";
 
 export default function OrderShippingStatus({
   order,
 }: {
-  order: OrderWithItems;
+  order: OrderWithItems | Order;
 }) {
   return (
     <div className="">

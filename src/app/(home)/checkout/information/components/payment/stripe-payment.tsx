@@ -21,7 +21,7 @@ export default function StripePayment() {
   });
 
   const createPaymentIntent = async () => {
-    const res = await fetch("/api/checkout/create-paymentIntent", {
+    const res = await fetch("/api/checkout", {
       method: "POST",
       body: JSON.stringify({
         items: orderItems,

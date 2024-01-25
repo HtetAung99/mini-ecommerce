@@ -31,7 +31,10 @@ export default function ShippingInformation({
             Shipping
           </div>
           <Button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => {
+              setIsOpen(!isOpen);
+              setPaymentIsOpen(false);
+            }}
             variant={"ghost"}
             className={cn("flex items-center gap-4 text-base ")}
           >

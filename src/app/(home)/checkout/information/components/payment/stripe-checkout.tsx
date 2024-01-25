@@ -2,7 +2,7 @@ import { OrderContext, shippingConstants } from "@/app/context/order-provider";
 import { useCart } from "@/app/hooks/useCart";
 import { CartItem } from "@/app/types";
 import { Button } from "@/components/ui/button";
-import { PaymentStatus, ShippingMethod } from "@prisma/client";
+import { OrderStatus, PaymentStatus, ShippingMethod } from "@prisma/client";
 import {
   PaymentElement,
   useElements,
@@ -86,19 +86,23 @@ export default function StripeCheckout() {
       });
       // handle the result from `stripe.confirmPayment`
       if (error) {
+        console.log("Payment failed!");
+
         const res = await fetch("/api/order/", {
-          method: "UPDATE",
+          method: "PUT",
           body: JSON.stringify({
             orderId,
             paymentStatus: PaymentStatus.FAILED,
+            orderStatus: OrderStatus.CANCELED,
           }),
         });
       } else {
         const res = await fetch("/api/order/", {
-          method: "UPDATE",
+          method: "PUT",
           body: JSON.stringify({
             orderId,
             paymentStatus: PaymentStatus.SUCCESS,
+            OrderStatus: OrderStatus.PROCESSING,
           }),
         });
       }
