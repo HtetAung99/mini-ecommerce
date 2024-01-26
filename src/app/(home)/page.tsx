@@ -15,14 +15,14 @@ export default async function Home({}) {
   const products = await getPromotions();
 
   return (
-    <div className="m-auto flex max-h-fit flex-col items-center justify-between gap-4  py-2">
+    <div className="m-auto flex flex-col items-center justify-between gap-4  py-2">
       {/* <h1 className="text-4xl font-bold">Products</h1>
       <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row">
         {products.map((product) => (
           <ProductCard key={product.id} flex={true} product={product} />
         ))}
       </div> */}
-      <div className="self-start ">
+      <div className="self-start">
         <h3 className="my-3">Best Sellers</h3>
         <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row ">
           {bestSellers.map((product) => (
@@ -31,7 +31,7 @@ export default async function Home({}) {
         </div>
       </div>
       <div className="self-start">
-        <h3>Promotions</h3>
+        <h3 className="my-3">Promotions</h3>
         <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row ">
           {products.map((product) => (
             <ProductCard

@@ -4,7 +4,11 @@ import prisma from "../../../lib/prisma";
 
 export const getOrders = async () => {
   const user = await getCurrentUser();
+  console.log("inside getOrders:", user);
   const userId = user?.id;
+  if (!userId) {
+    return [];
+  }
   const orders = await prisma.order.findMany({
     where: { customerId: userId },
     include: { orderItems: true },
@@ -15,6 +19,9 @@ export const getOrders = async () => {
 export const getOrderById = async (id: string) => {
   const user = await getCurrentUser();
   const userId = user?.id;
+  if (!userId) {
+    throw new Error("You are not authorized!");
+  }
   const order = await prisma.order.findUnique({
     where: { id, customerId: userId },
     include: { orderItems: true },

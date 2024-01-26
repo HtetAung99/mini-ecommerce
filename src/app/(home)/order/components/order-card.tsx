@@ -1,6 +1,6 @@
 import React from "react";
-import OrderCardHeader from "./order_card_header";
-import OrderCardBody from "./order_card_body";
+import OrderCardHeader from "./order-card-header";
+import OrderCardBody from "./order-card-body";
 import { OrderWithItems } from "@/app/types";
 import prisma from "../../../../../lib/prisma";
 import { Product, Variant } from "@prisma/client";

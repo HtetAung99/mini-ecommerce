@@ -1,5 +1,5 @@
 import React from "react";
-import OrderDetailAmount from "./order_detail_amount";
+import OrderDetailAmount from "./order-detail-amount";
 import Link from "next/link";
 import { LucideReceipt } from "lucide-react";
 import { OrderWithItems } from "@/app/types";

@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback } from "react";
 import { Resolver, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -56,11 +56,18 @@ export default function SignInForm() {
     });
   });
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onSubmit(event);
+    }
+  };
+
   const onDismiss = useCallback(() => {
     router.back();
   }, [router]);
   return (
-    <form onSubmit={onSubmit}>
+    <form onKeyDown={handleKeyDown} onSubmit={onSubmit}>
       <Card className="">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Sign In to an account</CardTitle>
@@ -134,74 +141,6 @@ export default function SignInForm() {
           </Button>
         </CardFooter>
       </Card>
-
-      {/* <form
-        onSubmit={onSubmit}
-        className="bg-white px-8 pb-4 pt-7 flex flex-col gap-4">
-        <h1 className="text-2xl font-semibold">Register</h1>
-        <div className="flex gap-2 flex-col">
-          <div className="flex w-full flex-col items-start gap-2">
-            <label className="text-right text-sm" htmlFor="name">
-              Name:
-            </label>
-            <input
-              className="w-full bg-slate-300 p-2 rounded-md"
-              type="text"
-              name="name"
-              id="name"
-            />
-
-            {errors?.name && (
-              <p className="text-sm text-red-600 pl-1 italic">
-                {errors.name.message}
-              </p>
-            )}
-          </div>
-          <div className="flex w-full flex-col items-start gap-2">
-            <label className="text-right text-sm" htmlFor="name">
-              Email:
-            </label>
-            <input
-              className="w-full bg-slate-300 p-2 rounded-md"
-              type="text"
-              name="email"
-              id="email"
-            />
-
-            {errors?.email && (
-              <p className="text-sm text-red-600 pl-1 italic">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-          <div className="flex w-full flex-col items-start gap-2">
-            <label className="text-right text-sm" htmlFor="name">
-              Password:
-            </label>
-            <input
-              {...register("password", { required: true })}
-              className="w-full bg-slate-300 p-2 rounded-md"
-              type="password"
-              name="password"
-              id="password"
-            />
-
-            {errors?.password && (
-              <p className="text-sm text-red-600 pl-1 italic">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-          <div className="py-2 flex flex-row-reverse">
-            <button className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-blue-500 ml-5">
-              Register
-            </button>
-            <button className="px-3 py-2" onClick={onDismiss}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      </form> */}
     </form>
   );
 }

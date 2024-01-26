@@ -4,15 +4,13 @@ import { Order } from "@prisma/client";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import OrderShippingStatus from "../[order_id]/components/order_shipping_status";
-import OrderProgressBar from "../[order_id]/components/order_progress_bar";
+import OrderProgressBar from "../[order_id]/components/order-progress-bar";
 
 export default function OrderSuccessPage() {
   const orderId = useSearchParams().get("orderId");
   const paymentIntentId = useSearchParams().get("payment_intent");
-  const [order, setOrder] = useState<Order>();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+  const [order, setOrder] = useState<Order | null>();
+  const [error, setError] = useState<string | null>();
 
   const { clearCart } = useCart();
 
@@ -23,20 +21,18 @@ export default function OrderSuccessPage() {
       if (res.ok) {
         const { respond } = await res.json();
         setOrder(respond);
-        setError(undefined);
+        setError(null);
       } else {
-        setOrder(undefined);
+        setOrder(null);
         setError((await res.json()).message);
       }
       clearCart();
     });
-    setLoading(false);
   }, []);
 
   return (
     <>
-      {loading && <div className="text-center">Loading...</div>}
-      {!loading && order && (
+      {order && (
         <div className="m-auto mt-10 flex w-[80%] flex-col rounded-md border border-slate-300 p-4 shadow-2xl">
           <h1 className="text-center text-2xl font-bold leading-10 tracking-wider text-green-600">
             Order Success
@@ -71,7 +67,7 @@ export default function OrderSuccessPage() {
           </div>
         </div>
       )}
-      {!loading && error && (
+      {error && (
         <h1 className=" m-auto py-10 text-center text-xl capitalize text-red-400">
           {error}
         </h1>

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 
 import React from "react";
-import OrderAddress from "./order_address";
+import OrderAddress from "./order-address";
 
 import { OrderWithItems } from "@/app/types";
 import { Headphones } from "lucide-react";

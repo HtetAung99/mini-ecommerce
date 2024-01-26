@@ -1,9 +1,9 @@
 import React from "react";
-import OrderFilter from "./components/order_filter";
-import OrderCard from "./components/order_card";
+import OrderFilter from "./components/order-filter";
+import OrderCard from "./components/order-card";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import OrderSearch from "./components/order_search_bar";
+import OrderSearch from "./components/order-search-bar";
 import { getOrders } from "@/app/utils/orders";
 
 export default async function OrderPage() {

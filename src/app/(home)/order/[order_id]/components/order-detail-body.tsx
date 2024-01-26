@@ -1,6 +1,6 @@
 import React from "react";
-import OrderShippingStatus from "./order_shipping_status";
-import OrderDetailItem from "./order_detail_item";
+import OrderShippingStatus from "./order-shipping-status";
+import OrderDetailItem from "./order-detail-item";
 import { OrderWithItems } from "@/app/types";
 
 export default function OrderDetailBody({

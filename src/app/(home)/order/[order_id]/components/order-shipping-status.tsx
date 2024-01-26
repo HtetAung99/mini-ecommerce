@@ -1,6 +1,6 @@
 import React from "react";
-import OrderAddress from "../../components/order_address";
-import OrderProgressBar from "./order_progress_bar";
+import OrderAddress from "../../components/order-address";
+import OrderProgressBar from "./order-progress-bar";
 
 import { OrderWithItems } from "@/app/types";
 import { Order } from "@prisma/client";

@@ -3,7 +3,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../lib/prisma";
-import { isAuthenticted } from "../../../../lib/session";
+import { getCurrentUser, isAuthenticted } from "../../../../lib/session";
 import { redirect } from "next/navigation";
 import { OrderStatus, PaymentStatus } from "@prisma/client";
 
@@ -29,53 +29,56 @@ export async function POST(request: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const paymentIntentId = req.nextUrl.searchParams.get("paymentIntentId");
+
+  const isLogin: boolean = await isAuthenticted();
+  if (!isLogin) {
+    return NextResponse.json(
+      {
+        message: "not authenticated",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  const userId = (await getCurrentUser())?.id;
+
   const orderId = req.nextUrl.searchParams.get("orderId");
   try {
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
     if (paymentIntent && paymentIntent.status === "succeeded") {
       // Handle successful payment here
+      const respond = await prisma.order.update({
+        where: { id: orderId!, customerId: userId },
+        data: {
+          paymentStatus: PaymentStatus.SUCCESS,
+          status: OrderStatus.PROCESSING,
+        },
+      });
 
-      try {
-        const respond = await prisma.order.update({
-          where: { id: orderId! },
-          data: {
-            paymentStatus: PaymentStatus.SUCCESS,
-            status: OrderStatus.PROCESSING,
-          },
-        });
-
-        return NextResponse.json({ respond }, { status: 200 });
-      } catch (error) {
-        return NextResponse.json(
-          { message: "order update failed" },
-          { status: 500 },
-        );
-      }
+      return NextResponse.json({ respond }, { status: 200 });
     } else {
       // Handle unsuccessful, processing, or canceled payments and API errors here
-
-      try {
-        const respond = await prisma.order.update({
-          where: { id: orderId! },
-          data: {
-            paymentStatus: PaymentStatus.FAILED,
-            status: OrderStatus.CANCELED,
-          },
-        });
-        return NextResponse.json({ respond }, { status: 200 });
-      } catch (error) {
-        return NextResponse.json(
-          { message: "order update failed" },
-          { status: 500 },
-        );
-      }
+      const respond = await prisma.order.update({
+        where: { id: orderId!, customerId: userId },
+        data: {
+          paymentStatus: PaymentStatus.FAILED,
+          status: OrderStatus.CANCELED,
+        },
+      });
+      return NextResponse.json({ respond }, { status: 200 });
     }
-  } catch (error) {
-    return NextResponse.json(
-      { message: "payment retrieve failed" },
-      { status: 500 },
-    );
+  } catch (error: any) {
+    if (error.type === "StripeInvalidRequestError") {
+      return NextResponse.json({ message: "Payment Failed" }, { status: 500 });
+    } else {
+      return NextResponse.json(
+        { message: "Internal server error. Please contact administrators" },
+        { status: 500 },
+      );
+    }
   }
 }
 
