@@ -12,10 +12,10 @@ export default async function Home({}) {
   const session = await getServerSession(authOption);
   const bestSellers = await getBestSellers();
   const newArrivals = await getNewArrivals();
-  const products = await getPromotions();
+  const promotionProducts = await getPromotions();
 
   return (
-    <div className="m-auto flex flex-col items-center justify-between gap-4  py-2">
+    <div className="m-auto flex flex-col items-center justify-between gap-4 overflow-hidden py-2">
       {/* <h1 className="text-4xl font-bold">Products</h1>
       <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row">
         {products.map((product) => (
@@ -33,12 +33,12 @@ export default async function Home({}) {
       <div className="self-start">
         <h3 className="my-3">Promotions</h3>
         <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row ">
-          {products.map((product) => (
+          {promotionProducts.slice(0, 10).map((promotionProduct) => (
             <ProductCard
-              key={product.id}
+              key={promotionProduct.id}
               flex={true}
-              product={product}
-              promotionId={product.promotion.id}
+              product={promotionProduct}
+              promotionId={promotionProduct.promotion.id}
             />
           ))}
         </div>

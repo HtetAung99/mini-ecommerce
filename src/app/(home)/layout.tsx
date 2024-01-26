@@ -35,7 +35,7 @@ export default async function HomeLayout({
       <CartProvider>
         <div
           id="label-bar"
-          className="flex w-full flex-row items-center justify-end gap-5 bg-[#F8F8F8] px-[13vw] py-3"
+          className="flex w-full flex-row items-center justify-end gap-5 bg-[#F8F8F8] px-[10vw] py-3"
         >
           <Link className={buttonVariants({ variant: "ghost" })} href={""}>
             Customize Your Spec
@@ -47,7 +47,7 @@ export default async function HomeLayout({
         </div>
         <div
           id="app-bar"
-          className="m-auto my-3 flex flex-row items-center justify-between px-[13vw] py-2"
+          className="m-auto my-3 flex flex-row items-center justify-between px-[10vw] py-2"
         >
           <div className="w-[15vw]">
             <Dialog>
@@ -90,8 +90,8 @@ export default async function HomeLayout({
             </Link>
           </div>
         </div>
-        <hr className="mx-[13vw]" />
-        <main className="px-[13vw] py-5">{children}</main>
+        <hr className="mx-[10vw]" />
+        <main className="px-[10vw] py-5">{children}</main>
       </CartProvider>
       {auth}
     </div>
