@@ -48,6 +48,7 @@ model Variant {
   product               Product               @relation(fields: [productId], references: [id])
   attributeValues       AttributeValue[]
   priceDiff             Float
+  imageUrls             String[]
   variantAvailabilities VariantAvailability[]
   orderItems            OrderItem[]
   promotionId           Int?
