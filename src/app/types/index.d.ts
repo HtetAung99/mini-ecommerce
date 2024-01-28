@@ -23,9 +23,11 @@ export interface ProductWithNestedData extends Product {
 export interface VariantWithAttributeValues extends Variant {
   attributeValues: AttributeValueWithAttribute[];
 }
-
-export interface ProductWithPromotion extends Product {
-  promotion: Promotion;
+export interface ProductWithImage extends Product {
+  imageUrl: string;
+}
+export interface ProductWithPromotion extends ProductWithImage {
+  promotion: Promotion?;
 }
 
 export interface OrderWithItems extends Order {

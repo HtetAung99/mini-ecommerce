@@ -7,6 +7,7 @@ import {
   getPromotions,
 } from "../utils/products";
 import ProductCard from "./p/[...category]/components/product-card";
+import { Product } from "@prisma/client";
 
 export default async function Home({}) {
   const session = await getServerSession(authOption);

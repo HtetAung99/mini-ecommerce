@@ -17,24 +17,44 @@ import {
 } from "@/components/ui/hover-card";
 import clsx from "clsx";
 import Link from "next/link";
-import { Product, Promotion } from "@prisma/client";
+import { Promotion } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { ProductWithImage } from "@/app/types";
+import { bucketParams, s3 } from "../../../../../../lib/aws";
+import { __next_app__ } from "next/dist/build/templates/app-page";
 
 export default function ProductCard({
   product,
   flex,
   promotionId,
 }: {
-  product: Product;
+  product: ProductWithImage;
   flex: boolean;
   promotionId?: number | null;
 }) {
   const [promotion, setPromotion] = useState<Promotion | null>();
+  const [image, setImage] = useState<string>("");
   useEffect(() => {
     if (promotionId) {
       fetch("/api/promotions/?promotionId=" + promotionId).then(async (res) => {
         setPromotion(await res.json());
       });
+    }
+    console.log(bucketParams);
+    if (product.imageUrl) {
+      bucketParams.Key = product.imageUrl;
+
+      const res = s3.getSignedUrl("getObject", bucketParams);
+      console.log(res);
+
+      s3.getSignedUrlPromise("getObject", bucketParams)
+        .then((url: string) => {
+          setImage(url);
+          console.log("url", url);
+        })
+        .catch((err: any) => {
+          console.log("error", err);
+        });
     }
   }, []);
 
@@ -45,7 +65,7 @@ export default function ProductCard({
     >
       <CardHeader className="h-[55%] w-full p-4">
         <Avatar className="h-full w-full rounded-sm hover:scale-105">
-          <AvatarImage src="https://images.unsplash.com/photo-1577210897949-1f56f943bf82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=560&h=540&q=80&crop=bottom" />
+          <AvatarImage src={image} />
 
           <Bookmark className="absolute right-2 top-2 rounded-sm bg-white p-1 text-red-600" />
           {promotionId && (

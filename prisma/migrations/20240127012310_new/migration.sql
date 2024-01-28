@@ -1,8 +1,23 @@
 -- CreateEnum
+CREATE TYPE "AddressType" AS ENUM ('HOUSE', 'CONDO', 'APARTMENT');
+
+-- CreateEnum
+CREATE TYPE "DiscountType" AS ENUM ('FLAT_PRICE', 'PERCENTAGE');
+
+-- CreateEnum
+CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'SUCCESS', 'FAILED');
+
+-- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELED');
 
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN', 'SUPERADMIN');
+
+-- CreateEnum
+CREATE TYPE "ShippingType" AS ENUM ('DELIVERY', 'PICKUP');
+
+-- CreateEnum
+CREATE TYPE "ShippingMethod" AS ENUM ('STANDARD', 'NEXTDAY', 'ONEDAY');
 
 -- CreateTable
 CREATE TABLE "Account" (
@@ -44,6 +59,8 @@ CREATE TABLE "Variant" (
     "id" SERIAL NOT NULL,
     "productId" INTEGER NOT NULL,
     "priceDiff" DOUBLE PRECISION NOT NULL,
+    "imageUrls" TEXT[],
+    "promotionId" INTEGER,
 
     CONSTRAINT "Variant_pkey" PRIMARY KEY ("id")
 );
@@ -58,6 +75,7 @@ CREATE TABLE "Product" (
     "published" BOOLEAN NOT NULL DEFAULT false,
     "categoryId" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
+    "orderCount" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
@@ -125,13 +143,36 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Order" (
+CREATE TABLE "Address" (
     "id" SERIAL NOT NULL,
+    "userId" TEXT NOT NULL,
+    "type" "AddressType" NOT NULL,
+    "name" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "postalCode" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
+    "default" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Address_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Order" (
+    "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "customerId" TEXT NOT NULL,
     "totalAmount" DOUBLE PRECISION NOT NULL,
     "status" "OrderStatus" NOT NULL DEFAULT 'PENDING',
+    "shippingType" "ShippingType" NOT NULL DEFAULT 'DELIVERY',
+    "shippingMethod" "ShippingMethod" NOT NULL DEFAULT 'STANDARD',
+    "paymentStatus" "PaymentStatus" NOT NULL DEFAULT 'PENDING',
+    "addressID" INTEGER NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
@@ -141,9 +182,23 @@ CREATE TABLE "OrderItem" (
     "id" SERIAL NOT NULL,
     "variantId" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "orderId" INTEGER NOT NULL,
+    "orderId" TEXT NOT NULL,
 
     CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Promotion" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
+    "discount" DOUBLE PRECISION NOT NULL,
+    "discountType" "DiscountType" NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+
+    CONSTRAINT "Promotion_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -198,6 +253,9 @@ ALTER TABLE "AttributeValue" ADD CONSTRAINT "AttributeValue_attributeId_fkey" FO
 ALTER TABLE "Variant" ADD CONSTRAINT "Variant_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Variant" ADD CONSTRAINT "Variant_promotionId_fkey" FOREIGN KEY ("promotionId") REFERENCES "Promotion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -213,7 +271,13 @@ ALTER TABLE "VariantAvailability" ADD CONSTRAINT "VariantAvailability_storeId_fk
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Address" ADD CONSTRAINT "Address_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_addressID_fkey" FOREIGN KEY ("addressID") REFERENCES "Address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_variantId_fkey" FOREIGN KEY ("variantId") REFERENCES "Variant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

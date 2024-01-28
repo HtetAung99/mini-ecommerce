@@ -4,6 +4,23 @@ import path from "path";
 
 const folderPath = "./public/images";
 
+const getRandomImages = (imageFiles: string[]) => {
+  if (!imageFiles || imageFiles.length === 0) {
+    console.error("No image files available.");
+    return [];
+  }
+
+  const numberOfImages = Math.floor(Math.random() * 3) + 2;
+  const randomImageNames = [];
+
+  for (let i = 1; i < numberOfImages; i++) {
+    const randomIndex = Math.floor(Math.random() * imageFiles.length);
+    randomImageNames.push(imageFiles[randomIndex]);
+  }
+
+  return randomImageNames;
+};
+
 const variantData = [
   // Variants for Samsung Galaxy S22
   {
@@ -11,7 +28,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "black" }, { name: "256GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 0,
   },
   {
@@ -19,7 +35,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "silver" }, { name: "512GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 150,
   },
   {
@@ -27,7 +42,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "blue" }, { name: "128GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -50,
   },
   {
@@ -35,7 +49,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "gold" }, { name: "1TB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 200,
   },
 
@@ -45,7 +58,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "large" }, { name: "blue" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 5,
   },
   {
@@ -53,7 +65,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "medium" }, { name: "white" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 3,
   },
   {
@@ -61,7 +72,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "small" }, { name: "black" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 0,
   },
   {
@@ -69,7 +79,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "large" }, { name: "red" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 8,
   },
 
@@ -79,7 +88,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "red" }, { name: "256GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -200,
   },
   {
@@ -94,7 +102,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "white" }, { name: "1TB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -100,
   },
   {
@@ -102,7 +109,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "silver" }, { name: "256GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -180,
   },
 
@@ -112,7 +118,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "rose gold" }, { name: "512GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -100,
   },
   {
@@ -120,7 +125,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "silver" }, { name: "1TB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -80,
   },
   {
@@ -128,7 +132,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "black" }, { name: "256GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -50,
   },
   {
@@ -136,7 +139,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "gold" }, { name: "512GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -120,
   },
 
@@ -146,7 +148,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "red" }, { name: "512GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 100,
   },
   {
@@ -154,7 +155,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "blue" }, { name: "256GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -10,
   },
   {
@@ -162,7 +162,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "gold" }, { name: "128GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 50,
   },
   {
@@ -170,7 +169,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "silver" }, { name: "256GB" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: -30,
   },
 
@@ -180,7 +178,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "silver" }, { name: "55-inch" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 50,
   },
   {
@@ -188,7 +185,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "black" }, { name: "65-inch" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 120,
   },
   {
@@ -196,7 +192,7 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "white" }, { name: "40-inch" }],
     },
-    imageUrls: getRandomImages(),
+
     priceDiff: -30,
   },
   {
@@ -204,7 +200,6 @@ const variantData = [
     attributeValues: {
       connect: [{ name: "gold" }, { name: "50-inch" }],
     },
-    imageUrls: getRandomImages(),
     priceDiff: 80,
   },
 
@@ -214,43 +209,23 @@ const variantData = [
 // You can continue extending the array with more variants.
 
 export const seedVariants = async () => {
-  let imageFiles: string[];
   try {
-    const files = fs.readdirSync(folderPath);
-    imageFiles = files.filter((file) => {
+    const imageFiles = fs.readdirSync(folderPath).filter((file) => {
       const extname = path.extname(file);
       return [".jpg", ".jpeg", ".png"].includes(extname.toLowerCase());
     });
+    for (const v of variantData) {
+      const variant = await prisma.variant.create({
+        data: {
+          ...v,
+          imageUrls: getRandomImages(imageFiles),
+        },
+      });
+      console.log(
+        `Created variant with id: ${variant.id} , imageUrls: ${variant.imageUrls}`,
+      );
+    }
   } catch (err) {
     console.error("Error reading folder:", err);
-  }
-
-  function getRandomImages() {
-    if (!imageFiles || imageFiles.length === 0) {
-      console.error("No image files available.");
-      return [];
-    }
-
-    const numberOfImages = Math.floor(Math.random() * 3) + 1;
-    const randomImageNames = [];
-
-    for (let i = 0; i < numberOfImages; i++) {
-      const randomIndex = Math.floor(Math.random() * imageFiles.length);
-      randomImageNames.push(imageFiles[randomIndex]);
-    }
-
-    console.log("randomImageNames", randomImageNames);
-
-    return randomImageNames;
-  }
-
-  for (const v of variantData) {
-    const variant = await prisma.variant.create({
-      data: {
-        ...v,
-        imageUrls: getRandomImages(imageFiles),
-      },
-    });
-    console.log(`Created variant with id: ${variant.id}`);
   }
 };

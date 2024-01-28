@@ -1,7 +1,10 @@
 import { cache } from "react";
 import prisma from "../../../lib/prisma";
-import { ProductWithNestedData, ProductWithPromotion } from "../types";
-import { Product, Variant } from "@prisma/client";
+import {
+  ProductWithImage,
+  ProductWithNestedData,
+  ProductWithPromotion,
+} from "../types";
 
 export const getProductsWithCategories = cache(
   async (): Promise<ProductWithNestedData[]> => {
@@ -212,21 +215,29 @@ export const getProductById = cache(
   },
 );
 
-export const getBestSellers = cache(async (): Promise<Product[]> => {
+export const getBestSellers = cache(async (): Promise<ProductWithImage[]> => {
   const products = await prisma.product.findMany({
     orderBy: { orderCount: "desc" },
     take: 10,
+    include: { variants: true },
   });
 
-  return products;
+  return products.map((product: any) => ({
+    ...product,
+    imageUrl: product.variants[0].imageUrls[0],
+  }));
 });
 
-export const getNewArrivals = cache(async (): Promise<Product[]> => {
+export const getNewArrivals = cache(async (): Promise<ProductWithImage[]> => {
   const products = await prisma.product.findMany({
     orderBy: { createdAt: "desc" },
     take: 10,
+    include: { variants: true },
   });
-  return products;
+  return products.map((product: any) => ({
+    ...product,
+    imageUrl: product.variants[0].imageUrls[0],
+  }));
 });
 
 export const getPromotions = cache(
@@ -239,7 +250,11 @@ export const getPromotions = cache(
     promotions.forEach((promotion) => {
       const tmp: ProductWithPromotion[] = [
         ...promotion.variants.map((variant) => {
-          return { ...variant.product, promotion };
+          return {
+            ...variant.product,
+            promotion,
+            imageUrl: variant.imageUrls[0],
+          };
         }),
       ];
       products.push(...tmp);
