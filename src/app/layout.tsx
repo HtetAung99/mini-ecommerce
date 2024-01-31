@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html className="" lang="en">
-      <body className={cn(inter.className, "h-[80-vw]")}>
+      <body className={cn(inter.className, "max-h-fit, max-w-max")}>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

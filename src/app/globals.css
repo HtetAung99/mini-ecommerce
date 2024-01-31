@@ -17,6 +17,11 @@
 ::-webkit-scrollbar-thumb {
   background-color: transparent; /* Set the color of the thumb (invisible) */
 }
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
 
 @layer base {
   :root {
@@ -93,4 +98,9 @@
   h3 {
     @apply text-left text-lg font-semibold text-primary;
   }
+}
+
+html {
+  /* Apply box-sizing: border-box to the root element */
+  box-sizing: border-box;
 }

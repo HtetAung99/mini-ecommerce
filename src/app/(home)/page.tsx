@@ -16,7 +16,7 @@ export default async function Home({}) {
   const promotionProducts = await getPromotions();
 
   return (
-    <div className="m-auto flex flex-col items-center justify-between gap-4 overflow-hidden py-2">
+    <div className="mx-[10vw] block flex-col items-center justify-between gap-4 overflow-hidden py-2">
       {/* <h1 className="text-4xl font-bold">Products</h1>
       <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row">
         {products.map((product) => (

@@ -211,9 +211,11 @@ const variantData = [
 export const seedVariants = async () => {
   try {
     const imageFiles = fs.readdirSync(folderPath).filter((file) => {
+      if (path.basename(file) === "default-product-image.jpg") return false;
       const extname = path.extname(file);
       return [".jpg", ".jpeg", ".png"].includes(extname.toLowerCase());
     });
+
     for (const v of variantData) {
       const variant = await prisma.variant.create({
         data: {

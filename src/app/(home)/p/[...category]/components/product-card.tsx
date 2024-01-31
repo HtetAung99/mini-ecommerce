@@ -40,26 +40,14 @@ export default function ProductCard({
     }
 
     if (product.imageUrl) {
-      console.log("before", product.imageUrl);
-
       fetch("/api/products/image", {
         body: JSON.stringify({ imgUrl: product.imageUrl }),
         method: "POST",
       })
         .then(async (res) => res.json())
         .then(({ url }) => {
-          console.log("after", url);
           setImage(url);
         });
-
-      // s3.getSignedUrlPromise("getObject", bucketParams)
-      //   .then((url: string) => {
-      //     setImage(url);
-      //     console.log("url", url);
-      //   })
-      //   .catch((err: any) => {
-      //     console.log("error", err);
-      //   });
     }
   }, [product.imageUrl]);
 
@@ -75,7 +63,6 @@ export default function ProductCard({
             src={image}
             alt={product.imageUrl}
           />
-          {/* <img src={image} alt="" /> */}
 
           <Bookmark className="absolute right-2 top-2 rounded-sm bg-white p-1 text-red-600" />
           {promotionId && (

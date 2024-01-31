@@ -35,7 +35,7 @@ export default async function HomeLayout({
       <CartProvider>
         <div
           id="label-bar"
-          className="flex w-full flex-row items-center justify-end gap-5 bg-[#F8F8F8] px-[10vw] py-3"
+          className="flex flex-row items-center justify-end gap-5 bg-[#F8F8F8] px-[10vw] py-3"
         >
           <Link className={buttonVariants({ variant: "ghost" })} href={""}>
             Customize Your Spec
@@ -91,7 +91,7 @@ export default async function HomeLayout({
           </div>
         </div>
         <hr className="mx-[10vw]" />
-        <main className="px-[10vw] py-5">{children}</main>
+        <main className="flex w-full overflow-hidden py-5">{children}</main>
       </CartProvider>
       {auth}
     </div>
