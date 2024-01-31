@@ -27,7 +27,7 @@ export interface ProductWithImage extends Product {
   imageUrl: string;
 }
 export interface ProductWithPromotion extends ProductWithImage {
-  promotion?: Promotion?;
+  promotion?: number?;
 }
 
 export interface OrderWithItems extends Order {

@@ -12,5 +12,5 @@ export default async function CheckoutLayout({
     redirect("/authTab?callbackUrl=/checkout/information");
   }
 
-  return <>{children}</>;
+  return <div className="mx-[10vw]">{children}</div>;
 }

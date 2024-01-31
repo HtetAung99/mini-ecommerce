@@ -4,12 +4,12 @@ import { s3, Bucket } from "../../../../../lib/aws";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-export async function POST(req: NextRequest, res: any) {
-  const { imgUrl }: { imgUrl: string } = await req.json();
+export async function GET(req: NextRequest, res: any) {
+  const imgUrl: string | null = req.nextUrl.searchParams.get("imgUrl");
   try {
     const command = new GetObjectCommand({
       Bucket: Bucket,
-      Key: imgUrl,
+      Key: imgUrl!,
     });
 
     const url = await getSignedUrl(s3, command);

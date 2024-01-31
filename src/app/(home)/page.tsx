@@ -1,22 +1,20 @@
 import { getServerSession } from "next-auth";
 import { authOption } from "../api/auth/[...nextauth]/route";
-import Link from "next/link";
 import {
   getBestSellers,
   getNewArrivals,
-  getPromotions,
+  getProductsWithPromotions,
 } from "../utils/products";
 import ProductCard from "./p/[...category]/components/product-card";
-import { Product } from "@prisma/client";
 
 export default async function Home({}) {
   const session = await getServerSession(authOption);
   const bestSellers = await getBestSellers();
   const newArrivals = await getNewArrivals();
-  const promotionProducts = await getPromotions();
+  const promotionProducts = await getProductsWithPromotions();
 
   return (
-    <div className="mx-[10vw] block flex-col items-center justify-between gap-4 overflow-hidden py-2">
+    <div className="mx-[10vw] block overflow-hidden py-2">
       {/* <h1 className="text-4xl font-bold">Products</h1>
       <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row">
         {products.map((product) => (
@@ -39,7 +37,7 @@ export default async function Home({}) {
               key={promotionProduct.id}
               flex={true}
               product={promotionProduct}
-              promotionId={promotionProduct.promotion.id}
+              promotionId={promotionProduct.promotion}
             />
           ))}
         </div>

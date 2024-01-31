@@ -27,7 +27,8 @@ export const getProductsWithCategories = cache(
       return {
         ...product,
         imageUrl,
-        promotion: product.variants.map((v: any) => v.promotion),
+        promotion: product.variants.map((v: Variant) => v.promotionId)[0]
+          ?.promotionId,
       };
     });
 
@@ -55,8 +56,6 @@ export const getProductByFilters = cache(
       current = queue[0];
     }
 
-    let products: ProductWithNestedData[] = [];
-
     const res = await prisma.product.findMany({
       skip: (pageNum - 1) * pageSize,
       take: parseInt(pageSize),
@@ -70,7 +69,13 @@ export const getProductByFilters = cache(
     });
 
     const products = res.map((product: any) => {
-      return { ...product };
+      return {
+        ...product,
+        imageUrl:
+          product.variants[0].imageUrls[0] || "default-product-image.jpg",
+        promotion: product.variants.filter((v: Variant) => v.promotionId)[0]
+          ?.promotionId,
+      };
     });
 
     const count = await prisma.product.count({
@@ -152,7 +157,7 @@ export const getNewArrivals = cache(async (): Promise<ProductWithImage[]> => {
   });
 });
 
-export const getPromotions = cache(
+export const getProductsWithPromotions = cache(
   async (): Promise<ProductWithPromotion[]> => {
     const promotions = await prisma.promotion.findMany({
       include: { variants: { include: { product: true } } },
@@ -166,7 +171,7 @@ export const getPromotions = cache(
           console.log("Promotions", imageUrl);
           return {
             ...variant.product,
-            promotion,
+            promotion: promotion.id,
             imageUrl,
           };
         }),

@@ -40,10 +40,7 @@ export default function ProductCard({
     }
 
     if (product.imageUrl) {
-      fetch("/api/products/image", {
-        body: JSON.stringify({ imgUrl: product.imageUrl }),
-        method: "POST",
-      })
+      fetch(`/api/products/image?imgUrl=${product.imageUrl}`)
         .then(async (res) => res.json())
         .then(({ url }) => {
           setImage(url);

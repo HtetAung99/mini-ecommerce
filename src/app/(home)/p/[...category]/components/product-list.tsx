@@ -16,13 +16,12 @@ export default function ProductList({
       <ScrollArea className="col-span-3 overflow-y-auto pl-4">
         <div className="grid grid-cols-3 gap-x-7 gap-y-7 p-4">
           {products.map((product) => {
-            const promotion = product.variants.filter((v) => v.promotionId)[0];
             return (
               <ProductCard
                 key={product.id}
                 flex={false}
                 product={product}
-                promotionId={product.variants[0].promotionId}
+                promotionId={product.promotion}
               />
             );
           })}

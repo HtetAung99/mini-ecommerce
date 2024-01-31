@@ -5,5 +5,5 @@ export default function ProductLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="">{children}</div>;
+  return <div className="mx-[10vw]">{children}</div>;
 }

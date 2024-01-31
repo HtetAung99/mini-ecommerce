@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { CategoryWithChild } from "@/app/types";
 import { getCategoriesNested } from "@/app/utils/categories";
 import CategoryFilter from "./category-filter";
-import Link from "next/link";
 
 export default async function filterBar({ params }: { params: any }) {
   const categories: CategoryWithChild[] = await getCategoriesNested();

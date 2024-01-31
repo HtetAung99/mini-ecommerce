@@ -7,9 +7,9 @@ export default function CartLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="mx-[10vw] w-full">
       <CartHeader />
       {children}
-    </>
+    </div>
   );
 }
