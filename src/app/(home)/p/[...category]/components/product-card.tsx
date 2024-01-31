@@ -20,8 +20,6 @@ import Link from "next/link";
 import { Promotion } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { ProductWithImage } from "@/app/types";
-import { bucketParams, s3 } from "../../../../../../lib/aws";
-import { __next_app__ } from "next/dist/build/templates/app-page";
 
 export default function ProductCard({
   product,
@@ -40,23 +38,30 @@ export default function ProductCard({
         setPromotion(await res.json());
       });
     }
-    console.log(bucketParams);
+
     if (product.imageUrl) {
-      bucketParams.Key = product.imageUrl;
+      console.log("before", product.imageUrl);
 
-      const res = s3.getSignedUrl("getObject", bucketParams);
-      console.log(res);
-
-      s3.getSignedUrlPromise("getObject", bucketParams)
-        .then((url: string) => {
+      fetch("/api/products/image", {
+        body: JSON.stringify({ imgUrl: product.imageUrl }),
+        method: "POST",
+      })
+        .then(async (res) => res.json())
+        .then(({ url }) => {
+          console.log("after", url);
           setImage(url);
-          console.log("url", url);
-        })
-        .catch((err: any) => {
-          console.log("error", err);
         });
+
+      // s3.getSignedUrlPromise("getObject", bucketParams)
+      //   .then((url: string) => {
+      //     setImage(url);
+      //     console.log("url", url);
+      //   })
+      //   .catch((err: any) => {
+      //     console.log("error", err);
+      //   });
     }
-  }, []);
+  }, [product.imageUrl]);
 
   return (
     <Card
@@ -65,7 +70,12 @@ export default function ProductCard({
     >
       <CardHeader className="h-[55%] w-full p-4">
         <Avatar className="h-full w-full rounded-sm hover:scale-105">
-          <AvatarImage src={image} />
+          <AvatarImage
+            className="object-contain"
+            src={image}
+            alt={product.imageUrl}
+          />
+          {/* <img src={image} alt="" /> */}
 
           <Bookmark className="absolute right-2 top-2 rounded-sm bg-white p-1 text-red-600" />
           {promotionId && (

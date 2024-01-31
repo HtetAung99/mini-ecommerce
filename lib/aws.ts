@@ -1,7 +1,9 @@
-import AWS from "aws-sdk";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+const s3 = new S3Client({ region: "us-west-1" });
 
-const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
-
-const bucketParams = { Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME, Key: "" };
+const bucketParams = {
+  Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME as string,
+  Key: "",
+};
 
 export { bucketParams, s3 };
