@@ -5,17 +5,30 @@ import {
   ProductWithNestedData,
   ProductWithPromotion,
 } from "../types";
+import { Variant } from "@prisma/client";
 
 export const getProductsWithCategories = cache(
   async (): Promise<ProductWithNestedData[]> => {
-    const products = await prisma.product.findMany({
+    const res = await prisma.product.findMany({
       include: {
         category: true,
         variants: {
-          include: { attributeValues: { include: { attribute: true } } },
+          include: {
+            attributeValues: { include: { attribute: true } },
+            promotion: true,
+          },
         },
       },
       where: { published: false }, // need to change published to true
+    });
+    const products = res.map((product: any) => {
+      const imageUrl =
+        product.variants[0].imageUrls[0] || "default-product-image.jpg";
+      return {
+        ...product,
+        imageUrl,
+        promotion: product.variants.map((v: any) => v.promotion),
+      };
     });
 
     return products;
@@ -44,16 +57,20 @@ export const getProductByFilters = cache(
 
     let products: ProductWithNestedData[] = [];
 
-    products = await prisma.product.findMany({
+    const res = await prisma.product.findMany({
       skip: (pageNum - 1) * pageSize,
       take: parseInt(pageSize),
       where: {
         AND: generateFilters(price, categoryIds),
       },
       include: {
-        variants: { include: { attributeValues: true } },
+        variants: { include: { attributeValues: true, promotion: true } },
         category: true,
       },
+    });
+
+    const products = res.map((product: any) => {
+      return { ...product };
     });
 
     const count = await prisma.product.count({
@@ -78,17 +95,25 @@ const generateFilters = (price: string, categoryIds: number[]) => {
 
 export const getProductById = cache(
   async (id: number): Promise<ProductWithNestedData | null> => {
-    const product = await prisma.product.findFirst({
+    const product: any = await prisma.product.findFirst({
       include: {
         category: true,
         variants: {
-          include: { attributeValues: { include: { attribute: true } } },
+          include: {
+            attributeValues: { include: { attribute: true } },
+            promotion: true,
+          },
         },
       },
       where: { id },
     });
 
-    return product;
+    return {
+      ...product,
+      promotion: product?.variants.map((v: any) => v.promotion),
+      imageUrl:
+        product?.variants[0].imageUrls[0] || "default-product-image.jpg",
+    };
   },
 );
 

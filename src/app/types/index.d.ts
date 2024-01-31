@@ -15,7 +15,7 @@ export interface CategoryWithParent extends Category {
   parent: Category;
 }
 
-export interface ProductWithNestedData extends Product {
+export interface ProductWithNestedData extends ProductWithPromotion {
   category: Category;
   variants: VariantWithAttributeValues[];
 }
@@ -27,7 +27,7 @@ export interface ProductWithImage extends Product {
   imageUrl: string;
 }
 export interface ProductWithPromotion extends ProductWithImage {
-  promotion: Promotion?;
+  promotion?: Promotion?;
 }
 
 export interface OrderWithItems extends Order {
