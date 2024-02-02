@@ -1,7 +1,6 @@
 "use client";
 
 import { addAttribute } from "@/app/actions/attribute";
-import { useRef } from "react";
 import { useForm } from "react-hook-form";
 
 function AttributeAddForm() {
@@ -15,8 +14,6 @@ function AttributeAddForm() {
     formState: { errors },
     reset,
   } = useForm<FormValues>();
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = handleSubmit(async (data) => {
     await addAttribute(data);
@@ -33,7 +30,7 @@ function AttributeAddForm() {
         placeholder="Enter attribute"
       />
       {errors.name && <p className="error">{errors.name.message}</p>}
-      <button type="submit" className="primaryBtn">
+      <button type="submit" className="primary-btn">
         Add
       </button>
     </form>

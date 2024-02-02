@@ -3,7 +3,8 @@ import { getAttributes } from "@/app/utils/attributes";
 import { AttributeValue } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
-import AttributeAddForm from "./add-form";
+import AttributeAddForm from "./attr-add-form";
+import AttributeValueAddForm from "./attrVal-add-form";
 
 async function AttributesPage({ searchParams }: { searchParams: any }) {
   const attributes = await getAttributes();
@@ -31,13 +32,18 @@ async function AttributesPage({ searchParams }: { searchParams: any }) {
 
       <div>
         {selectedId ? (
-          <ul>
-            {attributes
-              .filter((attribute) => attribute.id === selectedId)[0]
-              .attributeValues.map((attrVal: AttributeValue) => (
-                <li key={attrVal.id}>{attrVal.name}</li>
-              ))}
-          </ul>
+          <>
+            <AttributeValueAddForm
+              attribute={attributes.filter((a) => a.id === selectedId)[0]}
+            />
+            <ul>
+              {attributes
+                .filter((attribute) => attribute.id === selectedId)[0]
+                .attributeValues.map((attrVal: AttributeValue) => (
+                  <li key={attrVal.id}>{attrVal.name}</li>
+                ))}
+            </ul>
+          </>
         ) : null}
       </div>
     </div>

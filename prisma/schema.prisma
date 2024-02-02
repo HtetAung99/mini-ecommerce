@@ -23,7 +23,7 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -37,6 +37,7 @@ model Attribute {
 model AttributeValue {
   id          Int       @id @default(autoincrement())
   name        String    @unique @db.VarChar(255)
+  value       String?
   attributeId Int
   attribute   Attribute @relation(fields: [attributeId], references: [id])
   variants    Variant[]
@@ -53,7 +54,6 @@ model Variant {
   orderItems            OrderItem[]
   promotionId           Int?
   promotion             Promotion?            @relation(fields: [promotionId], references: [id])
-
 }
 
 model Product {
@@ -146,7 +146,7 @@ model Address {
   default     Boolean     @default(false)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @default(now()) @updatedAt
-  orders      Order[]  
+  orders      Order[]
 }
 
 enum AddressType {
@@ -167,7 +167,7 @@ model Order {
   shippingType   ShippingType   @default(DELIVERY)
   shippingMethod ShippingMethod @default(STANDARD)
   paymentStatus  PaymentStatus  @default(PENDING)
-  addressID      Int            
+  addressID      Int
   address        Address        @relation(fields: [addressID], references: [id])
 }
 
@@ -181,15 +181,15 @@ model OrderItem {
 }
 
 model Promotion {
-  id          Int         @id @default(autoincrement())
-  name        String      
-  description String?
-  discount    Float
+  id           Int          @id @default(autoincrement())
+  name         String
+  description  String?
+  discount     Float
   discountType DiscountType
-  startDate   DateTime
-  endDate     DateTime
-  isActive    Boolean     @default(true)
-  variants    Variant[]   
+  startDate    DateTime
+  endDate      DateTime
+  isActive     Boolean      @default(true)
+  variants     Variant[]
 }
 
 enum DiscountType {

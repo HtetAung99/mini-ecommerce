@@ -22,3 +22,27 @@ export async function addAttribute(formData: any) {
 
   revalidatePath("/admin/attributes");
 }
+
+export async function addAttributeValue(formData: any) {
+  const hasPermission: boolean = await isAdmin();
+
+  if (!hasPermission) redirect("/admin/attributes/?message=authFailed");
+
+  try {
+    await prisma.attributeValue.create({
+      data: {
+        name: formData["name"],
+        value: formData["value"],
+        attribute: {
+          connect: {
+            id: parseInt(formData["attributeId"]),
+          },
+        },
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
+
+  revalidatePath("/admin/attributes");
+}
