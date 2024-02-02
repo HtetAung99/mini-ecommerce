@@ -1,9 +1,11 @@
 import { getServerSession } from "next-auth";
 import NavBar from "./navbar";
 import { authOption } from "../api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { Role } from "@prisma/client";
 import { getCurrentUser, isAuthenticted } from "../../../lib/session";
+import SearchCommandBox from "./components/search-command-box";
+import HeaderBox from "./components/header-box";
 
 export default async function DashboardLayout({
   children,
@@ -25,10 +27,14 @@ export default async function DashboardLayout({
   return (
     <>
       {auth}
-      <section className="h-full bg-gray-200">
+      <section className="h-full">
         <NavBar />
-        <div className="ml-56 h-screen overflow-y-auto px-14 py-10">
-          {children}
+        <div className="ml-56 h-screen overflow-y-auto bg-gray-50 px-10 ">
+          <SearchCommandBox />
+          <HeaderBox />
+          <main className=" rounded-md border border-slate-100 bg-white p-5 shadow-lg">
+            {children}
+          </main>
         </div>
       </section>
     </>

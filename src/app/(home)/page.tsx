@@ -32,7 +32,7 @@ export default async function Home({}) {
       <div className="self-start">
         <h3 className="my-3">Promotions</h3>
         <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row ">
-          {promotionProducts.slice(0, 10).map((promotionProduct) => (
+          {promotionProducts.map((promotionProduct) => (
             <ProductCard
               key={promotionProduct.id}
               flex={true}

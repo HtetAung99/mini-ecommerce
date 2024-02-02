@@ -42,9 +42,10 @@ export default function MyComboBox({
     <div className="w-full">
       <Combobox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-slate-300 text-left sm:text-sm">
+          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-slate-200 text-left sm:text-sm">
             <Combobox.Input
-              className="w-full border-none bg-slate-300 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:outline-none"
+              placeholder="Select a category"
+              className="w-full border-none bg-slate-200 px-10 py-2 text-sm leading-5 text-gray-900 focus:outline-none"
               displayValue={(category: any) => category.name}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -62,7 +63,7 @@ export default function MyComboBox({
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-slate-300 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+            <Combobox.Options className="absolute mt-1 max-h-52 w-full overflow-auto rounded-md bg-slate-200 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
               {filteredCategories.length === 0 && query !== "" ? (
                 <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                   Nothing found.
@@ -72,7 +73,7 @@ export default function MyComboBox({
                   <Combobox.Option
                     key={`${category.id}`}
                     className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                      `relative cursor-default select-none py-2 pl-10 pr-4 text-start ${
                         active ? "bg-blue-600 text-white" : "text-gray-900"
                       }`
                     }

@@ -1,9 +1,8 @@
 import { getProductById } from "@/app/utils/products";
 import React from "react";
 import prisma from "../../../../../lib/prisma";
-import StoreList from "./store-list";
-import StoreDropDown from "./store-dropdown";
 import { attributesValuesByProductId } from "@/app/utils/variants";
+import PrductDetailCardAdmin from "./components/product-detail-card-admin";
 
 export default async function ProductDetail({
   params,
@@ -31,33 +30,35 @@ export default async function ProductDetail({
   // console.log(filteredStores);
 
   const attributeValues = await attributesValuesByProductId(product.id);
-  console.log(attributeValues);
 
   return (
     <>
-      <div>
+      {/* <div>
         <h2>{product.title}</h2>
         <p>{product.description}</p>
+
         {Object.entries(attributeValues).map(([key, value]: [string, any]) => {
+          console.log(value.size);
           return (
-            <>
+            <div key={key}>
               <h3 key={key}>{key}</h3>
               <ul>
-                {value.map((v: any) => (
-                  <li key={v.id}>{v.name}</li>
-                ))}
+                {[...value].map((v: any) => {
+                  const val = JSON.parse(v);
+                  console.log("here", val);
+                  return <li key={val.id}>{val.name}</li>;
+                })}
               </ul>
-            </>
+            </div>
           );
         })}
-        {/* <span>{product.price}</span> */}
       </div>
-      {/* <StoreDropDown productId={product.id} filteredStores={filteredStores} /> */}
-      <div>
-        {/* {availableProducts.map((pa) => {
-          return <StoreList productData={pa} />;
-        })} */}
-      </div>
+      <div></div> */}
+
+      <PrductDetailCardAdmin
+        attributeValues={attributeValues}
+        product={product}
+      />
     </>
   );
 }

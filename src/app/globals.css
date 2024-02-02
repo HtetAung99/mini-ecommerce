@@ -89,7 +89,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply box-border border-border;
   }
   body {
     @apply bg-background text-foreground;
@@ -98,6 +98,14 @@
   h3 {
     @apply text-left text-lg font-semibold text-primary;
   }
+}
+
+.primary-btn {
+  @apply w-[150px] rounded-md bg-blue-500  px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700;
+}
+
+.secondary-btn {
+  @apply w-[150px] rounded-md border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-500 hover:border-red-500  hover:bg-red-500 hover:text-white;
 }
 
 html {

@@ -12,6 +12,7 @@ export async function addCategory(formData: any) {
   if (!isLogin) redirect("/admin/categories/?message=authFailed");
 
   if (!hasPermission) redirect("/admin/categories/?message=authFailed");
+  console.log(formData);
 
   try {
     await prisma.category.create({

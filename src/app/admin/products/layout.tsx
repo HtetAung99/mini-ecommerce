@@ -1,13 +1,13 @@
 export default function ProductLayout({
   children,
-  modal,
+  productModal,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
+  productModal: React.ReactNode;
 }) {
   return (
     <div>
-      {modal}
+      {productModal}
       {children}
     </div>
   );

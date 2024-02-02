@@ -7,8 +7,6 @@ export default async function CategoriesPage({
 }) {
   return (
     <main className="">
-      <h1 className="mb-4 text-xl font-semibold">Categories</h1>
-
       <CategoryTable searchParams={searchParams} />
     </main>
   );
