@@ -31,22 +31,14 @@ export default function ProductCard({
   promotionId?: number | null;
 }) {
   const [promotion, setPromotion] = useState<Promotion | null>();
-  const [image, setImage] = useState<string>("");
+
   useEffect(() => {
     if (promotionId) {
       fetch("/api/promotions/?promotionId=" + promotionId).then(async (res) => {
         setPromotion(await res.json());
       });
     }
-
-    if (product.imageUrl) {
-      fetch(`/api/products/image?imgUrl=${product.imageUrl}`)
-        .then(async (res) => res.json())
-        .then(({ url }) => {
-          setImage(url);
-        });
-    }
-  }, [product.imageUrl]);
+  }, []);
 
   return (
     <Card
@@ -57,7 +49,7 @@ export default function ProductCard({
         <Avatar className="h-full w-full rounded-sm hover:scale-105">
           <AvatarImage
             className="object-contain"
-            src={image}
+            src={product.imageUrl}
             alt={product.imageUrl}
           />
 

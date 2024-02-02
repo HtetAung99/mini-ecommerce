@@ -1,10 +1,13 @@
+import { GetObjectCommand } from "@aws-sdk/client-s3";
 import prisma from "../../lib/prisma";
 import fs from "fs";
 import path from "path";
+import { Bucket, s3 } from "../../lib/aws";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const folderPath = "./public/images";
 
-const getRandomImages = (imageFiles: string[]) => {
+const getRandomImages = async (imageFiles: string[]) => {
   if (!imageFiles || imageFiles.length === 0) {
     console.error("No image files available.");
     return [];
@@ -18,7 +21,19 @@ const getRandomImages = (imageFiles: string[]) => {
     randomImageNames.push(imageFiles[randomIndex]);
   }
 
-  return randomImageNames;
+  const urls = await Promise.all(
+    randomImageNames.map(async (name) => {
+      const command = new GetObjectCommand({
+        Bucket: Bucket,
+        Key: name,
+      });
+
+      const url = await getSignedUrl(s3, command);
+      return url;
+    }),
+  );
+
+  return urls;
 };
 
 const variantData = [
@@ -220,7 +235,7 @@ export const seedVariants = async () => {
       const variant = await prisma.variant.create({
         data: {
           ...v,
-          imageUrls: getRandomImages(imageFiles),
+          imageUrls: await getRandomImages(imageFiles),
         },
       });
       console.log(

@@ -1,18 +1,10 @@
 "use client";
 
 import MyComboBox from "../../components/combobox";
-import React, { useCallback, useState } from "react";
-import { useForm, Resolver } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { addProduct } from "@/app/actions/product";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
@@ -49,14 +41,19 @@ export default function ModalForm({ categories }: { categories: Category[] }) {
   const [selected, setSelected] = useState(categories[0]);
   const [published, setPublished] = useState(false);
   const [files, setFiles] = useState<string[]>([]);
+
   const handleFilesUpload = async (e: any) => {
     e.preventDefault();
     const files = e.target.files;
+
     Array.from(files).forEach(async (file: any) => {
+      const formData = new FormData();
+      formData.set("file", file);
       const res = await fetch("/api/products/image", {
         method: "POST",
-        body: file,
+        body: formData,
       });
+
       const data = await res.json();
       if (res.ok) {
         const { signedUrl } = await res.json();
