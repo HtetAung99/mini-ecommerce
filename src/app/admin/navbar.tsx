@@ -18,6 +18,11 @@ const navlinks: NavLinkType[] = [
     href: "/categories",
     access: [Role.ADMIN, Role.SUPERADMIN],
   },
+  {
+    name: "Attributes",
+    href: "/attributes",
+    access: [Role.ADMIN, Role.SUPERADMIN],
+  },
   { name: "Stores", href: "/stores", access: [Role.SUPERADMIN] },
   { name: "Users", href: "/users", access: [Role.SUPERADMIN] },
   { name: "Orders", href: "/orders", access: [Role.SUPERADMIN] },

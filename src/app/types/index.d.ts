@@ -50,3 +50,7 @@ export interface CartItem {
   priceDiff: number;
   quantity: number;
 }
+
+export interface AttributeWithAttributeValue extends Attribute {
+  attributeValues: AttributeValue[];
+}
