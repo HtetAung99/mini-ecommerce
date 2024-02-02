@@ -1,17 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { Delete, Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import React from "react";
+import React, { useEffect } from "react";
+import VariantDeleteBtn from "./variant-delete-btn";
 
 export default function VaraintOptionsList({
-  variantOptions,
+  variantOptionsFromParent,
 }: {
-  variantOptions: any;
+  variantOptionsFromParent: any;
 }) {
   const path = usePathname();
 
+  const [variantOptions, setVariantOptions] = React.useState<any>([]);
+
+  useEffect(() => {
+    setVariantOptions(variantOptionsFromParent);
+  }, [variantOptionsFromParent]);
   return (
     <div className=" w-full">
       <span className="mb-5 flex flex-row items-center justify-between">
@@ -24,13 +29,19 @@ export default function VaraintOptionsList({
       </span>
       {variantOptions.map((vo: any) => {
         return (
-          <div className="flex w-full flex-col overflow-hidden p-2">
+          <div key={vo.id} className="flex w-full flex-col overflow-hidden p-2">
             <div className="flex flex-row items-center justify-between rounded-md border border-slate-200 bg-slate-50 px-5 py-3 shadow-md">
               {Object.entries(vo).map(([key, value]: [string, any]) => {
+                if (key === "id") {
+                  return;
+                }
                 if (key !== "price") {
                   return (
                     <>
-                      <span className="min-w-[100px] text-base font-medium capitalize">
+                      <span
+                        key={`${key}${value}`}
+                        className="min-w-[100px] text-base font-medium capitalize"
+                      >
                         {value}
                       </span>
                     </>
@@ -39,7 +50,10 @@ export default function VaraintOptionsList({
               })}
               <span className="flex min-w-[150px] items-center justify-center  gap-5 border-l border-slate-300 pl-2  leading-8 tracking-wider">
                 $ {vo.price}
-                <Trash className=" cursor-pointer text-red-500" size={18} />
+                <VariantDeleteBtn
+                  setVariantOptions={setVariantOptions}
+                  id={vo.id}
+                />
               </span>
             </div>
           </div>

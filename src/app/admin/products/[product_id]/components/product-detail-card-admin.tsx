@@ -7,13 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-
 import { Edit } from "lucide-react";
 import clsx from "clsx";
 import { ProductWithNestedData } from "@/app/types";
 import VaraintOptionsList from "./variant-option-list";
-import { Attribute } from "@prisma/client";
 
 export default function PrductDetailCardAdmin({
   product,
@@ -29,7 +26,10 @@ export default function PrductDetailCardAdmin({
         (prev, cur) => {
           return { ...prev, [cur.attribute.name]: cur.name };
         },
-        { price: (Number(product.price) + Number(v.priceDiff)).toFixed(2) },
+        {
+          price: (Number(product.price) + Number(v.priceDiff)).toFixed(2),
+          id: v.id,
+        },
       ),
     );
     console.log(variantList);
@@ -48,6 +48,7 @@ export default function PrductDetailCardAdmin({
             <div className="mr-3 flex flex-col gap-2">
               {[1, 2, 3, 4].map((i) => (
                 <img
+                  key={i}
                   className="h-12 w-12 self-end object-contain"
                   src="/images/iphone15.jpg"
                 />
@@ -102,7 +103,7 @@ export default function PrductDetailCardAdmin({
               </div>
             );
         })} */}
-        <VaraintOptionsList variantOptions={variantOptions} />
+        <VaraintOptionsList variantOptionsFromParent={variantOptions} />
       </CardContent>
     </Card>
   );

@@ -15,9 +15,7 @@ export default function Row({ product }: { product: any }) {
         <span className="text-gray-600">{product.category.name}</span>
       </div>
       <div className="w-1/5">
-        <span className="text-gray-600">
-          ${product.variants[0] ? product.variants[0].price : 0}
-        </span>
+        <span className="text-gray-600">${product.price}</span>
       </div>
       <div>
         <span className="text-gray-400">Actions</span>
