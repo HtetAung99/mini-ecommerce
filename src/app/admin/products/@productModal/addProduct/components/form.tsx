@@ -262,7 +262,10 @@ export default function ModalForm({
       </div>
       <div className="my-3 flex w-full flex-row items-center justify-between border-t border-slate-300 py-3 ">
         <button
-          onClick={() => router.back()}
+          onClick={(e) => {
+            e.preventDefault();
+            router.back();
+          }}
           className={cn("secondary-btn w-1/4 ")}
         >
           Cancel

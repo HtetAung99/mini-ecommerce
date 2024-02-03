@@ -1,5 +1,6 @@
 import React from "react";
 import AttributeSelect from "./attribute-select";
+import { AttributeWithAttributeValue } from "@/app/types";
 
 export default function AttributeSelectList({
   selectedAttributes,
@@ -8,7 +9,7 @@ export default function AttributeSelectList({
 }: {
   selectedAttributes: any;
   setSelectedAttributes: any;
-  attributes: any;
+  attributes: AttributeWithAttributeValue[];
 }) {
   console.log(selectedAttributes);
   return (
@@ -24,13 +25,26 @@ export default function AttributeSelectList({
             return (
               <li>
                 {attribute} - {attributeValue.name}
+                <button
+                  onClick={() => {
+                    const newSelectedAttributes = { ...selectedAttributes };
+                    delete newSelectedAttributes[attribute];
+                    setSelectedAttributes(newSelectedAttributes);
+                  }}
+                  className="bg-red-300 p-1"
+                >
+                  Delete
+                </button>
               </li>
             );
           },
         )}
         <AttributeSelect
           setSelectedAttributes={setSelectedAttributes}
-          attributes={attributes}
+          attributes={attributes.filter(
+            (attribute) =>
+              Object.keys(selectedAttributes).indexOf(attribute.name) === -1,
+          )}
         />
       </div>
     </div>

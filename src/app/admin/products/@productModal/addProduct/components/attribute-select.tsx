@@ -13,9 +13,10 @@ export default function AttributeSelect({
 }) {
   const [selectedAttribute, setSelectedAttribute] =
     useState<AttributeWithAttributeValue>(attributes[0]);
-  const [selectedAttributeValue, setSelectedAttributeValue] = useState<
-    AttributeValue | undefined
-  >(attributes[0].attributeValues[0]);
+  const [selectedAttributeValue, setSelectedAttributeValue] =
+    useState<AttributeValue | null>(null);
+
+  const [hasError, setHasError] = useState(false);
 
   return (
     <div className="flex w-full flex-row items-end gap-2">
@@ -31,18 +32,24 @@ export default function AttributeSelect({
         setSelectedAttributeValue={setSelectedAttributeValue}
       />
 
+      {hasError && <p>Please choose a value!</p>}
+
       <button
-        disabled={selectedAttributeValue === undefined}
+        disabled={!selectedAttributeValue}
         onClick={(e) => {
           e.preventDefault();
-          setSelectedAttributes((prev: any) => {
-            if (selectedAttributeValue) {
+          if (!selectedAttributeValue) {
+            setHasError(true);
+          } else {
+            setSelectedAttributes((prev: any) => {
               return {
                 ...prev,
                 [selectedAttribute.name]: selectedAttributeValue,
               };
-            }
-          });
+            });
+            setSelectedAttributeValue(null);
+            setSelectedAttribute(attributes[0]);
+          }
         }}
         className="mb-9 rounded-md bg-blue-500 px-2 py-1 text-sm text-white"
       >

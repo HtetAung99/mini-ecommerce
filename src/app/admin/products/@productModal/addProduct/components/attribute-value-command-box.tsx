@@ -22,7 +22,7 @@ export default function AttributeValueCommandBox({
   setSelectedAttributeValue,
 }: {
   attributeValues: AttributeValue[];
-  selectedAttributeValue: AttributeValue | undefined;
+  selectedAttributeValue: AttributeValue | null;
   setSelectedAttributeValue: (attributeValue: AttributeValue) => void;
 }) {
   const [open, setOpen] = useState(false);

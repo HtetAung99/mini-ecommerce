@@ -27,9 +27,7 @@ export default function AttributeCommandBox({
   attributes: AttributeWithAttributeValue[];
   selectedAttribute: AttributeWithAttributeValue;
   setSelectedAttribute: (attribute: AttributeWithAttributeValue) => void;
-  setSelectedAttributeValue: (
-    attributeValue: AttributeValue | undefined,
-  ) => void;
+  setSelectedAttributeValue: (attributeValue: AttributeValue | null) => void;
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -72,7 +70,7 @@ export default function AttributeCommandBox({
                     if (attribute.name === "default") {
                       setSelectedAttributeValue(attribute.attributeValues[0]);
                     } else {
-                      setSelectedAttributeValue(undefined);
+                      setSelectedAttributeValue(null);
                     }
 
                     setOpen(false);
