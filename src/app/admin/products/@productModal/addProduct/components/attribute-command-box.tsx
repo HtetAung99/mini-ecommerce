@@ -34,7 +34,7 @@ export default function AttributeCommandBox({
   const [open, setOpen] = React.useState(false);
 
   return (
-    <div className="my-2 flex flex-col justify-start">
+    <div className="my-2 flex w-1/2 flex-col justify-start">
       <label
         className="mx-2 text-start text-sm font-medium leading-9 tracking-wide"
         htmlFor="category"
@@ -47,7 +47,7 @@ export default function AttributeCommandBox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="my-2 w-1/2 justify-between bg-slate-200  capitalize"
+            className="my-2 justify-between bg-slate-200  capitalize"
           >
             {selectedAttribute
               ? attributes.find(

@@ -8,12 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
-import P from "@/app/(home)/p/[...category]/page";
 import AttributeCommandBox from "./attribute-command-box";
 import AttributeValueCommandBox from "./attribute-value-command-box";
 import { AttributeWithAttributeValue } from "@/app/types";
 import { AttributeValue } from "@prisma/client";
+import { addProduct } from "@/app/actions/product";
+import AttributeSelect from "./attribute-select";
+import AttributeSelectList from "./attribute-select-list";
 
 type FormValues = {
   title: string;
@@ -22,20 +23,6 @@ type FormValues = {
   description?: string;
   published?: boolean;
 };
-
-// const resolver: Resolver<FormValues> = async (values) => {
-//   return {
-//     values: values.title ? values : {},
-//     errors: !values.title
-//       ? {
-//           title: {
-//             type: "required",
-//             message: "Product Title is required.",
-//           },
-//         }
-//       : {},
-//   };
-// };
 
 type Category = {
   id: number;
@@ -53,11 +40,8 @@ export default function ModalForm({
   const [published, setPublished] = useState(false);
   const [files, setFiles] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectedAttribute, setSelectedAttribute] =
-    useState<AttributeWithAttributeValue>(attributes[0]);
-  const [selectedAttributeValue, setSelectedAttributeValue] = useState<
-    AttributeValue | undefined
-  >(attributes[0].attributeValues[0]);
+
+  const [selectedAttributes, setSelectedAttributes] = useState<any>({});
 
   const handleFilesUpload = async (e: any) => {
     setLoading(true);
@@ -74,7 +58,7 @@ export default function ModalForm({
 
       if (res.ok) {
         const { signedUrl } = await res.json();
-        console.log(signedUrl);
+
         setFiles((prev) => [...prev, signedUrl]);
         setLoading(false);
       }
@@ -91,12 +75,13 @@ export default function ModalForm({
   const onSubmit = handleSubmit(async (data) => {
     data.category = selected;
     data.published = published;
-    ``;
+
     console.log(data);
-    // await addProduct({
-    //   ...data,
-    //   categoryId: selected.id,
-    // });
+    await addProduct({
+      ...data,
+      categoryId: selected.id,
+      published: published,
+    });
 
     // router.back();
   });
@@ -204,22 +189,12 @@ export default function ModalForm({
                   Add more photos
                 </button>
               </div>
-              <h3 className="text-base font-semibold leading-10 tracking-wide">
-                Product's Default Variant
-              </h3>
-              <div className="flex w-full flex-col justify-start ">
-                <AttributeCommandBox
-                  attributes={attributes}
-                  selectedAttribute={selectedAttribute}
-                  setSelectedAttribute={setSelectedAttribute}
-                  setSelectedAttributeValue={setSelectedAttributeValue}
-                />
-                <AttributeValueCommandBox
-                  attributeValues={selectedAttribute.attributeValues}
-                  selectedAttributeValue={selectedAttributeValue}
-                  setSelectedAttributeValue={setSelectedAttributeValue}
-                />
-              </div>
+
+              <AttributeSelectList
+                selectedAttributes={selectedAttributes}
+                setSelectedAttributes={setSelectedAttributes}
+                attributes={attributes}
+              />
             </div>
           </CardContent>
         </Card>

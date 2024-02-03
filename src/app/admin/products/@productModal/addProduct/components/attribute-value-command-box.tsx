@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Command,
   CommandEmpty,
@@ -15,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AttributeValue } from "@prisma/client";
-import { AttributeWithAttributeValue } from "@/app/types";
+import { useState } from "react";
 
 export default function AttributeValueCommandBox({
   attributeValues,
@@ -26,10 +25,10 @@ export default function AttributeValueCommandBox({
   selectedAttributeValue: AttributeValue | undefined;
   setSelectedAttributeValue: (attributeValue: AttributeValue) => void;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className=" my-2 flex flex-col justify-start">
+    <div className=" my-2 flex w-1/2 flex-col justify-start">
       <label
         className="mx-2 text-start text-sm font-medium leading-9 tracking-wide"
         htmlFor="category"
@@ -42,7 +41,7 @@ export default function AttributeValueCommandBox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="my-2 w-1/2 justify-between bg-slate-200 capitalize"
+            className="my-2 justify-between bg-slate-200 capitalize"
           >
             {selectedAttributeValue
               ? attributeValues.find(

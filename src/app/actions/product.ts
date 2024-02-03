@@ -10,6 +10,8 @@ export async function addProduct(formData: any) {
   const isLogin: boolean = await isAuthenticted();
   const hasPermission: boolean = await isAdmin();
 
+  const { variantData, ...productData } = formData;
+
   // might not be necessary
   if (!isLogin) redirect("/admin/products/?message=authFailed");
 
@@ -17,7 +19,7 @@ export async function addProduct(formData: any) {
 
   try {
     await prisma.product.create({
-      data: { ...formData, variants: defaultVariantData, price: 35.99 },
+      data: productData,
     });
   } catch (e) {
     console.error(e);
