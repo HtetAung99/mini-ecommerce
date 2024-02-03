@@ -4,6 +4,8 @@ import { isAdmin } from "../../../lib/session";
 import { redirect } from "next/navigation";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
+import P from "../(home)/p/[...category]/page";
+import { connect } from "http2";
 
 export async function addAttribute(formData: any) {
   const hasPermission: boolean = await isAdmin();
@@ -29,13 +31,14 @@ export async function addAttributeValue(formData: any) {
   if (!hasPermission) redirect("/admin/attributes/?message=authFailed");
 
   try {
+    const { name, value, attributeId } = formData;
     await prisma.attributeValue.create({
       data: {
-        name: formData["name"],
-        value: formData["value"],
+        name,
+        value,
         attribute: {
           connect: {
-            id: parseInt(formData["attributeId"]),
+            id: parseInt(attributeId),
           },
         },
       },

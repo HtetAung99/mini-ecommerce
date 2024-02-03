@@ -49,6 +49,7 @@ CREATE TABLE "Attribute" (
 CREATE TABLE "AttributeValue" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
+    "value" TEXT,
     "attributeId" INTEGER NOT NULL,
 
     CONSTRAINT "AttributeValue_pkey" PRIMARY KEY ("id")

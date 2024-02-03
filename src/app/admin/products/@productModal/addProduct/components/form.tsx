@@ -1,6 +1,6 @@
 "use client";
 
-import MyComboBox from "../../components/combobox";
+import MyComboBox from "../../../components/combobox";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import P from "@/app/(home)/p/[...category]/page";
+import AttributeCommandBox from "./attribute-command-box";
+import AttributeValueCommandBox from "./attribute-value-command-box";
+import { AttributeWithAttributeValue } from "@/app/types";
+import { AttributeValue } from "@prisma/client";
 
 type FormValues = {
   title: string;
@@ -37,12 +42,25 @@ type Category = {
   name: string;
 };
 
-export default function ModalForm({ categories }: { categories: Category[] }) {
+export default function ModalForm({
+  categories,
+  attributes,
+}: {
+  categories: Category[];
+  attributes: AttributeWithAttributeValue[];
+}) {
   const [selected, setSelected] = useState(categories[0]);
   const [published, setPublished] = useState(false);
   const [files, setFiles] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedAttribute, setSelectedAttribute] =
+    useState<AttributeWithAttributeValue>(attributes[0]);
+  const [selectedAttributeValue, setSelectedAttributeValue] = useState<
+    AttributeValue | undefined
+  >(attributes[0].attributeValues[0]);
 
   const handleFilesUpload = async (e: any) => {
+    setLoading(true);
     e.preventDefault();
     const files = e.target.files;
 
@@ -54,10 +72,11 @@ export default function ModalForm({ categories }: { categories: Category[] }) {
         body: formData,
       });
 
-      const data = await res.json();
       if (res.ok) {
         const { signedUrl } = await res.json();
+        console.log(signedUrl);
         setFiles((prev) => [...prev, signedUrl]);
+        setLoading(false);
       }
     });
   };
@@ -141,7 +160,7 @@ export default function ModalForm({ categories }: { categories: Category[] }) {
         <Card className="row-span-2 bg-slate-100 shadow-md">
           <CardHeader>
             <CardTitle className="text-lg font-semibold leading-7 tracking-wide">
-              Product Media
+              Product Variant & Photos
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -152,8 +171,24 @@ export default function ModalForm({ categories }: { categories: Category[] }) {
               >
                 Product Photo
               </label>
-              <Skeleton className="my-4 h-48 w-full rounded-md border border-dashed border-slate-400 bg-slate-200" />
-              <div className="relative cursor-pointer self-center">
+              <div className="relative w-full">
+                {loading && (
+                  <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-sm  font-semibold leading-7 tracking-widest">
+                    Loading ...
+                  </p>
+                )}
+                <div className="flew-row my-4 flex  h-48 w-full flex-wrap justify-around gap-5 overflow-auto rounded-md border border-dashed border-slate-400 bg-slate-200 p-4">
+                  {/* <Skeleton className="my-4 h-48 w-full rounded-md border border-dashed border-slate-400 bg-slate-200" /> */}
+                  {files.length > 0 &&
+                    files.map((file) => (
+                      <img
+                        className="h-16 w-20 rounded-md border border-slate-300 object-contain"
+                        src={file}
+                      />
+                    ))}
+                </div>
+              </div>
+              <div className="relative mb-4 cursor-pointer self-center">
                 <input
                   type="file"
                   accept="image/*"
@@ -168,6 +203,22 @@ export default function ModalForm({ categories }: { categories: Category[] }) {
                 >
                   Add more photos
                 </button>
+              </div>
+              <h3 className="text-base font-semibold leading-10 tracking-wide">
+                Product's Default Variant
+              </h3>
+              <div className="flex w-full flex-col justify-start ">
+                <AttributeCommandBox
+                  attributes={attributes}
+                  selectedAttribute={selectedAttribute}
+                  setSelectedAttribute={setSelectedAttribute}
+                  setSelectedAttributeValue={setSelectedAttributeValue}
+                />
+                <AttributeValueCommandBox
+                  attributeValues={selectedAttribute.attributeValues}
+                  selectedAttributeValue={selectedAttributeValue}
+                  setSelectedAttributeValue={setSelectedAttributeValue}
+                />
               </div>
             </div>
           </CardContent>

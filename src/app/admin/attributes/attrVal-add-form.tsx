@@ -2,6 +2,8 @@
 
 import { addAttributeValue } from "@/app/actions/attribute";
 import { AttributeWithAttributeValue } from "@/app/types";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 
 function AttributeValueAddForm({
@@ -27,29 +29,53 @@ function AttributeValueAddForm({
   });
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        {...register("name", { required: "Attribute name is required." })}
-        id="name"
-        name="name"
-        type="text"
-        placeholder="Enter attribute"
-      />
+    <>
+      <form
+        className=" flex w-full justify-between gap-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
+      >
+        {attribute.name !== "default" && (
+          <>
+            <Input
+              className={cn(
+                "h-10 w-1/3",
+                attribute.name === "color" ? "w-1/3" : "w-2/3",
+              )}
+              {...register("name", {
+                required: `Attribute's (${attribute.name})  value is required.`,
+              })}
+              id="name"
+              name="name"
+              type="text"
+              placeholder={`Enter ${attribute.name}'s value`}
+            />
 
-      {attribute.name === "color" ? (
-        <input
-          {...register("value")}
-          id="value"
-          name="value"
-          type="text"
-          placeholder="Enter color"
-        />
-      ) : null}
-      {errors.name && <p className="error">{errors.name.message}</p>}
-      <button type="submit" className="primary-btn">
-        Add
-      </button>
-    </form>
+            {attribute.name === "color" ? (
+              <Input
+                className={cn("h-10 w-1/3")}
+                {...register("value")}
+                id="value"
+                name="value"
+                type="text"
+                placeholder="Enter color"
+              />
+            ) : null}
+
+            <button type="submit" className="primary-btn">
+              Add
+            </button>
+          </>
+        )}
+      </form>
+      {errors.name && (
+        <p className="px-1 py-2 text-xs font-light italic text-red-500">
+          {errors.name.message}
+        </p>
+      )}
+    </>
   );
 }
 

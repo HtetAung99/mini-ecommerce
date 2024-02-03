@@ -32,7 +32,6 @@ export default function PrductDetailCardAdmin({
         },
       ),
     );
-    console.log(variantList);
 
     setVariantOptions(variantList);
   }, []);

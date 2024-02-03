@@ -50,9 +50,7 @@ export default async function CategoryTable({
       <div className="flex h-96 flex-col gap-2 overflow-y-scroll border border-r-0 border-slate-200">
         {selectedRoot ? (
           <Link
-            href={`/admin/categories/addCategory${
-              selectedRoot && `?rootId=${selectedRoot}`
-            }`}
+            href={`/admin/categories/addCategory?rootId=${selectedRoot}`}
             className="cursor-pointer py-2 pl-2.5 pt-2.5 font-mono font-semibold text-blue-700 hover:bg-slate-300"
           >
             + Add Category
@@ -73,9 +71,7 @@ export default async function CategoryTable({
       <div className="flex h-96 flex-col gap-2 overflow-y-scroll rounded-r-md border border-slate-200 ">
         {selectedFirst ? (
           <Link
-            href={`/admin/categories/addCategory${
-              selectedRoot && `?rootId=${selectedRoot}`
-            }${selectedFirst && `&firstId=${selectedFirst}`}`}
+            href={`/admin/categories/addCategory?rootId=${selectedRoot}&firstId=${selectedFirst}`}
             className="cursor-pointer py-2 pl-2.5 pt-2.5 font-mono font-semibold text-blue-700 hover:bg-slate-300"
           >
             + Add Category

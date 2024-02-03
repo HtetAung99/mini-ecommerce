@@ -11,10 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { get } from "http";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useCallback } from "react";
-import { useForm, Resolver } from "react-hook-form";
+import React, { use, useCallback, useEffect } from "react";
+import { useForm, Resolver, set } from "react-hook-form";
 type FormValues = {
   name: string;
 };
@@ -60,13 +61,25 @@ export default function ModalForm({
   }, [router]);
 
   const { rootId, firstId } = searchParams;
+  const [first, setFirst] = React.useState("");
+  const [root, setRoot] = React.useState("");
 
   const getCatName = async (id: Number) => {
+    console.log("called");
     const res = await fetch(`/api/categories?id=${id}`, { method: "GET" });
     const data = await res.json();
 
     return data.name;
   };
+
+  useEffect(() => {
+    if (rootId) {
+      getCatName(rootId).then((name) => setRoot(name));
+    }
+    if (firstId) {
+      getCatName(firstId).then((name) => setFirst(name));
+    }
+  }, [rootId, firstId]);
 
   return (
     <Card className="my-2 min-w-[30vw] max-w-[50vw] p-4 ">
@@ -81,14 +94,14 @@ export default function ModalForm({
             <div className="mb-4 flex flex-row items-center gap-2 text-sm font-bold leading-8 tracking-wider text-blue-500">
               {rootId && (
                 <>
-                  <p className="text-sm font-semibold">{getCatName(rootId)}</p>
+                  <p className="text-sm font-semibold">{root}</p>
                   <ChevronRight size={18} className="" />
                 </>
               )}
 
               {firstId && (
                 <>
-                  <p className="text-sm font-semibold">{getCatName(firstId)}</p>
+                  <p className="text-sm font-semibold">{first}</p>
                   <ChevronRight size={18} className="" />
                 </>
               )}
