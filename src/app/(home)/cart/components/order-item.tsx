@@ -32,7 +32,7 @@ export default function OrderItem({ item }: { item: CartItem }) {
   }, [item]);
   if (!cartItem) return null;
   return (
-    <div className="flex items-center  border-b border-slate-200 py-4">
+    <div className="flex w-full items-center border-b border-slate-200 py-4">
       <Avatar className="h-9 w-9">
         <AvatarImage src="/images/Dummy.jpeg" alt="Avatar" />
         <AvatarFallback>OM</AvatarFallback>

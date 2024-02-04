@@ -91,7 +91,7 @@ export default async function HomeLayout({
           </div>
         </div>
         <hr className="mx-[10vw]" />
-        <main className="flex w-full overflow-hidden py-5">{children}</main>
+        <main className="w-full py-5">{children}</main>
       </CartProvider>
       {auth}
     </div>

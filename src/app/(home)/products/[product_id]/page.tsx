@@ -21,16 +21,14 @@ export default async function ProductDetailPage({
   return (
     <div className="w-full">
       <CategoryHeader product_id={product.id} />
-      <div className=" grid w-full grid-cols-2 flex-row gap-10  py-5">
-        <div className="self-start rounded-md border-2 border-slate-200">
-          <Image
-            width={500}
-            height={500}
-            className="rounded-md object-cover"
-            src={product.variants[0].imageUrls[0]}
-            alt={product.variants[0].imageUrls[0]}
-          />
-        </div>
+      <div className=" grid w-full grid-cols-2 gap-10  py-5">
+        <Image
+          width={700}
+          height={500}
+          className="rounded-md border-2 border-slate-200 object-cover"
+          src={product.variants[0].imageUrls[0]}
+          alt={product.variants[0].imageUrls[0]}
+        />
 
         <ProductInfo product={product} />
       </div>

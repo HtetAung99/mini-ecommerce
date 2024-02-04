@@ -11,14 +11,14 @@ export default function OrderIemlist() {
   const { items } = useCart();
 
   return (
-    <div className="mt-5 max-h-[38vw] grow overflow-x-auto px-1 py-3">
+    <div className="mt-5 flex max-h-[38vw] w-full flex-col px-1 py-3">
       {items.map((item) => (
         <OrderItem key={item.variantId} item={item} />
       ))}
       <Button
         onClick={() => router.back()}
         variant="link"
-        className="mt-3 inline-flex items-center gap-3 text-sm font-normal text-destructive"
+        className="mt-3 inline-flex w-[20%] items-center gap-3 text-sm font-normal text-destructive"
       >
         <ChevronLeft size={"16px"} />
         Continue shopping
