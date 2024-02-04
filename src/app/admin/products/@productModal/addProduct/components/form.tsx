@@ -73,17 +73,28 @@ export default function ModalForm({
   const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
-    data.category = selected;
-    data.published = published;
+    const variantData = {
+      attributeValues: Object.entries(selectedAttributes).map(
+        ([attribute, attributeValue]: [string, any]) => {
+          return {
+            name: attributeValue.name,
+          };
+        },
+      ),
+      imageUrls: files,
+      priceDiff: 0,
+    };
 
-    console.log(data);
-    await addProduct({
+    const productData = {
       ...data,
       categoryId: selected.id,
       published: published,
-    });
+      variantData,
+    };
 
-    // router.back();
+    await addProduct(productData);
+
+    router.back();
   });
 
   return (

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Row from "./row";
 import { getProductsWithCategories } from "@/app/utils/products";
-import prisma from "../../../../lib/prisma";
 
 export default async function Table() {
   const products = await getProductsWithCategories(); // for pagination

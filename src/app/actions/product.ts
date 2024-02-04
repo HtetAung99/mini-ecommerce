@@ -3,7 +3,6 @@
 import { isAdmin, isAuthenticted } from "../../../lib/session";
 import { redirect } from "next/navigation";
 import prisma from "../../../lib/prisma";
-import { defaultVariantData } from "../../../prisma/dataPopulation/product_seeding";
 import { revalidatePath } from "next/cache";
 
 export async function addProduct(formData: any) {
@@ -19,7 +18,20 @@ export async function addProduct(formData: any) {
 
   try {
     await prisma.product.create({
-      data: productData,
+      data: {
+        ...productData,
+
+        variants: {
+          create: [
+            {
+              ...variantData,
+              attributeValues: {
+                connect: variantData.attributeValues,
+              },
+            },
+          ],
+        },
+      },
     });
   } catch (e) {
     console.error(e);
