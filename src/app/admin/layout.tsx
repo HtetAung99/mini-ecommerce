@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import NavBar from "./navbar";
 import { authOption } from "../api/auth/[...nextauth]/route";
-import { redirect, usePathname } from "next/navigation";
+import { redirect } from "next/navigation";
 import { Role } from "@prisma/client";
 import { getCurrentUser, isAuthenticted } from "../../../lib/session";
 import SearchCommandBox from "./components/search-command-box";

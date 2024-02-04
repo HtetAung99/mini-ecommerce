@@ -17,17 +17,18 @@ export default async function ProductDetailPage({
     return <p>Not found</p>;
   }
 
+  console.log(product);
   return (
-    <div className="">
+    <div className="w-full">
       <CategoryHeader product_id={product.id} />
-      <div className="flex w-full flex-row gap-10  py-5">
-        <div className="w-[50%] self-start rounded-md border-2 border-slate-200">
+      <div className=" grid w-full grid-cols-2 flex-row gap-10  py-5">
+        <div className="self-start rounded-md border-2 border-slate-200">
           <Image
-            height={400}
-            width={400}
-            className="m-auto rounded-md object-cover"
-            src={"/images/Dummy.jpeg"}
-            alt={""}
+            width={500}
+            height={500}
+            className="rounded-md object-cover"
+            src={product.variants[0].imageUrls[0]}
+            alt={product.variants[0].imageUrls[0]}
           />
         </div>
 

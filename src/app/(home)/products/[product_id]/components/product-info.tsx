@@ -90,7 +90,7 @@ export default function ProductInfo({
   };
 
   return (
-    <Card className="m-auto flex w-[40%] flex-col border-0">
+    <Card className="m-auto flex flex-col border-0">
       <CardHeader className={clsx("gap-8")}>
         <CardTitle>{product.title}</CardTitle>
         <CardDescription>{product.description}</CardDescription>

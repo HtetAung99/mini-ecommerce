@@ -19,7 +19,7 @@ export const getProductsWithCategories = cache(
           },
         },
       },
-      where: { published: false }, // need to change published to true
+      // need to change published to true
     });
     const products = res.map((product: any) => {
       const imageUrl =

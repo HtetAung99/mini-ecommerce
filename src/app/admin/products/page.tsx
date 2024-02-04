@@ -9,7 +9,6 @@ export default async function ProductsPage() {
     <main>
       <div className="flex w-full items-center justify-between">
         <Button className="mx-2 flex flex-row items-center gap-3 bg-blue-500 text-sm font-semibold hover:bg-blue-700">
-          <PlusSquare size={18} />
           <Link href={"/admin/products/addProduct"}>Add New Product</Link>
         </Button>
         <div>

@@ -15,13 +15,17 @@ import { AttributeValue } from "@prisma/client";
 import { addProduct } from "@/app/actions/product";
 import AttributeSelect from "./attribute-select";
 import AttributeSelectList from "./attribute-select-list";
+import { Label } from "@/components/ui/label";
 
 type FormValues = {
   title: string;
   price: number;
-  category: Category;
+  categoryId: number;
   description?: string;
   published?: boolean;
+  imageUrls?: string[];
+  priceDiff: number;
+  attributeValues: AttributeValue[];
 };
 
 type Category = {
@@ -73,17 +77,16 @@ export default function ModalForm({
   const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
-    data.category = selected;
+    data.categoryId = selected.id;
     data.published = published;
-
-    console.log(data);
+    data.imageUrls = files;
+    data.attributeValues = Object.values(selectedAttributes);
+    // attributeValues must not be empty
     await addProduct({
       ...data,
-      categoryId: selected.id,
-      published: published,
     });
 
-    // router.back();
+    router.back();
   });
 
   return (
@@ -145,7 +148,7 @@ export default function ModalForm({
         <Card className="row-span-2 bg-slate-100 shadow-md">
           <CardHeader>
             <CardTitle className="text-lg font-semibold leading-7 tracking-wide">
-              Product Variant & Photos
+              Variant Information
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -154,7 +157,10 @@ export default function ModalForm({
                 className="text-right text-sm font-medium leading-9 tracking-wide"
                 htmlFor="category"
               >
-                Product Photo
+                Photo{" "}
+                <span className=" text-bold text-xs leading-6 tracking-normal">
+                  ( Click or Press the box below to upload )
+                </span>
               </label>
               <div className="relative w-full">
                 {loading && (
@@ -171,24 +177,48 @@ export default function ModalForm({
                         src={file}
                       />
                     ))}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    placeholder="Upload Photo"
+                    className="absolute inset-0 left-0 top-0 h-full w-full cursor-pointer self-center px-4 py-2 align-middle opacity-0"
+                    onChange={handleFilesUpload}
+                    multiple
+                  />
                 </div>
               </div>
-              <div className="relative mb-4 cursor-pointer self-center">
-                <input
-                  type="file"
-                  accept="image/*"
-                  placeholder="Upload Photo"
-                  className="absolute inset-0 left-0 top-0 h-full w-[150px] cursor-pointer self-center px-4 py-2 align-middle opacity-0"
-                  onChange={handleFilesUpload}
-                  multiple
-                />
+              {/* <div className="relative mb-4 cursor-pointer self-center">
                 <button
                   onClick={(e) => e.preventDefault()}
                   className="primary-btn  w-full "
                 >
                   Add more photos
                 </button>
+              </div> */}
+
+              <div className="my-3 flex w-full flex-row items-center gap-4 px-2">
+                <Label
+                  className="w-1/2 text-start font-medium leading-9 tracking-wide"
+                  htmlFor="priceDiff"
+                >
+                  Price Diffrence
+                </Label>
+                <Input
+                  {...register("priceDiff", {
+                    required: "Price Difference is required!",
+                    valueAsNumber: true,
+                  })}
+                  className="h-10 rounded-md bg-slate-200"
+                  id="priceDiff"
+                  name="priceDiff"
+                  type="number"
+                />
               </div>
+              {errors?.priceDiff && (
+                <p className="my-2 pl-1 text-sm italic text-red-600">
+                  {errors.priceDiff.message}
+                </p>
+              )}
 
               <AttributeSelectList
                 selectedAttributes={selectedAttributes}

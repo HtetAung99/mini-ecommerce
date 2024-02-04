@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AttributeSelect from "./attribute-select";
 import { AttributeWithAttributeValue } from "@/app/types";
+import { ChevronRight } from "lucide-react";
 
 export default function AttributeSelectList({
   selectedAttributes,
@@ -11,27 +12,26 @@ export default function AttributeSelectList({
   setSelectedAttributes: any;
   attributes: AttributeWithAttributeValue[];
 }) {
-  console.log(selectedAttributes);
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold leading-10 tracking-wide">
-          Product's Default Variant
-        </h3>
-      </div>
-      <div className="flex flex-col">
+      <ul className="my-3 list-none text-start capitalize">
         {Object.entries(selectedAttributes).map(
           ([attribute, attributeValue]: [any, any]) => {
             return (
-              <li>
-                {attribute} - {attributeValue.name}
+              <li className="my-2 flex w-full items-center px-2 text-sm font-semibold leading-9 tracking-widest">
+                <div className="flex w-1/2 flex-row items-center gap-3">
+                  <span className="w-1/3">{attribute}</span>
+                  <ChevronRight className="pr-6" size={16} />
+                  <span>{attributeValue.name}</span>
+                </div>
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     const newSelectedAttributes = { ...selectedAttributes };
                     delete newSelectedAttributes[attribute];
                     setSelectedAttributes(newSelectedAttributes);
                   }}
-                  className="bg-red-300 p-1"
+                  className="secondary-btn w-1/4"
                 >
                   Delete
                 </button>
@@ -39,14 +39,15 @@ export default function AttributeSelectList({
             );
           },
         )}
-        <AttributeSelect
-          setSelectedAttributes={setSelectedAttributes}
-          attributes={attributes.filter(
-            (attribute) =>
-              Object.keys(selectedAttributes).indexOf(attribute.name) === -1,
-          )}
-        />
-      </div>
+      </ul>
+      <AttributeSelect
+        selectedAttributes={selectedAttributes}
+        setSelectedAttributes={setSelectedAttributes}
+        attributes={attributes.filter(
+          (attribute) =>
+            Object.keys(selectedAttributes).indexOf(attribute.name) === -1,
+        )}
+      />
     </div>
   );
 }
