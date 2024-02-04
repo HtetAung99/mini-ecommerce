@@ -13,6 +13,7 @@ import { AttributeValue } from "@prisma/client";
 import { addProduct } from "@/app/actions/product";
 import AttributeSelectList from "./attribute-select-list";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 
 type FormValues = {
   title: string;
@@ -37,6 +38,7 @@ export default function ModalForm({
   categories: Category[];
   attributes: AttributeWithAttributeValue[];
 }) {
+  const { toast } = useToast();
   const [selected, setSelected] = useState(categories[0]);
   const [published, setPublished] = useState(false);
   const [files, setFiles] = useState<string[]>([]);
@@ -79,13 +81,22 @@ export default function ModalForm({
     data.imageUrls = files;
     data.attributeValues = Object.values(selectedAttributes);
     // attributeValues must not be empty
-    await addProduct({
-      ...data,
-      categoryId: selected.id,
-      published: published,
-    });
-
-    router.back();
+    await addProduct(data)
+      .then(() => {
+        router.back();
+      })
+      .catch((e) => {
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+        });
+      })
+      .finally(() => {
+        toast({
+          title: "Product Created",
+          description: "Product has been created successfully",
+        });
+      });
   });
 
   return (

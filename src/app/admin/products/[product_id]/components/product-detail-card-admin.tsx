@@ -34,10 +34,10 @@ export default function PrductDetailCardAdmin({
     );
 
     setVariantOptions(variantList);
-  }, []);
+  }, [product.variants]);
   return (
     <Card className="relative m-auto flex w-full flex-col border-0 p-7">
-      <div className="absolute -right-4 -top-4 flex w-fit cursor-pointer items-center justify-center rounded-full border border-slate-500 bg-black p-2">
+      <div className="absolute -right-8 -top-8 flex w-fit cursor-pointer items-center justify-center rounded-full border border-slate-500 bg-black p-2">
         <Edit className="self-center text-slate-100" size={18} />
       </div>
       <CardHeader className={clsx("gap-8")}>
@@ -59,7 +59,7 @@ export default function PrductDetailCardAdmin({
               alt=""
             />
           </div>
-          <CardDescription className="self-center p-7 indent-4 text-[18px] font-medium leading-8 tracking-wide text-slate-400">
+          <CardDescription className="self-start p-7 indent-4 text-base font-medium leading-8 tracking-wider text-slate-400">
             {product.description}
           </CardDescription>
         </div>

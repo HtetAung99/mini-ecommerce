@@ -14,7 +14,6 @@ export default function AttributeSelect({
   selectedAttributes: any;
   setSelectedAttributes: any;
 }) {
-  console.log("here", attributes);
   const [selectedAttribute, setSelectedAttribute] =
     useState<AttributeWithAttributeValue>(attributes[0]);
   const [selectedAttributeValue, setSelectedAttributeValue] =
@@ -25,7 +24,7 @@ export default function AttributeSelect({
     );
 
   const [error, setError] = useState<string | null>();
-
+  if (Object.keys(selectedAttributes).includes("default")) return;
   return (
     <div className="flex flex-col items-start">
       <div className="flex w-full flex-row gap-2">
@@ -48,6 +47,9 @@ export default function AttributeSelect({
             if (selectedAttributeValue) {
               setError(null);
               setSelectedAttributes((prev: any) => {
+                if (selectedAttribute.name === "default") {
+                  return { [selectedAttribute.name]: selectedAttributeValue };
+                }
                 return {
                   ...prev,
                   [selectedAttribute.name]: selectedAttributeValue,

@@ -4,7 +4,6 @@ import { isAdmin, isAuthenticted } from "../../../lib/session";
 import { redirect } from "next/navigation";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
-import { connect } from "http2";
 import { AttributeValue } from "@prisma/client";
 
 export async function addProduct(formData: any) {
