@@ -8,12 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import AttributeCommandBox from "./attribute-command-box";
-import AttributeValueCommandBox from "./attribute-value-command-box";
 import { AttributeWithAttributeValue } from "@/app/types";
 import { AttributeValue } from "@prisma/client";
 import { addProduct } from "@/app/actions/product";
-import AttributeSelect from "./attribute-select";
 import AttributeSelectList from "./attribute-select-list";
 import { Label } from "@/components/ui/label";
 
@@ -84,6 +81,8 @@ export default function ModalForm({
     // attributeValues must not be empty
     await addProduct({
       ...data,
+      categoryId: selected.id,
+      published: published,
     });
 
     router.back();

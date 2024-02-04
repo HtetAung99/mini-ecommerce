@@ -3,7 +3,6 @@
 import { isAdmin, isAuthenticted } from "../../../lib/session";
 import { redirect } from "next/navigation";
 import prisma from "../../../lib/prisma";
-import { defaultVariantData } from "../../../prisma/dataPopulation/product_seeding";
 import { revalidatePath } from "next/cache";
 import { connect } from "http2";
 import { AttributeValue } from "@prisma/client";
