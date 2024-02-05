@@ -13,6 +13,8 @@ import CartSpan from "./cart-span";
 import UserDropdown from "./components/user-dropdown";
 import { $Enums } from "@prisma/client";
 import SearchBar from "./components/search-bar";
+import prisma from "../../../lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export default async function HomeLayout({
   children,

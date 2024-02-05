@@ -23,7 +23,7 @@ export const getProductsWithCategories = cache(
     });
     const products = res.map((product: any) => {
       const imageUrl =
-        product.variants[0].imageUrls[0] || "default-product-image.jpg";
+        product.variants[0]?.imageUrls[0] || "default-product-image.jpg";
       return {
         ...product,
         imageUrl,

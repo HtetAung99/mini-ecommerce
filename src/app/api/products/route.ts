@@ -55,3 +55,36 @@ export async function GET(request: NextRequest) {
     products,
   });
 }
+
+export async function PUT(request: NextRequest) {
+  const res = await request.json();
+
+  // const isLogin: boolean = await isAuthenticted();
+  // const hasPermission: boolean = await isAdmin();
+
+  // if (!isLogin)
+  //   return NextResponse.json({
+  //     success: false,
+  //     message: "authentication failed",
+  //     status: 401,
+  //   });
+
+  // if (!hasPermission)
+  //   return NextResponse.json({
+  //     success: false,
+  //     message: "authorization failed",
+  //     status: 403,
+  //   });
+
+  try {
+    const updated_product = await prisma.product.update({
+      where: { id: res.id },
+      data: res,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+
+  revalidatePath("/");
+  return NextResponse.json({ revalidated: true, now: Date.now() });
+}

@@ -1,5 +1,4 @@
 import { getProductById } from "@/app/utils/products";
-import React, { ReactNode } from "react";
 import CategoryHeader from "./components/category-header";
 import ProductInfo from "./components/product-info";
 import Image from "next/image";

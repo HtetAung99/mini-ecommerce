@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { CircleDollarSign, CreditCard, ShoppingCart } from "lucide-react";
 import { retrieveAttributesObject } from "@/app/utils/variants";
 import { useCart } from "@/app/hooks/useCart";
+import { io } from "socket.io-client";
 
 export default function ProductInfo({
   product,
@@ -37,6 +38,16 @@ export default function ProductInfo({
   };
 
   const { addItem } = useCart();
+
+  useEffect(() => {
+    fetch("/api/socket").finally(() => {
+      const socket = io();
+
+      socket.on("connect", () => {
+        console.log("connected");
+      });
+    });
+  }, []);
 
   useEffect(() => {
     const variantList = product.variants.map((v) =>

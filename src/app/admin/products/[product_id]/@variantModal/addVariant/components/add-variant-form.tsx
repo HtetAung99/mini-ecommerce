@@ -62,11 +62,11 @@ export default function AddVaraintForm({
     formState: { errors },
   } = useForm<FormValues>();
   const { toast } = useToast();
-  const onSubmit = handleSubmit(async (data: FormValues) => {
+  const onSubmit = handleSubmit((data: FormValues) => {
     data.productId = Number(productId);
     data.imageUrls = files;
     data.attributeValues = Object.values(selectedAttributes);
-    await addVariant(data)
+    addVariant(data)
       .then(() => {
         router.back();
       })
