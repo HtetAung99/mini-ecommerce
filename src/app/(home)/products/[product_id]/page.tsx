@@ -16,7 +16,6 @@ export default async function ProductDetailPage({
     return <p>Not found</p>;
   }
 
-  console.log(product);
   return (
     <div className="w-full">
       <CategoryHeader product_id={product.id} />

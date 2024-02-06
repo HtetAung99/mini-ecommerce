@@ -132,7 +132,6 @@ export const getBestSellers = cache(async (): Promise<ProductWithImage[]> => {
   return products.map((product: any) => {
     const imageUrl =
       product.variants[0].imageUrls[0] || "default-product-image.jpg";
-    console.log("BestSellers", imageUrl);
     return {
       ...product,
       imageUrl,
@@ -149,7 +148,6 @@ export const getNewArrivals = cache(async (): Promise<ProductWithImage[]> => {
   return products.map((product: any) => {
     const imageUrl =
       product.variants[0].imageUrls[0] || "default-product-image.jpg";
-    console.log("NewArrivals", imageUrl);
     return {
       ...product,
       imageUrl,
@@ -168,7 +166,6 @@ export const getProductsWithPromotions = cache(
       const tmp: ProductWithPromotion[] = [
         ...promotion.variants.map((variant) => {
           const imageUrl = variant.imageUrls[0] || "default-product-image.jpg";
-          console.log("Promotions", imageUrl);
           return {
             ...variant.product,
             promotion: promotion.id,

@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { CircleDollarSign, CreditCard, ShoppingCart } from "lucide-react";
 import { retrieveAttributesObject } from "@/app/utils/variants";
 import { useCart } from "@/app/hooks/useCart";
-import { io } from "socket.io-client";
+import { useSocket } from "@/app/context/socket-provider";
 
 export default function ProductInfo({
   product,
@@ -38,16 +38,7 @@ export default function ProductInfo({
   };
 
   const { addItem } = useCart();
-
-  useEffect(() => {
-    fetch("/api/socket").finally(() => {
-      const socket = io();
-
-      socket.on("connect", () => {
-        console.log("connected");
-      });
-    });
-  }, []);
+  const { isConnected, socket } = useSocket();
 
   useEffect(() => {
     const variantList = product.variants.map((v) =>
@@ -65,6 +56,14 @@ export default function ProductInfo({
 
     setSelectedVariantPair(firstVariant);
   }, []);
+
+  useEffect(() => {
+    if (isConnected) {
+      socket.on("message", (data: any) => {
+        console.log(data);
+      });
+    }
+  }, [isConnected]);
 
   useEffect(() => {
     if (variantOptions.length === 1) {
@@ -103,7 +102,9 @@ export default function ProductInfo({
   return (
     <Card className="m-auto flex h-full w-full flex-col border-0">
       <CardHeader className={clsx("gap-8")}>
-        <CardTitle>{product.title}</CardTitle>
+        <span>
+          <CardTitle>{product.title}</CardTitle>
+        </span>
         <CardDescription>{product.description}</CardDescription>
       </CardHeader>
 

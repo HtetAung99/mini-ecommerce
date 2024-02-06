@@ -3,6 +3,9 @@
 // import { NextResponse } from "next/server";
 // import { NextRequest } from "next/server";
 
+import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import { NextApiResponseServerIo } from "./types";
+
 // // import { authOption } from "./api/auth/[...nextauth]/route";
 
 // // This function can be marked `async` if using `await` inside
@@ -33,6 +36,16 @@
 //   // }
 // }
 
-// export const config = {
-//   matcher: ["/api/products/:function*", "api/categories/:function*"],
-// };
+export default async function middleware(
+  request: NextRequest,
+  response: NextApiResponseServerIo,
+  event: NextFetchEvent,
+) {
+  console.log("called middleware");
+  event.waitUntil(fetch("/api/socket/io"));
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/api/products/:path*", "api/categories/:path*"],
+};
