@@ -36,16 +36,16 @@ import { NextApiResponseServerIo } from "./types";
 //   // }
 // }
 
-export default async function middleware(
-  request: NextRequest,
-  response: NextApiResponseServerIo,
-  event: NextFetchEvent,
-) {
-  console.log("called middleware");
-  event.waitUntil(fetch("/api/socket/io"));
-  return NextResponse.next();
-}
+// export default async function middleware(
+//   request: NextRequest,
+//   response: NextApiResponseServerIo,
+//   event: NextFetchEvent,
+// ) {
+//   console.log("called middleware");
+//   event.waitUntil(fetch("/api/socket/io"));
+//   return NextResponse.next();
+// }
 
-export const config = {
-  matcher: ["/api/products/:path*", "api/categories/:path*"],
-};
+// export const config = {
+//   matcher: ["/api/products/:path*", "api/categories/:path*"],
+// };

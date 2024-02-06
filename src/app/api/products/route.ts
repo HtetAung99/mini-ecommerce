@@ -3,7 +3,9 @@ import prisma from "../../../../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { isAdmin, isAuthenticted } from "../../../../lib/session";
 import { defaultVariantData } from "../../../../prisma/dataPopulation/product_seeding";
-import { NextApiResponseServerIo } from "@/app/types";
+import { getIo } from "../../../../lib/ws.mjs";
+
+const ioInstance = getIo();
 
 export async function POST(request: NextRequest) {
   const res = await request.json();
@@ -57,27 +59,23 @@ export async function GET(request: NextRequest) {
   });
 }
 
-export async function PUT(
-  request: NextRequest,
-  response: NextApiResponseServerIo,
-) {
-  // const res = await request.json();
-  response.socket.server?.io?.emit("message", "lee pl pop");
-  return NextResponse.json({ msg: "done" }, { status: 200 });
+export async function PUT(request: NextRequest) {
+  const res = await request.json();
+  console.log("ioInstance", ioInstance);
+  try {
+    const updated_product = await prisma.product.update({
+      where: { id: res.id },
+      data: res,
+    });
+    ioInstance.on("connection", (socket: any) => {
+      console.log("A user connected:", socket.id);
+      ioInstance.emit("admin", updated_product);
+      console.log("product-updated message sent");
+    });
+  } catch (e) {
+    console.error(e);
+  }
 
-  // try {
-  //   const updated_product = await prisma.product.update({
-  //     where: { id: res.id },
-  //     data: res,
-  //   });
-  // } catch (e) {
-  //   console.error(e);
-  // } finally {
-  //   // io.emit("product-updated");
-  //   response.socket.server.io.emit("product-updated", "product-updated");
-  //   console.log("product-updated message sent");
-  // }
-
-  // revalidatePath("/");
-  // return NextResponse.json({ revalidated: true, now: Date.now() });
+  revalidatePath("/");
+  return NextResponse.json({ revalidated: true, now: Date.now() });
 }
