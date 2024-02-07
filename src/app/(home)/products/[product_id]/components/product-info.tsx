@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { CircleDollarSign, CreditCard, ShoppingCart } from "lucide-react";
 import { retrieveAttributesObject } from "@/app/utils/variants";
 import { useCart } from "@/app/hooks/useCart";
-// import { useSocket } from "@/app/context/socket-provider";
+import { useSocket } from "@/app/context/socket-provider";
 import { io } from "socket.io-client";
 
 export default function ProductInfo({
@@ -26,10 +26,13 @@ export default function ProductInfo({
 }: {
   product: ProductWithNestedData;
 }) {
+  const [productState, setProductState] =
+    useState<ProductWithNestedData>(product);
   const [selectedVariantPair, setSelectedVariantPair]: any[] = useState({});
   const [variantOptions, setVariantOptions]: any[] = useState([]);
   const [price, setPrice]: [price: null | Number, setPrice: any] =
     useState(null);
+  // const router = useRouter();
 
   const attributeValues: AttributeValueWithAttribute[] =
     retrieveAttributesObject(product.variants);
@@ -39,15 +42,15 @@ export default function ProductInfo({
   };
 
   const { addItem } = useCart();
-  // const { isConnected, socket } = useSocket();
+  const { isConnected, socket } = useSocket();
 
   useEffect(() => {
-    const variantList = product.variants.map((v) =>
+    const variantList = productState.variants.map((v) =>
       v.attributeValues.reduce(
         (prev, cur) => {
           return { ...prev, [cur.attribute.name]: cur.name };
         },
-        { p: (Number(product.price) + Number(v.priceDiff)).toFixed(2) },
+        { p: (Number(productState.price) + Number(v.priceDiff)).toFixed(2) },
       ),
     );
 
@@ -56,17 +59,33 @@ export default function ProductInfo({
       variantList.length > 1 ? variantList[1] : variantList[0];
 
     setSelectedVariantPair(firstVariant);
-  }, []);
+  }, [productState]);
 
   useEffect(() => {
-    const socket = io("http://localhost:4000");
-    socket.on("connect", () => {
-      console.log(socket.id);
-    });
-    socket.on("admin", (data: any) => {
-      console.log(data);
-    });
-  }, []);
+    if (isConnected) {
+      socket?.on("admin", (data: any) => {
+        console.log("event received");
+        setProductState((prev) => ({ ...prev, price: data.price }));
+      });
+      return () => {
+        socket?.disconnect();
+      };
+    }
+  }, [isConnected, socket]);
+
+  // useEffect(() => {
+  //   const socket = new (io as any)("http://localhost:4000");
+  //   socket.on("connect", () => {
+  //     console.log("socket", socket.id, "is connected from product-info");
+  //   });
+  //   socket.on("admin", (data: any) => {
+  //     console.log("event received");
+  //     setProductState((prev) => ({ ...prev, price: data.price }));
+  //   });
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (variantOptions.length === 1) {
@@ -86,7 +105,7 @@ export default function ProductInfo({
   }, [selectedVariantPair]);
 
   const handleAddToCard = () => {
-    const variants = product.variants.filter((v) => {
+    const variants = productState.variants.filter((v) => {
       return v.attributeValues.every((av) => {
         if (selectedVariantPair[av.attribute.name]) {
           return av.name === selectedVariantPair[av.attribute.name];
@@ -97,7 +116,7 @@ export default function ProductInfo({
     addItem({
       variantId: variants[0].id,
       quantity: 1,
-      price: product.price,
+      price: productState.price,
       priceDiff: variants[0].priceDiff,
     });
   };
@@ -106,10 +125,10 @@ export default function ProductInfo({
     <Card className="m-auto flex h-full w-full flex-col border-0">
       <CardHeader className={clsx("gap-8")}>
         <span>
-          <CardTitle>{product.title}</CardTitle>
+          <CardTitle>{productState.title}</CardTitle>
           {/* {isConnected && <Badge>Online</Badge>} */}
         </span>
-        <CardDescription>{product.description}</CardDescription>
+        <CardDescription>{productState.description}</CardDescription>
       </CardHeader>
 
       <CardContent>

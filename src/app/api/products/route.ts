@@ -3,9 +3,9 @@ import prisma from "../../../../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { isAdmin, isAuthenticted } from "../../../../lib/session";
 import { defaultVariantData } from "../../../../prisma/dataPopulation/product_seeding";
-import { getIo } from "../../../../lib/ws.mjs";
+import { io } from "socket.io-client";
 
-const ioInstance = getIo();
+const socket = new (io as any)("http://localhost:4000");
 
 export async function POST(request: NextRequest) {
   const res = await request.json();
@@ -61,16 +61,15 @@ export async function GET(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const res = await request.json();
-  console.log("ioInstance", ioInstance);
   try {
     const updated_product = await prisma.product.update({
       where: { id: res.id },
       data: res,
     });
-    ioInstance.on("connection", (socket: any) => {
-      console.log("A user connected:", socket.id);
-      ioInstance.emit("admin", updated_product);
-      console.log("product-updated message sent");
+
+    socket.emit("admin", updated_product, () => {
+      console.log("admin event emitted socket is now disconnected");
+      socket.disconnect();
     });
   } catch (e) {
     console.error(e);

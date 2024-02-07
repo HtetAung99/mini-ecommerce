@@ -47,6 +47,7 @@
     "autoprefixer": "10.4.15",
     "aws-sdk": "^2.1545.0",
     "bcrypt": "^5.1.1",
+    "bufferutil": "^4.0.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
@@ -67,7 +68,9 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
-    "uuid": "^9.0.1"
+    "utf-8-validate": "^6.0.3",
+    "uuid": "^9.0.1",
+    "ws": "^8.16.0"
   },
   "engines": {
     "node": ">=18.17.0"
