@@ -1,15 +1,14 @@
-import { link } from "fs";
 import prisma from "../../../lib/prisma";
-import { Order } from "@prisma/client";
+import OrderList from "./components/order-list";
 
 export default async function AdminPage() {
-  const orders = await prisma.order.findMany();
+  const orders = await prisma.order.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <main className="">
-      {orders.map((order: Order) => (
-        <li key={order.id}>{order.id}</li>
-      ))}
+      <OrderList orders={orders} />
     </main>
   );
 }

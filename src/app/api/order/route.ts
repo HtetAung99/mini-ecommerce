@@ -3,6 +3,9 @@ import { calculateTotal } from "../checkout/route";
 import prisma from "../../../../lib/prisma";
 import { getCurrentUser } from "../../../../lib/session";
 import { redirect } from "next/navigation";
+import { io } from "socket.io-client";
+
+const socket = new (io as any)("http://localhost:4000");
 
 export async function POST(request: NextRequest) {
   const user = await getCurrentUser();
@@ -42,6 +45,10 @@ export async function POST(request: NextRequest) {
           },
         },
       });
+    });
+
+    socket.emit("order", newOrder, () => {
+      socket.disconnect();
     });
 
     return NextResponse.json({

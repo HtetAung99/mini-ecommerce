@@ -13,7 +13,6 @@ export default async function OrderAddress({
       <div>
         <p>{address?.name}</p>
         <p>{address?.address}</p>
-        <p>67D</p>
         <p>
           {address?.city}, {address?.state} {address?.postalCode}
         </p>

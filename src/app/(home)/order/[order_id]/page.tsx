@@ -1,6 +1,5 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
 import OrderDetailHeader from "./components/order-detail-header";
 import OrderDetailBody from "./components/order-detail-body";
 import { getOrderById } from "@/app/utils/orders";

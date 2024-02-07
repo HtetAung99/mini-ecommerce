@@ -1,5 +1,4 @@
 import { OrderWithItems } from "@/app/types";
-import { Order } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 

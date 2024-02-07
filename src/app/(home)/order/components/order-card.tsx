@@ -3,7 +3,6 @@ import OrderCardHeader from "./order-card-header";
 import OrderCardBody from "./order-card-body";
 import { OrderWithItems } from "@/app/types";
 import prisma from "../../../../../lib/prisma";
-import { Product, Variant } from "@prisma/client";
 
 export default async function OrderCard({ order }: { order: OrderWithItems }) {
   const items = await Promise.all(

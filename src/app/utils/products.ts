@@ -72,7 +72,7 @@ export const getProductByFilters = cache(
       return {
         ...product,
         imageUrl:
-          product.variants[0].imageUrls[0] || "default-product-image.jpg",
+          product.variants[0]?.imageUrls[0] || "default-product-image.jpg",
         promotion: product.variants.filter((v: Variant) => v.promotionId)[0]
           ?.promotionId,
       };
@@ -117,7 +117,7 @@ export const getProductById = cache(
       ...product,
       promotion: product?.variants.map((v: any) => v.promotion),
       imageUrl:
-        product?.variants[0].imageUrls[0] || "default-product-image.jpg",
+        product?.variants[0]?.imageUrls[0] || "default-product-image.jpg",
     };
   },
 );
@@ -131,7 +131,7 @@ export const getBestSellers = cache(async (): Promise<ProductWithImage[]> => {
 
   return products.map((product: any) => {
     const imageUrl =
-      product.variants[0].imageUrls[0] || "default-product-image.jpg";
+      product.variants[0]?.imageUrls[0] || "default-product-image.jpg";
     return {
       ...product,
       imageUrl,
@@ -147,7 +147,7 @@ export const getNewArrivals = cache(async (): Promise<ProductWithImage[]> => {
   });
   return products.map((product: any) => {
     const imageUrl =
-      product.variants[0].imageUrls[0] || "default-product-image.jpg";
+      product.variants[0]?.imageUrls[0] || "default-product-image.jpg";
     return {
       ...product,
       imageUrl,
