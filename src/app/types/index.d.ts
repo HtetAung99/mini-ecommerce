@@ -5,6 +5,8 @@ import type {
   Product,
   Variant,
   Order,
+  User,
+  Address,
 } from "@prisma/client";
 
 import { Server as NetServer, Socket } from "net";
@@ -18,6 +20,14 @@ export type NextApiResponseServerIo = NextApiResponse & {
     };
   };
 };
+
+export interface OrderWithCustomer extends OrderWithItems {
+  customer: User;
+}
+
+export interface OrderWithAllDetails extends OrderWithCustomer {
+  address: Address;
+}
 
 export interface CategoryWithChild extends Category {
   children: Category[];

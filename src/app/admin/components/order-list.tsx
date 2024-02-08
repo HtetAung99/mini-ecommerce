@@ -2,18 +2,20 @@
 
 import { useSocket } from "@/app/context/socket-provider";
 import { useToast } from "@/components/ui/use-toast";
-import { Order } from "@prisma/client";
 import { useEffect, useState } from "react";
 
-function OrderList({ orders }: { orders: Order[] }) {
-  const [orderList, setOrderList] = useState<Order[]>(orders);
+import { OrderWithAllDetails } from "@/app/types";
+import AdminOrderItem from "./admin-order-item";
+
+function OrderList({ orders }: { orders: OrderWithAllDetails[] }) {
+  const [orderList, setOrderList] = useState<OrderWithAllDetails[]>(orders);
 
   const { socket, isConnected } = useSocket();
   const { toast } = useToast();
 
   useEffect(() => {
     if (isConnected) {
-      socket.on("order", (order: Order) => {
+      socket.on("order", (order: OrderWithAllDetails) => {
         setOrderList([...orderList, order]);
 
         toast({
@@ -26,11 +28,11 @@ function OrderList({ orders }: { orders: Order[] }) {
   }, [socket, isConnected]);
 
   return (
-    <>
-      {orderList.map((order: Order) => (
-        <li key={order.id}>{order.id}</li>
+    <div>
+      {orderList.map((order: OrderWithAllDetails) => (
+        <AdminOrderItem key={order.id} order={order} />
       ))}
-    </>
+    </div>
   );
 }
 

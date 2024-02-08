@@ -11,7 +11,7 @@ export default function OrderShippingStatus({
   order: OrderWithItems | Order;
 }) {
   return (
-    <div className="">
+    <div className="pl-4">
       <h3 className="text-semibold border-b border-slate-300 pb-3 text-base capitalize tracking-wider">
         {order.shippingType.toLowerCase()}
       </h3>

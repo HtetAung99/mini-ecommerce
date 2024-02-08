@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
-import { getCurrentUser } from "../../../lib/session";
+import { getCurrentUser, isAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
+import { OrderWithAllDetails } from "../types";
 
 export const getOrders = async () => {
   const user = await getCurrentUser();
@@ -28,4 +29,17 @@ export const getOrderById = async (id: string) => {
   });
 
   return order;
+};
+
+export const getOrdersForAdmin = async (): Promise<OrderWithAllDetails[]> => {
+  const hasAccess = await isAdmin();
+  // including customer is dangerouse, because it includes password
+  if (hasAccess) {
+    const orders = await prisma.order.findMany({
+      include: { orderItems: true, customer: true, address: true },
+      orderBy: { createdAt: "desc" },
+    });
+    return orders;
+  }
+  return [];
 };
