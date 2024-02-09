@@ -10,8 +10,19 @@ export const attributesValuesByProductId = async (productId: number) => {
   return retrieveAttributesObject(productVariants);
 };
 
+export const variantById = async (variantId: number) => {
+  const variant = await prisma.variant.findUnique({
+    where: { id: variantId },
+    include: {
+      product: true,
+      attributeValues: { include: { attribute: true } },
+    },
+  });
+  return variant;
+};
+
 export const retrieveAttributesObject = (
-  variants: VariantWithAttributeValues[]
+  variants: VariantWithAttributeValues[],
 ) => {
   const reducedVariants = variants.reduce((prev: any, current) => {
     current.attributeValues.forEach((av) => {
@@ -21,7 +32,7 @@ export const retrieveAttributesObject = (
             id: av.id,
             name: av.name,
             attributeId: av.attributeId,
-          })
+          }),
         );
       } else {
         prev[av.attribute.name] = new Set([

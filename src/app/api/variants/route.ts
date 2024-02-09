@@ -4,22 +4,26 @@ import { VariantWithProductAndAttributeValues } from "@/app/types";
 import { isAdmin } from "../../../../lib/session";
 
 export async function GET(request: NextRequest) {
-  const id = request.nextUrl.searchParams.get("id");
+  try {
+    const id = request.nextUrl.searchParams.get("id");
 
-  const variant: VariantWithProductAndAttributeValues | null =
-    await prisma.variant.findUnique({
-      where: { id: Number(id) },
-      include: {
-        product: true,
-        attributeValues: {
-          include: {
-            attribute: true,
+    const variant: VariantWithProductAndAttributeValues | null =
+      await prisma.variant.findUnique({
+        where: { id: Number(id) },
+        include: {
+          product: true,
+          attributeValues: {
+            include: {
+              attribute: true,
+            },
           },
         },
-      },
-    });
+      });
 
-  return NextResponse.json(variant);
+    return NextResponse.json(variant);
+  } catch (e) {
+    return NextResponse.json({ message: "error" }, { status: 500 });
+  }
 }
 
 export async function DELETE(request: NextRequest) {

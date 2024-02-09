@@ -35,10 +35,14 @@ export const getOrdersForAdmin = async (): Promise<OrderWithAllDetails[]> => {
   const hasAccess = await isAdmin();
   // including customer is dangerouse, because it includes password
   if (hasAccess) {
-    const orders = await prisma.order.findMany({
-      include: { orderItems: true, customer: true, address: true },
+    const orders: OrderWithAllDetails[] = (await prisma.order.findMany({
+      include: {
+        orderItems: true,
+        customer: { select: { id: true, email: true, name: true, role: true } },
+        address: true,
+      },
       orderBy: { createdAt: "desc" },
-    });
+    })) as OrderWithAllDetails[];
     return orders;
   }
   return [];

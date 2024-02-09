@@ -15,7 +15,7 @@ export default function OrderDetailBody({
       <OrderShippingStatus order={order} />
       <div className="my-5 shadow-lg">
         {items.map((item: any) => (
-          <OrderDetailItem item={item} />
+          <OrderDetailItem key={item.id} item={item} />
         ))}
       </div>
     </div>

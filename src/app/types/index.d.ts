@@ -7,6 +7,7 @@ import type {
   Order,
   User,
   Address,
+  Role,
 } from "@prisma/client";
 
 import { Server as NetServer, Socket } from "net";
@@ -21,8 +22,14 @@ export type NextApiResponseServerIo = NextApiResponse & {
   };
 };
 
+export interface UserWithoutCredentials {
+  id: string;
+  email: string;
+  name: string;
+  role: Role;
+}
 export interface OrderWithCustomer extends OrderWithItems {
-  customer: User;
+  customer: UserWithoutCredentials;
 }
 
 export interface OrderWithAllDetails extends OrderWithCustomer {
