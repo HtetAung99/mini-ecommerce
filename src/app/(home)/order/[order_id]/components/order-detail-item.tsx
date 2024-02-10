@@ -1,5 +1,4 @@
 import { AttributeValue } from "@prisma/client";
-import React from "react";
 import prisma from "../../../../../../lib/prisma";
 
 export default async function OrderDetailItem({ item }: { item: any }) {
@@ -42,11 +41,11 @@ export default async function OrderDetailItem({ item }: { item: any }) {
         <div className="flex basis-1/5 flex-col gap-2 py-2">
           <span className="flex text-sm tracking-wide">
             <p className="w-1/2 font-semibold">Item Price:</p>
-            <p>$ {price}</p>
+            <p>$ {price.toFixed(2)}</p>
           </span>
           <span className="flex text-sm tracking-wide">
             <p className="w-1/2 font-semibold ">Item Total:</p>
-            <p>$ {price * item.quantity}</p>
+            <p>$ {(price * item.quantity).toFixed(2)}</p>
           </span>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { VariantWithProductAndAttributeValues } from "@/app/types";
-import { variantById } from "@/app/utils/variants";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { OrderItem } from "@prisma/client";
 import React, { useEffect, useState } from "react";
@@ -46,7 +45,7 @@ export default function AdminOrderTableRow({
         $ {variantPrice.toFixed(2)}
       </TableCell>
       <TableCell className="text-right tracking-wider">
-        $ {orderItem.quantity * variantPrice}
+        $ {(orderItem.quantity * variantPrice).toFixed(2)}
       </TableCell>
     </TableRow>
   );
