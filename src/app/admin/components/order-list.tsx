@@ -3,9 +3,9 @@
 import { useSocket } from "@/app/context/socket-provider";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
-
 import { OrderWithAllDetails } from "@/app/types";
 import AdminOrderItem from "./admin-order-item";
+import { Order } from "@prisma/client";
 
 function OrderList({ orders }: { orders: OrderWithAllDetails[] }) {
   const [orderList, setOrderList] = useState<OrderWithAllDetails[]>(orders);
@@ -21,6 +21,25 @@ function OrderList({ orders }: { orders: OrderWithAllDetails[] }) {
         toast({
           title: "New Order Received!",
           description: `New order: ${order.id}`,
+          duration: 5000,
+        });
+      });
+
+      socket.on("orderStatusChanged", (order: Order) => {
+        setOrderList(
+          orderList.map((o) =>
+            o.id === order.id
+              ? {
+                  ...o,
+                  status: order.status,
+                }
+              : o,
+          ),
+        );
+
+        toast({
+          title: "Order Status Changed!",
+          description: `Order: ${order.id} status changed to ${order.status}`,
           duration: 5000,
         });
       });

@@ -47,7 +47,7 @@ export default function NavBar() {
     navlink.access.includes(role!),
   );
 
-  const pathname = `/${usePathname().split("/")[2] || ""}`;
+  const pathname = `/${usePathname()!.split("/")[2] || ""}`;
   return (
     <nav className="fixed h-screen w-56 bg-gray-200">
       <ul className="py-8">
