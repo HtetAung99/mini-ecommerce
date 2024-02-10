@@ -24,8 +24,8 @@ export default async function ProductDetailPage({
           width={700}
           height={500}
           className="rounded-md border-2 border-slate-200 object-cover"
-          src={product.variants[0].imageUrls[0]}
-          alt={product.variants[0].imageUrls[0]}
+          src={product.variants[0]?.imageUrls[0]}
+          alt={product.variants[0]?.imageUrls[0]}
         />
 
         <ProductInfo product={product} />
