@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import AdminOrderItemDetailTable from "./admin-order-item-detail-table";
 import CustomerInformation from "./customer-information";
 import CustomerPaymentInformation from "./customer-payment-info";
+import AdminAction from "./admin-action";
 
 export default function AdminOrderItem({
   order,
@@ -74,6 +75,7 @@ export default function AdminOrderItem({
             </div>
             <div className="w-1/3">
               <CustomerInformation order={order} />
+              <AdminAction order={order} />
             </div>
           </CardContent>
         </Card>
