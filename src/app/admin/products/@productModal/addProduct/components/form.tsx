@@ -14,14 +14,16 @@ import { addProduct } from "@/app/actions/product";
 import AttributeSelectList from "./attribute-select-list";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { X } from "lucide-react";
+import { spec } from "node:test/reporters";
 
-type FormValues = {
+export type ProductAddFormValues = {
   title: string;
   price: number;
   categoryId: number;
   description?: string;
   published?: boolean;
-  imageUrls?: string[];
+  images?: string[];
   priceDiff: number;
   attributeValues: AttributeValue[];
 };
@@ -41,45 +43,60 @@ export default function ModalForm({
   const { toast } = useToast();
   const [selected, setSelected] = useState(categories[0]);
   const [published, setPublished] = useState(false);
-  const [files, setFiles] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
 
   const [selectedAttributes, setSelectedAttributes] = useState<any>({});
 
-  const handleFilesUpload = async (e: any) => {
-    setLoading(true);
+  const handleImagesInput = (e: any) => {
     e.preventDefault();
     const files = e.target.files;
+    setFiles((prev) => [...prev, ...files]);
 
-    Array.from(files).forEach(async (file: any) => {
-      const formData = new FormData();
-      formData.set("file", file);
-      const res = await fetch("/api/products/image", {
-        method: "POST",
-        body: formData,
-      });
+    // Array.from(files).forEach(async (file: any) => {
+    //   const formData = new FormData();
+    //   formData.set("file", file);
+    //   const res = await fetch("/api/products/image", {
+    //     method: "POST",
+    //     body: formData,
+    //   });
 
-      if (res.ok) {
-        const { signedUrl } = await res.json();
+    //   if (res.ok) {
+    //     const { signedUrl } = await res.json();
 
-        setFiles((prev) => [...prev, signedUrl]);
-        setLoading(false);
-      }
-    });
+    //     setFiles((prev) => [...prev, signedUrl]);
+    //     setLoading(false);
+    //   }
+    // });
+  };
+
+  const handleImageDelete = (target: any) => {
+    setFiles((prev) => prev.filter((file) => file !== target));
   };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<ProductAddFormValues>();
 
-  const router = useRouter();
-
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: ProductAddFormValues) => {
     data.categoryId = selected.id;
     data.published = published;
-    data.imageUrls = files;
-    data.attributeValues = Object.values(selectedAttributes);
+    (data.images = files.map((file) => file.name)),
+      (data.attributeValues = Object.values(selectedAttributes));
+
+    files.forEach(async (file) => {
+      const tmp = new FormData();
+      tmp.append("file", file);
+      try {
+        const res = await fetch("/api/products/image", {
+          method: "POST",
+          body: tmp,
+        });
+        console.log((await res.json()).message);
+      } catch (e) {
+        console.error(e);
+      }
+    });
     // attributeValues must not be empty
     await addProduct(data)
       .then(() => {
@@ -98,6 +115,8 @@ export default function ModalForm({
         });
       });
   });
+
+  const router = useRouter();
 
   return (
     <form className="w-[60vw] rounded-md bg-slate-50 p-5 px-7 shadow-md">
@@ -173,26 +192,34 @@ export default function ModalForm({
                 </span>
               </label>
               <div className="relative w-full">
-                {loading && (
-                  <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-center text-sm  font-semibold leading-7 tracking-widest">
-                    Loading ...
-                  </p>
-                )}
                 <div className="flew-row my-4 flex  h-48 w-full flex-wrap justify-around gap-5 overflow-auto rounded-md border border-dashed border-slate-400 bg-slate-200 p-4">
                   {/* <Skeleton className="my-4 h-48 w-full rounded-md border border-dashed border-slate-400 bg-slate-200" /> */}
                   {files.length > 0 &&
-                    files.map((file) => (
-                      <img
-                        className="h-16 w-20 rounded-md border border-slate-300 object-contain"
-                        src={file}
-                      />
+                    files.map((file: any) => (
+                      <div
+                        onClick={() => {
+                          handleImageDelete(file);
+                        }}
+                        className="relative z-20 h-fit w-fit"
+                      >
+                        <img
+                          className="h-16 w-20 rounded-md border border-slate-300 object-contain"
+                          src={URL.createObjectURL(file)}
+                        />
+                        <span className="absolute -right-2 -top-2 cursor-pointer rounded-full bg-slate-300 p-1">
+                          <X
+                            className=" rounded-full font-bold text-red-500"
+                            size={12}
+                          />
+                        </span>
+                      </div>
                     ))}
                   <input
                     type="file"
                     accept="image/*"
                     placeholder="Upload Photo"
                     className="absolute inset-0 left-0 top-0 h-full w-full cursor-pointer self-center px-4 py-2 align-middle opacity-0"
-                    onChange={handleFilesUpload}
+                    onChange={handleImagesInput}
                     multiple
                   />
                 </div>

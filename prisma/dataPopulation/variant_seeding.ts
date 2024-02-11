@@ -21,19 +21,19 @@ const getRandomImages = async (imageFiles: string[]) => {
     randomImageNames.push(imageFiles[randomIndex]);
   }
 
-  const urls = await Promise.all(
-    randomImageNames.map(async (name) => {
-      const command = new GetObjectCommand({
-        Bucket: Bucket,
-        Key: name,
-      });
+  // const urls = await Promise.all(
+  //   randomImageNames.map(async (name) => {
+  //     const command = new GetObjectCommand({
+  //       Bucket: Bucket,
+  //       Key: name,
+  //     });
 
-      const url = await getSignedUrl(s3, command);
-      return url;
-    }),
-  );
+  //     const url = await getSignedUrl(s3, command);
+  //     return url;
+  //   }),
+  // );
 
-  return urls;
+  return randomImageNames;
 };
 
 const variantData = [

@@ -23,34 +23,38 @@ export async function GET(req: NextRequest, res: any) {
   }
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest, response: NextResponse) {
+  const data = await req.formData();
+  const file: any = data.get("file");
+  console.log(file);
+
+  if (!file) {
+    return NextResponse.json({ success: false });
+  }
+
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
   try {
-    const data = await req.formData();
-    const file: File | null = data.get("file") as unknown as File;
-
-    if (!file) {
-      return NextResponse.json({ success: false });
-    }
-
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
     const params = {
       Bucket,
       Key: file.name,
       Body: buffer,
     };
+
     const command = new PutObjectCommand(params);
-    await s3.send(command);
+    const res = await s3.send(command);
 
-    const getCommand = new GetObjectCommand({
-      Bucket: Bucket,
-      Key: file.name,
-    });
+    console.log(`${file} uploaded to S3. URL: ${JSON.stringify(res)}`);
+  } catch (err) {
+    console.error(`Error uploading ${file} to S3:`, err);
+    return NextResponse.json(
+      { error: `Internal Server Error: ${err}` },
+      { status: 500 },
+    );
+  }
 
-    const url = await getSignedUrl(s3, getCommand);
-
-    return NextResponse.json({ signedUrl: url }, { status: 200 });
-  } catch (error) {}
-  return NextResponse.json("hold");
+  return NextResponse.json(
+    { message: "File is completely uploaded to aws." },
+    { status: 200 },
+  );
 }

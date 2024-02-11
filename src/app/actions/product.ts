@@ -5,12 +5,16 @@ import { redirect } from "next/navigation";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { AttributeValue } from "@prisma/client";
+import { ProductAddFormValues } from "../admin/products/@productModal/addProduct/components/form";
+import path from "path";
+import { Bucket, s3 } from "../../../lib/aws";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
-export async function addProduct(formData: any) {
+export async function addProduct(formData: ProductAddFormValues) {
   const isLogin: boolean = await isAuthenticted();
   const hasPermission: boolean = await isAdmin();
 
-  const { attributeValues, categoryId, priceDiff, imageUrls, ...productData } =
+  const { attributeValues, categoryId, priceDiff, images, ...productData } =
     formData;
 
   console.log("productData", productData);
@@ -29,7 +33,7 @@ export async function addProduct(formData: any) {
           create: [
             {
               priceDiff,
-              imageUrls,
+              imageUrls: images,
               attributeValues: {
                 connect: attributeValues.map((av: AttributeValue) => ({
                   id: av.id,
@@ -40,6 +44,7 @@ export async function addProduct(formData: any) {
         },
       },
     });
+    console.log("Done db operation");
   } catch (e) {
     console.error(e);
   }

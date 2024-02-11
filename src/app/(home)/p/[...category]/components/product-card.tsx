@@ -1,6 +1,8 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bookmark, DollarSign, Percent } from "lucide-react";
+import clsx from "clsx";
+import { Promotion } from "@prisma/client";
+import { useEffect, useState } from "react";
+import { ProductWithImage } from "@/app/types";
 import {
   Card,
   CardContent,
@@ -8,18 +10,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Bookmark, DollarSign, Percent } from "lucide-react";
+import Link from "next/link";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import clsx from "clsx";
-import Link from "next/link";
-import { Promotion } from "@prisma/client";
-import { useEffect, useState } from "react";
-import { ProductWithImage } from "@/app/types";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 export default function ProductCard({
   product,
@@ -31,6 +31,7 @@ export default function ProductCard({
   promotionId?: number | null;
 }) {
   const [promotion, setPromotion] = useState<Promotion | null>();
+  const [image, setImage] = useState<string>();
 
   useEffect(() => {
     if (promotionId) {
@@ -40,6 +41,27 @@ export default function ProductCard({
     }
   }, []);
 
+  useEffect(() => {
+    if (product.imageUrl) {
+      console.log("before", product.imageUrl);
+
+      fetch("/api/products/image?imgUrl=" + product.imageUrl)
+        .then(async (res) => res.json())
+        .then(({ url }) => {
+          console.log("after", url);
+          setImage(url);
+        });
+
+      // s3.getSignedUrlPromise("getObject", bucketParams)
+      //   .then((url: string) => {
+      //     setImage(url);
+      //     console.log("url", url);
+      //   })
+      //   .catch((err: any) => {
+      //     console.log("error", err);
+      //   });
+    }
+  }, [product.imageUrl]);
   return (
     <Card
       key={product.id}
@@ -49,7 +71,7 @@ export default function ProductCard({
         <Avatar className="h-full w-full rounded-sm hover:scale-105">
           <AvatarImage
             className="object-contain"
-            src={product.imageUrl}
+            src={image}
             alt={product.imageUrl}
           />
 

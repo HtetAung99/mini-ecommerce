@@ -19,7 +19,6 @@ import { CircleDollarSign, CreditCard, ShoppingCart } from "lucide-react";
 import { retrieveAttributesObject } from "@/app/utils/variants";
 import { useCart } from "@/app/hooks/useCart";
 import { useSocket } from "@/app/context/socket-provider";
-import { io } from "socket.io-client";
 
 export default function ProductInfo({
   product,
