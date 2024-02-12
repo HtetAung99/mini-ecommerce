@@ -32,6 +32,8 @@ export default function AdminOrderItem({
           className={cn(
             "grid grid-cols-5 items-center rounded-md bg-sky-50 p-4 text-start text-sm font-medium tracking-wide ",
             isOpen ? "rounded-b-none shadow-none" : "rounded-md shadow-md",
+            order.status === "CANCELED" && "bg-red-100",
+            order.status === "DELIVERED" && "bg-green-100",
           )}
         >
           <span className="ml-2">
@@ -46,7 +48,7 @@ export default function AdminOrderItem({
             <span>{`Phone: ${order.address.phoneNumber}`}</span>
           </span>
           <span className="ml-2 tracking-widest">
-            $ {order.totalAmount.toFixed(2)}
+            $ {(order.totalAmount / 100).toFixed(2)}
           </span>
           <span className="ml-2 capitalize">{order.status.toLowerCase()}</span>
           <span className="ml-2 flex flex-col gap-3">
