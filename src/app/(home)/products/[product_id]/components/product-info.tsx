@@ -42,7 +42,7 @@ export default function ProductInfo({
     setSelectedVariantPair({ ...selectedVariantPair, [key]: name });
   };
 
-  const { addItem, clearCart } = useCart();
+  const { addItem, buyNow } = useCart();
   const { isConnected, socket } = useSocket();
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export default function ProductInfo({
     }
   }, [selectedVariantPair]);
 
-  const handleAddToCard = (qty: number = 1) => {
+  const handleAddToCard = () => {
     const variants = productState.variants.filter((v) => {
       return v.attributeValues.every((av) => {
         if (selectedVariantPair[av.attribute.name]) {
@@ -105,15 +105,26 @@ export default function ProductInfo({
 
     addItem({
       variantId: variants[0].id,
-      quantity: qty,
+      quantity: 1,
       price: productState.price,
       priceDiff: variants[0].priceDiff,
     });
   };
 
   const handleBuyNow = (qty: number) => {
-    clearCart();
-    handleAddToCard(qty);
+    const variants = productState.variants.filter((v) => {
+      return v.attributeValues.every((av) => {
+        if (selectedVariantPair[av.attribute.name]) {
+          return av.name === selectedVariantPair[av.attribute.name];
+        }
+      });
+    });
+    buyNow({
+      variantId: variants[0].id,
+      quantity: qty,
+      price: productState.price,
+      priceDiff: variants[0].priceDiff,
+    });
     router.push("/checkout/information");
   };
 
