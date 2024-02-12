@@ -20,8 +20,8 @@ export default async function ProductDetailPage({
     return <p>Not found</p>;
   }
 
-  const images = await product.variants.reduce(
-    async (prev: any, currentVariant: VariantWithAttributeValues) => {
+  const unflattedImages = await Promise.all(
+    product.variants.map(async (currentVariant: VariantWithAttributeValues) => {
       try {
         const tmp = await Promise.all(
           currentVariant.imageUrls.map(async (imgUrl) => {
@@ -33,18 +33,15 @@ export default async function ProductDetailPage({
             return url;
           }),
         );
-        console.log("prev", prev);
-        console.log("tmp", tmp);
-        return [...prev, ...tmp];
+        return tmp;
       } catch (error) {
         console.error("Error retrieving object:", error);
-        return prev;
+        return [];
       }
-    },
-    [],
+    }),
   );
 
-  console.log(images);
+  const images = unflattedImages.flat();
 
   return (
     <div className="w-full">

@@ -30,7 +30,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [subTotal, setSubTotal] = useState<number>(0);
 
   const clearCart = () => {
-    setItems([]);
+    setItems((prev) => []);
     localStorage.removeItem("cartItems");
   };
 

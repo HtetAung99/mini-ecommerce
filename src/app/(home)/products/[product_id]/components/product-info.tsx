@@ -15,10 +15,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CircleDollarSign, CreditCard, ShoppingCart } from "lucide-react";
+import { CircleDollarSign, ShoppingCart } from "lucide-react";
 import { retrieveAttributesObject } from "@/app/utils/variants";
 import { useCart } from "@/app/hooks/useCart";
 import { useSocket } from "@/app/context/socket-provider";
+import { useRouter } from "next/navigation";
+import BuyNow from "./buy-now";
 
 export default function ProductInfo({
   product,
@@ -31,7 +33,7 @@ export default function ProductInfo({
   const [variantOptions, setVariantOptions]: any[] = useState([]);
   const [price, setPrice]: [price: null | Number, setPrice: any] =
     useState(null);
-  // const router = useRouter();
+  const router = useRouter();
 
   const attributeValues: AttributeValueWithAttribute[] =
     retrieveAttributesObject(product.variants);
@@ -40,7 +42,7 @@ export default function ProductInfo({
     setSelectedVariantPair({ ...selectedVariantPair, [key]: name });
   };
 
-  const { addItem } = useCart();
+  const { addItem, clearCart } = useCart();
   const { isConnected, socket } = useSocket();
 
   useEffect(() => {
@@ -92,7 +94,7 @@ export default function ProductInfo({
     }
   }, [selectedVariantPair]);
 
-  const handleAddToCard = () => {
+  const handleAddToCard = (qty: number = 1) => {
     const variants = productState.variants.filter((v) => {
       return v.attributeValues.every((av) => {
         if (selectedVariantPair[av.attribute.name]) {
@@ -103,10 +105,16 @@ export default function ProductInfo({
 
     addItem({
       variantId: variants[0].id,
-      quantity: 1,
+      quantity: qty,
       price: productState.price,
       priceDiff: variants[0].priceDiff,
     });
+  };
+
+  const handleBuyNow = (qty: number) => {
+    clearCart();
+    handleAddToCard(qty);
+    router.push("/checkout/information");
   };
 
   return (
@@ -197,10 +205,7 @@ export default function ProductInfo({
           <ShoppingCart />
           Add To Cart
         </Button>
-        <Button className="flex items-center justify-around gap-3">
-          <CreditCard />
-          Buy Now
-        </Button>
+        {price && <BuyNow handleBuyNow={handleBuyNow} />}
       </CardFooter>
     </Card>
   );
