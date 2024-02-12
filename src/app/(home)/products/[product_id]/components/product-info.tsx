@@ -49,7 +49,10 @@ export default function ProductInfo({
         (prev, cur) => {
           return { ...prev, [cur.attribute.name]: cur.name };
         },
-        { p: (Number(productState.price) + Number(v.priceDiff)).toFixed(2) },
+        {
+          p: (Number(productState.price) + Number(v.priceDiff)).toFixed(2),
+          variantId: v.id,
+        },
       ),
     );
 
@@ -72,27 +75,13 @@ export default function ProductInfo({
     }
   }, [isConnected, socket]);
 
-  // useEffect(() => {
-  //   const socket = new (io as any)("http://localhost:4000");
-  //   socket.on("connect", () => {
-  //     console.log("socket", socket.id, "is connected from product-info");
-  //   });
-  //   socket.on("admin", (data: any) => {
-  //     console.log("event received");
-  //     setProductState((prev) => ({ ...prev, price: data.price }));
-  //   });
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
-
   useEffect(() => {
     if (variantOptions.length === 1) {
       setPrice(variantOptions[0].p);
     } else {
       const validPair = variantOptions.filter((t: any) => {
         return Object.keys(t).every((k) => {
-          if (k != "p" && k !== "default") {
+          if (k != "p" && k !== "default" && k !== "variantId") {
             return t[k] === selectedVariantPair[k];
           } else return true;
         });

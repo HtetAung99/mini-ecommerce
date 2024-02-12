@@ -43,12 +43,9 @@ export default function ProductCard({
 
   useEffect(() => {
     if (product.imageUrl) {
-      console.log("before", product.imageUrl);
-
       fetch("/api/products/image?imgUrl=" + product.imageUrl)
         .then(async (res) => res.json())
         .then(({ url }) => {
-          console.log("after", url);
           setImage(url);
         });
 
@@ -61,7 +58,7 @@ export default function ProductCard({
       //     console.log("error", err);
       //   });
     }
-  }, [product.imageUrl]);
+  }, []);
   return (
     <Card
       key={product.id}

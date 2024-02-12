@@ -1,8 +1,12 @@
 import { getProductById } from "@/app/utils/products";
 import CategoryHeader from "./components/category-header";
 import ProductInfo from "./components/product-info";
-import Image from "next/image";
-import { ProductWithNestedData } from "@/app/types";
+import { ProductWithNestedData, VariantWithAttributeValues } from "@/app/types";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { Bucket, s3 } from "../../../../../lib/aws";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+
+import ProductImageDisplay from "./components/product-image-display";
 
 export default async function ProductDetailPage({
   params,
@@ -16,18 +20,44 @@ export default async function ProductDetailPage({
     return <p>Not found</p>;
   }
 
+  const images = await product.variants.reduce(
+    async (prev: any, currentVariant: VariantWithAttributeValues) => {
+      try {
+        const tmp = await Promise.all(
+          currentVariant.imageUrls.map(async (imgUrl) => {
+            const command = new GetObjectCommand({
+              Bucket: Bucket,
+              Key: imgUrl!,
+            });
+            const url = await getSignedUrl(s3, command);
+            return url;
+          }),
+        );
+        console.log("prev", prev);
+        console.log("tmp", tmp);
+        return [...prev, ...tmp];
+      } catch (error) {
+        console.error("Error retrieving object:", error);
+        return prev;
+      }
+    },
+    [],
+  );
+
+  console.log(images);
+
   return (
     <div className="w-full">
       <CategoryHeader product_id={product.id} />
       <div className=" grid w-full grid-cols-2 gap-10  py-5">
-        <Image
+        {/* <Image
           width={700}
           height={500}
-          className="rounded-md border-2 border-slate-200 object-cover"
-          src={product.variants[0]?.imageUrls[0]}
-          alt={product.variants[0]?.imageUrls[0]}
-        />
-
+          className="rounded-md border-2 border-slate-200 object-contain"
+          src={images[0]}
+          alt={images[0]}
+        /> */}
+        <ProductImageDisplay images={images} />
         <ProductInfo product={product} />
       </div>
     </div>
