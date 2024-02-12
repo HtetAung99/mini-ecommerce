@@ -53,7 +53,6 @@ export default function ProductInfo({
         },
         {
           p: (Number(productState.price) + Number(v.priceDiff)).toFixed(2),
-          variantId: v.id,
         },
       ),
     );
@@ -83,13 +82,16 @@ export default function ProductInfo({
     } else {
       const validPair = variantOptions.filter((t: any) => {
         return Object.keys(t).every((k) => {
-          if (k != "p" && k !== "default" && k !== "variantId") {
+          if (k === "default") {
+            return false;
+          }
+          if (k != "p" && k !== "default") {
             return t[k] === selectedVariantPair[k];
           } else return true;
         });
       });
 
-      const priceForSelected = validPair[1]?.p;
+      const priceForSelected = validPair[0]?.p;
       setPrice(priceForSelected);
     }
   }, [selectedVariantPair]);
