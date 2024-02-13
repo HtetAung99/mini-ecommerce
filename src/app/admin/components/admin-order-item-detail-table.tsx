@@ -32,7 +32,7 @@ export default function AdminOrderItemDetailTable({
           </TableHeader>
           <TableBody>
             {orderList.map((orderItem: OrderItem) => (
-              <AdminOrderTableRow orderItem={orderItem} />
+              <AdminOrderTableRow key={orderItem.id} orderItem={orderItem} />
             ))}
           </TableBody>
         </Table>

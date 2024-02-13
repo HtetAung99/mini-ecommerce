@@ -72,7 +72,10 @@ export default function AdminOrderItem({
           </CardHeader>
           <CardContent className="flex flex-row gap-5">
             <div className="w-2/3">
-              <AdminOrderItemDetailTable orderList={order.orderItems} />
+              <AdminOrderItemDetailTable
+                key={order.id}
+                orderList={order.orderItems}
+              />
               <CustomerPaymentInformation order={order} />
             </div>
             <div className="w-1/3">
