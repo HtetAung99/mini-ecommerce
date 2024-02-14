@@ -94,13 +94,16 @@ CREATE TABLE "Category" (
 CREATE TABLE "Store" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "address" TEXT,
+    "lat" DOUBLE PRECISION NOT NULL,
+    "long" DOUBLE PRECISION NOT NULL,
+    "address" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
 
     CONSTRAINT "Store_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "VariantAvailability" (
+CREATE TABLE "Stock" (
     "id" SERIAL NOT NULL,
     "variantId" INTEGER NOT NULL,
     "storeId" INTEGER NOT NULL,
@@ -108,7 +111,7 @@ CREATE TABLE "VariantAvailability" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "VariantAvailability_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Stock_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -224,7 +227,7 @@ CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
 CREATE UNIQUE INDEX "Store_name_key" ON "Store"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "VariantAvailability_variantId_storeId_key" ON "VariantAvailability"("variantId", "storeId");
+CREATE UNIQUE INDEX "Stock_variantId_storeId_key" ON "Stock"("variantId", "storeId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
@@ -263,10 +266,10 @@ ALTER TABLE "Product" ADD CONSTRAINT "Product_categoryId_fkey" FOREIGN KEY ("cat
 ALTER TABLE "Category" ADD CONSTRAINT "Category_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VariantAvailability" ADD CONSTRAINT "VariantAvailability_variantId_fkey" FOREIGN KEY ("variantId") REFERENCES "Variant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Stock" ADD CONSTRAINT "Stock_variantId_fkey" FOREIGN KEY ("variantId") REFERENCES "Variant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VariantAvailability" ADD CONSTRAINT "VariantAvailability_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "Store"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Stock" ADD CONSTRAINT "Stock_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "Store"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

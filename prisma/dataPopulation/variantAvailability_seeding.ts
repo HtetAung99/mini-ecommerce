@@ -1,6 +1,6 @@
 import prisma from "../../lib/prisma";
 
-const variantAvailabilitiesData = [
+const stocksData = [
   {
     variantId: 1, // Connects to the first variant of Samsung Galaxy S22
     storeId: 1, // Connects to store1
@@ -91,12 +91,10 @@ const variantAvailabilitiesData = [
 ];
 
 export const seedVariantAvailabilities = async () => {
-  for (const va of variantAvailabilitiesData) {
-    const variantAvailability = await prisma.variantAvailability.create({
+  for (const va of stocksData) {
+    const stock = await prisma.stock.create({
       data: va,
     });
-    console.log(
-      `Created variantAvailability with id: ${variantAvailability.id}`
-    );
+    console.log(`Created Stock with id: ${stock.id}`);
   }
 };

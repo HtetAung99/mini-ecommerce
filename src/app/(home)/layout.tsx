@@ -11,10 +11,10 @@ import { DialogContent, Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { CartProvider } from "../context/cart-provider";
 import CartSpan from "./cart-span";
 import UserDropdown from "./components/user-dropdown";
-import { $Enums } from "@prisma/client";
+import { $Enums, Store } from "@prisma/client";
 import SearchBar from "./components/search-bar";
-import prisma from "../../../lib/prisma";
-import { revalidatePath } from "next/cache";
+import StoreLocator from "./components/store-locator";
+import { getStores } from "../utils/stores";
 
 export default async function HomeLayout({
   children,
@@ -32,6 +32,8 @@ export default async function HomeLayout({
     | undefined = session?.user;
   const categories: CategoryWithChild[] = await getCategories();
 
+  const stores: Store[] = await getStores();
+
   return (
     <div className="">
       <CartProvider>
@@ -43,9 +45,7 @@ export default async function HomeLayout({
             Customize Your Spec
           </Link>
 
-          <Link className={buttonVariants({ variant: "ghost" })} href={""}>
-            Find Your Nearest Store
-          </Link>
+          <StoreLocator stores={stores} />
         </div>
         <div
           id="app-bar"
