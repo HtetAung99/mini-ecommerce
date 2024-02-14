@@ -12,7 +12,7 @@ const stripe = require("stripe")(process.env.STRIPE_API_CLIENT_SECRET);
 export async function POST(request: NextRequest) {
   const isLogin: boolean = await isAuthenticted();
 
-  if (!isLogin) redirect("/admin/categories/?message=authFailed");
+  if (!isLogin) redirect("/admin/categories/?message=authFailed"); // why redirect to admin/categories?
   const { items, shippingFee, tax } = await request.json();
 
   const total = await calculateTotal(items, shippingFee, tax);

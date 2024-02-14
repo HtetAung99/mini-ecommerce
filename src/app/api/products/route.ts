@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { isAdmin, isAuthenticted } from "../../../../lib/session";
 import { defaultVariantData } from "../../../../prisma/dataPopulation/product_seeding";
 import { io } from "socket.io-client";
+import { redirect } from "next/navigation";
 
 const socket = new (io as any)("http://localhost:4000");
 
@@ -39,6 +40,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
 
+// reduandant code??
 export async function GET(request: NextRequest) {
   const q = request.nextUrl.searchParams.get("q");
 
@@ -59,7 +61,17 @@ export async function GET(request: NextRequest) {
   });
 }
 
+// admin only
 export async function PUT(request: NextRequest) {
+  const hasPermission: boolean = await isAdmin();
+  // if (!hasPermission)
+  //   return NextResponse.json({
+  //     success: false,
+  //     message: "authorization failed",
+  //     status: 403,
+  //   });
+  if (!hasPermission) redirect("/admin/products/?message=authFailed");
+
   const res = await request.json();
   try {
     const updated_product = await prisma.product.update({

@@ -1,0 +1,14 @@
+
+
+// TODO: Store -> changed address schema for geolocation (lat, long)
+
+// TODO: Auto select store (geolocation api, )
+
+// FIXME: Prisma middleware for products 
+    - Api/products/routes
+    - Utiil/products.ts
+
+
+// FIXME: Admin orderShipped -> store stock change
+
+
