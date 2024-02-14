@@ -1,4 +1,3 @@
-import { getServerSession } from "next-auth";
 import { getCurrentUser, isAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { OrderWithAllDetails } from "../types";

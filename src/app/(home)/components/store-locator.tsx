@@ -32,6 +32,8 @@ const StoreLocator = ({ stores }: { stores: Store[] }) => {
     latitude: number;
     longitude: number;
   } | null>(null);
+
+  const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -66,16 +68,16 @@ const StoreLocator = ({ stores }: { stores: Store[] }) => {
         }))
         .sort((a, b) => a.distance - b.distance);
 
-      console.log(sortedStores[0]);
+      console.log(sortedStores);
+
+      setSelectedStore(sortedStores[0]);
     }
   }, [location]);
 
   return (
     <div>
       {location ? (
-        <div>
-          Latitude: {location.latitude}, Longitude: {location.longitude}
-        </div>
+        <div>{selectedStore?.name}</div>
       ) : (
         <div>
           {error ? (

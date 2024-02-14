@@ -1,6 +1,6 @@
 import { cache } from "react";
 import prisma from "../../../lib/prisma";
-import { CategoryWithChild, CategoryWithParent } from "../types";
+import { CategoryWithChild } from "../types";
 
 export const getCategories = cache(async () => {
   const categories: CategoryWithChild[] = await prisma.category.findMany({
@@ -30,7 +30,7 @@ export const getCategoriesFullPath = async () => {
       ...prev,
       [`${cur.id}`]: cur,
     }),
-    {}
+    {},
   );
 
   const retrieveParentName = (category: CategoryWithChild): string => {
