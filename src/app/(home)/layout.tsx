@@ -15,6 +15,7 @@ import { $Enums, Store } from "@prisma/client";
 import SearchBar from "./components/search-bar";
 import StoreLocator from "./components/store-locator";
 import { getStores } from "../utils/stores";
+import DefaultStore from "./components/default-store";
 
 export default async function HomeLayout({
   children,
@@ -32,7 +33,7 @@ export default async function HomeLayout({
     | undefined = session?.user;
   const categories: CategoryWithChild[] = await getCategories();
 
-  const stores: Store[] = await getStores();
+  // const stores: Store[] = await getStores();
 
   return (
     <div className="">
@@ -44,8 +45,7 @@ export default async function HomeLayout({
           <Link className={buttonVariants({ variant: "ghost" })} href={""}>
             Customize Your Spec
           </Link>
-
-          <StoreLocator stores={stores} />
+          <DefaultStore />
         </div>
         <div
           id="app-bar"

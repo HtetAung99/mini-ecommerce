@@ -38,7 +38,14 @@ export const getProductsWithCategories = cache(
 
 export const getProductByFilters = cache(
   async (filters: any): Promise<[ProductWithNestedData[], number]> => {
-    const { rest, price, categoryId, pageNum = 1, pageSize = 9 } = filters;
+    const {
+      rest,
+      price,
+      categoryId,
+      pageNum = 1,
+      pageSize = 9,
+      storeId,
+    } = filters;
     const category = await prisma.category.findUnique({
       where: { id: categoryId },
       include: { children: { include: { children: true } } },
@@ -60,7 +67,7 @@ export const getProductByFilters = cache(
       skip: (pageNum - 1) * pageSize,
       take: parseInt(pageSize),
       where: {
-        AND: generateFilters(price, categoryIds),
+        AND: generateFilters(price, categoryIds, Number(storeId)),
       },
       include: {
         variants: { include: { attributeValues: true, promotion: true } },
@@ -79,14 +86,18 @@ export const getProductByFilters = cache(
     });
 
     const count = await prisma.product.count({
-      where: { AND: generateFilters(price, categoryIds) },
+      where: { AND: generateFilters(price, categoryIds, Number(storeId)) },
     });
 
     return [products, count];
   },
 );
 
-const generateFilters = (price: string, categoryIds: number[]) => {
+const generateFilters = (
+  price: string,
+  categoryIds: number[],
+  storeId: number,
+) => {
   const [min, max] = price
     ? price.split("-")
     : [Number.MIN_VALUE, Number.MAX_VALUE];
@@ -95,6 +106,7 @@ const generateFilters = (price: string, categoryIds: number[]) => {
     { published: false },
     { price: { gte: +min } },
     { price: { lte: +max } },
+    { variants: { some: { stocks: { some: { storeId: storeId } } } } },
   ];
 };
 
@@ -122,44 +134,63 @@ export const getProductById = cache(
   },
 );
 
-export const getBestSellers = cache(async (): Promise<ProductWithImage[]> => {
-  const products = await prisma.product.findMany({
-    orderBy: { orderCount: "desc" },
-    take: 10,
-    include: { variants: true },
-  });
+export const getBestSellers = cache(
+  async (storeId: string): Promise<ProductWithImage[]> => {
+    const products = await prisma.product.findMany({
+      where: {
+        variants: { some: { stocks: { some: { storeId: Number(storeId) } } } },
+      },
+      orderBy: { orderCount: "desc" },
+      take: 10,
+      include: { variants: true },
+    });
 
-  return products.map((product: any) => {
-    const imageUrl =
-      product.variants[0]?.imageUrls[0] || "default-product-image.jpg";
-    return {
-      ...product,
-      imageUrl,
-    };
-  });
-});
+    return products.map((product: any) => {
+      const imageUrl =
+        product.variants[0]?.imageUrls[0] || "default-product-image.jpg";
+      return {
+        ...product,
+        imageUrl,
+      };
+    });
+  },
+);
 
-export const getNewArrivals = cache(async (): Promise<ProductWithImage[]> => {
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 10,
-    include: { variants: true },
-  });
-  return products.map((product: any) => {
-    const imageUrl =
-      product.variants[0]?.imageUrls[0] || "default-product-image.jpg";
-    return {
-      ...product,
-      imageUrl,
-    };
-  });
-});
+export const getNewArrivals = cache(
+  async (storeId: string): Promise<ProductWithImage[]> => {
+    const products = await prisma.product.findMany({
+      where: {
+        variants: { some: { stocks: { some: { storeId: Number(storeId) } } } },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      include: { variants: true },
+    });
+    return products.map((product: any) => {
+      const imageUrl =
+        product.variants[0]?.imageUrls[0] || "default-product-image.jpg";
+      return {
+        ...product,
+        imageUrl,
+      };
+    });
+  },
+);
 
 export const getProductsWithPromotions = cache(
-  async (): Promise<ProductWithPromotion[]> => {
+  async (storeId: string): Promise<ProductWithPromotion[]> => {
     const promotions = await prisma.promotion.findMany({
       include: { variants: { include: { product: true } } },
-      where: { isActive: true },
+      where: {
+        AND: [
+          {
+            variants: {
+              some: { stocks: { some: { storeId: Number(storeId) } } },
+            },
+          },
+          { isActive: true },
+        ],
+      },
     });
     let products: ProductWithPromotion[] = [];
     promotions.forEach((promotion) => {

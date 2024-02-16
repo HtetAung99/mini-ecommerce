@@ -1,17 +1,36 @@
-import { getServerSession } from "next-auth";
-import { authOption } from "../api/auth/[...nextauth]/route";
+import React from "react";
+import ProductCard from "../p/[...category]/components/product-card";
+
 import {
   getBestSellers,
   getNewArrivals,
   getProductsWithPromotions,
-} from "../utils/products";
-import ProductCard from "./p/[...category]/components/product-card";
+} from "@/app/utils/products";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
-export default async function Home({}) {
-  const session = await getServerSession(authOption);
-  const bestSellers = await getBestSellers();
-  const newArrivals = await getNewArrivals();
-  const promotionProducts = await getProductsWithPromotions();
+export default async function ProductPage({
+  searchParams,
+}: {
+  searchParams: any;
+}) {
+  const { storeId }: { storeId: string } = searchParams;
+  const cookieStore = cookies();
+
+  const defaultStore = JSON.parse(
+    cookieStore.get("defaultStore")?.value || "null",
+  );
+  if (!defaultStore) {
+    return redirect("/");
+  }
+
+  if (!storeId || Number(storeId) !== defaultStore.id) {
+    return redirect(`/products?storeId=${defaultStore.id}`);
+  }
+
+  const bestSellers = await getBestSellers(storeId);
+  const newArrivals = await getNewArrivals(storeId);
+  const promotionProducts = await getProductsWithPromotions(storeId);
 
   return (
     <div className="mx-[10vw] block overflow-hidden py-2">

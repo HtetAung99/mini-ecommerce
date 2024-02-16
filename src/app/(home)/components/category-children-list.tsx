@@ -15,6 +15,9 @@ export default function CategoryChildrenList({
   const filteredCategories = categories.filter(
     (cat) => cat.parentId === selectedParent.id,
   );
+  const defaultStore = JSON.parse(
+    localStorage.getItem("selectedStore") || "null",
+  );
 
   return (
     <div className="col-span-2 flex flex-col flex-wrap gap-2 overflow-auto">
@@ -22,7 +25,7 @@ export default function CategoryChildrenList({
         <div key={category.id} className="flex w-1/2 flex-shrink flex-col">
           <h6 className=" py-3 text-base  font-semibold">
             <Link
-              href={`/p/${selectedParent.name}/${category.name}`}
+              href={`/p/${selectedParent.name}/${category.name}?storeId=${defaultStore?.id}`}
               target="_blank"
             >
               {category.name}
@@ -36,7 +39,7 @@ export default function CategoryChildrenList({
                 className="font text-sm font-normal text-slate-600"
               >
                 <Link
-                  href={`/p/${selectedParent.name}/${category.name}/${child.name}`}
+                  href={`/p/${selectedParent.name}/${category.name}/${child.name}?storeId=${defaultStore?.id}`}
                   target="_blank"
                 >
                   {child.name}

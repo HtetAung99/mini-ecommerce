@@ -10,6 +10,7 @@ import { Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 export default function CollapsibleList({
   category,
@@ -20,8 +21,10 @@ export default function CollapsibleList({
 }) {
   const [open, setOpen] = useState(false);
 
-  const pathnameArray = usePathname().split("/").slice(2).map(decodeURI);
+  const pathnameArray = usePathname()!.split("/").slice(2).map(decodeURI);
   const categoryInURL = pathnameArray[pathnameArray.length - 1];
+  const cookieValue = Cookies.get("defaultStore");
+  const defaultStore = cookieValue ? JSON.parse(cookieValue!) : null;
 
   useEffect(() => {
     if (pathnameArray.includes(category.name)) {
@@ -40,7 +43,7 @@ export default function CollapsibleList({
               "text-md font-medium leading-none",
               category.name === decodeURI(categoryInURL) && "text-destructive",
             )}
-            href={parentUrl}
+            href={parentUrl + "?storeId=" + defaultStore?.id}
           >
             {category.name}
           </Link>

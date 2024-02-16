@@ -5,8 +5,16 @@ import { Button } from "@/components/ui/button";
 import { CategoryWithChild } from "@/app/types";
 import { getCategoriesNested } from "@/app/utils/categories";
 import CategoryFilter from "./category-filter";
+import Link from "next/link";
 
-export default async function filterBar({ params }: { params: any }) {
+export default async function filterBar({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const storeId = searchParams.storeId;
   const categories: CategoryWithChild[] = await getCategoriesNested();
 
   return (
@@ -33,7 +41,9 @@ export default async function filterBar({ params }: { params: any }) {
         className="m-0 self-end p-0 text-red-500"
         variant={"link"}
       >
-        <a href={`/p/${params.category.join("/")}`}>Clear all filters</a>
+        <a href={`/p/${params.category.join("/")}?storeId=${storeId}`}>
+          Clear all filters
+        </a>
       </Button>
     </div>
   );

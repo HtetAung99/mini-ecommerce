@@ -2,6 +2,16 @@
 
 import { Store } from "@prisma/client";
 import { useState, useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { redirect, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 function calculateDistance(
   lat1: number,
@@ -28,6 +38,7 @@ function deg2rad(deg: number) {
 }
 
 const StoreLocator = ({ stores }: { stores: Store[] }) => {
+  const router = useRouter();
   const [location, setLocation] = useState<{
     latitude: number;
     longitude: number;
@@ -35,6 +46,21 @@ const StoreLocator = ({ stores }: { stores: Store[] }) => {
 
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const handleContinue = async () => {
+    const res = await fetch("/api/store-session", {
+      method: "POST",
+      body: JSON.stringify({ defaultStore: selectedStore }),
+    });
+    if (res.ok) {
+      const defaultStore = JSON.parse(Cookies.get("defaultStore")!);
+      if (!defaultStore) {
+        router.push("/");
+        return;
+      }
+      router.push(`/products?storeId=${defaultStore.id}`);
+    }
+  };
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -68,24 +94,57 @@ const StoreLocator = ({ stores }: { stores: Store[] }) => {
         }))
         .sort((a, b) => a.distance - b.distance);
 
-      console.log(sortedStores);
-
       setSelectedStore(sortedStores[0]);
     }
   }, [location]);
 
+  // if (defaultStore) {
+  //   return redirect(`/products?storeId=${defaultStore.id}`);
+  // }
+
   return (
-    <div>
+    <div className="m-auto flex w-fit flex-col justify-center">
       {location ? (
-        <div>{selectedStore?.name}</div>
+        <div className="flex capitalize">
+          <h3 className="text-lg font-medium leading-7 tracking-wide">
+            Your nearest store: {selectedStore?.name.toLowerCase()}
+          </h3>
+        </div>
       ) : (
         <div>
           {error ? (
-            <button>Select Store</button>
+            <Select
+              onValueChange={(val) => {
+                const selectedStore = stores.filter(
+                  (store) => store.id.toString() === val,
+                )[0];
+                setSelectedStore(selectedStore);
+              }}
+            >
+              <SelectTrigger className="m-auto mr-3">
+                <SelectValue placeholder="Select Store Manually" />
+              </SelectTrigger>
+              <SelectContent className="">
+                {stores.map((store) => (
+                  <SelectItem value={store.id.toString()}>
+                    {store.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           ) : (
             <span>Fetching location...</span>
-          )}{" "}
+          )}
         </div>
+      )}
+      {selectedStore && (
+        <Button
+          onClick={handleContinue}
+          className="m-auto my-5 max-w-fit"
+          variant={"default"}
+        >
+          Continue to {selectedStore?.name}
+        </Button>
       )}
     </div>
   );

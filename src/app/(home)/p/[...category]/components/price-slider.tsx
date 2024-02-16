@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Root, Track, Thumb, Range } from "@radix-ui/react-slider";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,12 +16,13 @@ export default function PriceSlider() {
 
   const router = useRouter();
   const fullPath = usePathname();
-  const searchParams = Array.from(useSearchParams().entries());
+  const searchParams = Array.from(useSearchParams()!.entries());
   const paramsWithoutPrice = searchParams
     .filter(([key, value]) => key !== "price")
     .reduce((prev, [key, value]) => `${prev}${key}=${value}&`, "");
 
   useEffect(() => {
+    console.log();
     const splittedPriceArray = searchParams
       .filter(([key, value]) => key === "price")[0]?.[1]
       .split("-");
