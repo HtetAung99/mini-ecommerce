@@ -13,6 +13,10 @@ import { Stock } from "@prisma/client";
 export default function StockSheet({ stockList }: { stockList: Stock[] }) {
   const { storeLists } = useStore();
 
+  if (!stockList) {
+    return null;
+  }
+
   let modifiedStoreList = storeLists.map((store) => {
     return {
       ...store,
@@ -40,7 +44,10 @@ export default function StockSheet({ stockList }: { stockList: Stock[] }) {
           </SheetHeader>
           <div className="mt-3 flex flex-col">
             {modifiedStoreList.map((store) => (
-              <div className="border-b border-slate-500 p-2 text-base ">
+              <div
+                key={store.id}
+                className="border-b border-slate-500 p-2 text-base "
+              >
                 <h3 className="font-semibold leading-10">
                   {store.name}{" "}
                   <span className="text-sm font-medium text-slate-600">

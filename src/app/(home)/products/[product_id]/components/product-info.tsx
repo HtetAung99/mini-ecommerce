@@ -148,13 +148,12 @@ export default function ProductInfo({
       <CardHeader className={clsx("gap-8")}>
         <span>
           <CardTitle>{productState.title}</CardTitle>
-          {/* {isConnected && <Badge>Online</Badge>} */}
         </span>
         <CardDescription>{productState.description}</CardDescription>
       </CardHeader>
 
       <CardContent>
-        <StockSheet stockList={extractStockFromVariantPair()} />
+        {price && <StockSheet stockList={extractStockFromVariantPair()} />}
         {Object.entries(attributeValues).map(([key, value]: [string, any]) => {
           if (key !== "default")
             return (

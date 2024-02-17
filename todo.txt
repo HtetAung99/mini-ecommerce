@@ -3,6 +3,12 @@
 // FIXME: Admin orderShipped -> store stock change
 
 
-// TODO: stock availability for store pickup
+// TODO: account management in admin side (separate permission table)
 
-// TODO: account management in admin side
+// TODO: disable next auth default login ui
+
+// FIXME: product images for admin side
+
+// FIXME: product images for order items in customer side
+
+// TODO: in-stock filter
