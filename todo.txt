@@ -1,18 +1,8 @@
 
 
-
-// TODO: Auto select store (geolocation api, )
-
-// FIXME: Prisma middleware for products 
-    - Api/products/routes
-    - Utiil/products.ts
-
-
 // FIXME: Admin orderShipped -> store stock change
 
 
 // TODO: stock availability for store pickup
 
 // TODO: account management in admin side
-
-// 

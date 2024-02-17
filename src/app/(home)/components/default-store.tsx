@@ -1,9 +1,10 @@
 "use client";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Store } from "@prisma/client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function DefaultStore() {
   const [defaultStore, setDefaultStore] = useState<Store | null>(null);
@@ -11,9 +12,18 @@ export default function DefaultStore() {
     const store = JSON.parse(Cookies.get("defaultStore")!);
     setDefaultStore(store);
   }, []);
+  const router = useRouter();
+
   return (
-    <Link className={buttonVariants({ variant: "ghost" })} href={"/"}>
+    <Button
+      variant="ghost"
+      onClick={() => {
+        Cookies.remove("defaultStore");
+        setDefaultStore(null);
+        return router.push("/");
+      }}
+    >
       {defaultStore?.name}
-    </Link>
+    </Button>
   );
 }

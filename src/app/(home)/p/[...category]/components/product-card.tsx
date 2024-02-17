@@ -62,7 +62,10 @@ export default function ProductCard({
   return (
     <Card
       key={product.id}
-      className={clsx("col-span-1 h-[400px] shadow-sm", flex && "min-w-[20%]")}
+      className={clsx(
+        "col-span-1 h-[400px] shadow-sm",
+        flex && "w-[20%] min-w-[20%] max-w-[20%]",
+      )}
     >
       <CardHeader className="h-[55%] w-full p-4">
         <Avatar className="h-full w-full rounded-sm hover:scale-105">

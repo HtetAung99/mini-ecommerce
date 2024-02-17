@@ -9,9 +9,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function WelcomePage() {
   const stores: Store[] = await getStores();
+  const coookie = cookies();
+  if (coookie.get("defaultStore")) {
+    return redirect("/products");
+  }
   return (
     <div className="flex h-screen w-full items-center justify-between shadow-lg">
       <Card className="m-auto h-fit w-1/3">

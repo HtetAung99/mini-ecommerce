@@ -8,6 +8,7 @@ import {
 } from "@/app/utils/products";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function ProductPage({
   searchParams,
@@ -46,6 +47,10 @@ export default async function ProductPage({
           {bestSellers.map((product) => (
             <ProductCard key={product.id} flex={true} product={product} />
           ))}
+          {bestSellers.length < 6 &&
+            Array.from({ length: 6 - bestSellers.length }).map((_, i) => (
+              <Skeleton className="col-span-1 min-w-[20%] shadow-sm" key={i} />
+            ))}
         </div>
       </div>
       <div className="self-start">
@@ -59,6 +64,10 @@ export default async function ProductPage({
               promotionId={promotionProduct.promotion}
             />
           ))}
+          {promotionProducts.length < 6 &&
+            Array.from({ length: 6 - promotionProducts.length }).map((_, i) => (
+              <Skeleton className="col-span-1 min-w-[20%] shadow-sm" key={i} />
+            ))}
         </div>
       </div>
       <div className="self-start ">
@@ -67,6 +76,10 @@ export default async function ProductPage({
           {newArrivals.map((product) => (
             <ProductCard key={product.id} flex={true} product={product} />
           ))}
+          {newArrivals.length < 6 &&
+            Array.from({ length: 6 - newArrivals.length }).map((_, i) => (
+              <Skeleton className="col-span-1 min-w-[20%] shadow-sm" key={i} />
+            ))}
         </div>
       </div>
       <div className="self-start">

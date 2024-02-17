@@ -21,12 +21,20 @@ import { useCart } from "@/app/hooks/useCart";
 import { useSocket } from "@/app/context/socket-provider";
 import { useRouter } from "next/navigation";
 import BuyNow from "./buy-now";
+import Cookies from "js-cookie";
+import StockSheet from "./stock-sheet";
+import { useStore } from "@/app/context/store-provider";
 
 export default function ProductInfo({
   product,
 }: {
   product: ProductWithNestedData;
 }) {
+  // console.log(JSON.parse(Cookies.get("defaultStore")!));
+  const { storeLists } = useStore();
+
+  console.log(storeLists);
+
   const [productState, setProductState] =
     useState<ProductWithNestedData>(product);
   const [selectedVariantPair, setSelectedVariantPair]: any[] = useState({});
@@ -67,7 +75,6 @@ export default function ProductInfo({
   useEffect(() => {
     if (isConnected) {
       socket?.on("admin", (data: any) => {
-        console.log("event received");
         setProductState((prev) => ({ ...prev, price: data.price }));
       });
       return () => {
@@ -141,6 +148,7 @@ export default function ProductInfo({
       </CardHeader>
 
       <CardContent>
+        <StockSheet />
         {Object.entries(attributeValues).map(([key, value]: [string, any]) => {
           if (key !== "default")
             return (
