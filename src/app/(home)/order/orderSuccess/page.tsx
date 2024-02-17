@@ -7,8 +7,8 @@ import React, { useEffect, useState } from "react";
 import OrderProgressBar from "../[order_id]/components/order-progress-bar";
 
 export default function OrderSuccessPage() {
-  const orderId = useSearchParams().get("orderId");
-  const paymentIntentId = useSearchParams().get("payment_intent");
+  const orderId = useSearchParams()?.get("orderId");
+  const paymentIntentId = useSearchParams()?.get("payment_intent");
   const [order, setOrder] = useState<Order | null>();
   const [error, setError] = useState<string | null>();
 

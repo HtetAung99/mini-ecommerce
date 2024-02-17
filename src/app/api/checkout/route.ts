@@ -6,6 +6,7 @@ import prisma from "../../../../lib/prisma";
 import { getCurrentUser, isAuthenticted } from "../../../../lib/session";
 import { redirect } from "next/navigation";
 import { OrderStatus, PaymentStatus } from "@prisma/client";
+import { calculateTotal } from "@/app/utils/orders";
 
 const stripe = require("stripe")(process.env.STRIPE_API_CLIENT_SECRET);
 
@@ -81,27 +82,3 @@ export async function GET(req: NextRequest) {
     }
   }
 }
-
-export const calculateTotal = async (
-  items: any,
-  shippingFee: number,
-  tax: number,
-) => {
-  const orderItems = await prisma.variant.findMany({
-    where: { id: { in: items.map((item: any) => item.id) } },
-    include: { product: true },
-  });
-
-  let total = orderItems.reduce((prev, cur) => {
-    return (
-      prev +
-      (cur.product.price + cur.priceDiff) *
-        items.find((item: any) => item.id === cur.id).quantity
-    );
-  }, 0);
-
-  total += shippingFee;
-  total *= 1 + tax / 100;
-
-  return Math.round(total * 100);
-};

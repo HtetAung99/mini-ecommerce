@@ -46,3 +46,27 @@ export const getOrdersForAdmin = async (): Promise<OrderWithAllDetails[]> => {
   }
   return [];
 };
+
+export const calculateTotal = async (
+  items: any,
+  shippingFee: number,
+  tax: number,
+) => {
+  const orderItems = await prisma.variant.findMany({
+    where: { id: { in: items.map((item: any) => item.id) } },
+    include: { product: true },
+  });
+
+  let total = orderItems.reduce((prev, cur) => {
+    return (
+      prev +
+      (cur.product.price + cur.priceDiff) *
+        items.find((item: any) => item.id === cur.id).quantity
+    );
+  }, 0);
+
+  total += shippingFee;
+  total *= 1 + tax / 100;
+
+  return Math.round(total * 100);
+};

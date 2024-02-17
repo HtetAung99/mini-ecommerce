@@ -20,7 +20,7 @@ import { use, useEffect, useState } from "react";
 export function Pagination({ count }: { count: number }) {
   const router = useRouter();
   const fullPath = usePathname();
-  const searchParams = Array.from(useSearchParams().entries());
+  const searchParams = Array.from(useSearchParams()?.entries() || []);
 
   const pageNum = parseInt(
     searchParams.find(([key]) => key === "pageNum")?.[1] ?? "1",

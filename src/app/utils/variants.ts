@@ -21,11 +21,9 @@ export const variantById = async (variantId: number) => {
   return variant;
 };
 
-export const retrieveAttributesObject = (
-  variants: VariantWithAttributeValues[],
-) => {
-  const reducedVariants = variants.reduce((prev: any, current) => {
-    current.attributeValues.forEach((av) => {
+export const retrieveAttributesObject = (variants: any) => {
+  const reducedVariants = variants.reduce((prev: any, current: any) => {
+    current.attributeValues.forEach((av: any) => {
       if (prev[av.attribute.name]) {
         prev[av.attribute.name].add(
           JSON.stringify({

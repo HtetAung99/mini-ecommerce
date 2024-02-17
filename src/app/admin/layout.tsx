@@ -1,11 +1,11 @@
 import { getServerSession } from "next-auth";
 import NavBar from "./navbar";
-import { authOption } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Role } from "@prisma/client";
 import { getCurrentUser, isAuthenticted } from "../../../lib/session";
 import SearchCommandBox from "./components/search-command-box";
 import HeaderBox from "./components/header-box";
+import { authOptions } from "../api/auth/[...nextauth]/auth-options";
 
 export default async function DashboardLayout({
   children,
@@ -14,7 +14,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
   auth: React.ReactNode;
 }) {
-  const session: any = await getServerSession(authOption);
+  const session: any = await getServerSession(authOptions);
 
   if (!(await isAuthenticted())) {
     redirect("/api/auth/signin?callbackUrl=/admin");

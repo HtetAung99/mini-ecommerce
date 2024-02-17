@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
         where: { id: Number(id) },
         include: {
           product: true,
+          stocks: true,
           attributeValues: {
             include: {
               attribute: true,

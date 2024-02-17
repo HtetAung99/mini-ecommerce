@@ -4,11 +4,9 @@ import React from "react";
 
 export default async function PLayout({
   params,
-
   children,
 }: {
   params: any;
-  searchParams: any;
   children: React.ReactNode;
 }) {
   const categoryPathsFromDb = (await getCategoriesFullPath()).map(

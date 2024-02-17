@@ -1,4 +1,5 @@
 "use client";
+
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback } from "react";
@@ -45,7 +46,7 @@ export default function SignInForm() {
   } = useForm<FormValues>({ resolver });
 
   const router: AppRouterInstance = useRouter();
-  const callbackUrl = useSearchParams().get("callbackUrl") || "";
+  const callbackUrl = useSearchParams()?.get("callbackUrl") || "";
 
   const onSubmit = handleSubmit(async (data) => {
     signIn("credentials", {

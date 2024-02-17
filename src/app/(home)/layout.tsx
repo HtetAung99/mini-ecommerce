@@ -3,7 +3,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { Menu, ShoppingCart, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getServerSession } from "next-auth";
-import { authOption } from "../api/auth/[...nextauth]/route";
 import { getCategories } from "../utils/categories";
 import { CategoryWithChild } from "../types";
 import CategoryMenu from "./components/category-menu";
@@ -11,11 +10,10 @@ import { DialogContent, Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { CartProvider } from "../context/cart-provider";
 import CartSpan from "./cart-span";
 import UserDropdown from "./components/user-dropdown";
-import { $Enums, Store } from "@prisma/client";
+import { $Enums } from "@prisma/client";
 import SearchBar from "./components/search-bar";
-import StoreLocator from "./components/store-locator";
-import { getStores } from "../utils/stores";
 import DefaultStore from "./components/default-store";
+import { authOptions } from "../api/auth/[...nextauth]/auth-options";
 
 export default async function HomeLayout({
   children,
@@ -24,7 +22,7 @@ export default async function HomeLayout({
   children: React.ReactNode;
   auth: React.ReactNode;
 }) {
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
   const user:
     | {
         name: string;
@@ -32,8 +30,6 @@ export default async function HomeLayout({
       }
     | undefined = session?.user;
   const categories: CategoryWithChild[] = await getCategories();
-
-  // const stores: Store[] = await getStores();
 
   return (
     <div className="">

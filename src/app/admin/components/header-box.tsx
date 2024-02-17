@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronRight } from "lucide-react";
+
+import { ChevronRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React from "react";
 
@@ -13,7 +13,7 @@ export default function HeaderBox() {
       <div className="flex justify-between  py-2 font-semibold capitalize tracking-wide text-blue-500">
         <div className="flex flex-row items-center gap-4">
           {path
-            .split("/")
+            ?.split("/")
             .slice(1)
             .map((p, index) => {
               return (

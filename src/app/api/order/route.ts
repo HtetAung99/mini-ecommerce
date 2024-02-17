@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { calculateTotal } from "../checkout/route";
 import prisma from "../../../../lib/prisma";
 import { getCurrentUser } from "../../../../lib/session";
 import { redirect } from "next/navigation";
 import { io } from "socket.io-client";
-import { revalidatePath } from "next/cache";
+import { calculateTotal } from "@/app/utils/orders";
 
 const socket = new (io as any)("http://localhost:4000");
 

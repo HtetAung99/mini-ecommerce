@@ -43,7 +43,7 @@ export default function SignUpForm() {
     formState: { errors },
   } = useForm<FormValues>({ resolver });
   const router: AppRouterInstance = useRouter();
-  const currentUrl: string = usePathname();
+  const currentUrl: string | null = usePathname();
   const onSubmit = handleSubmit(async (data) => {
     const res = await fetch("/api/register/", {
       method: "POST",
