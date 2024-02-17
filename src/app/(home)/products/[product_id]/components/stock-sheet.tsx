@@ -2,52 +2,66 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useStore } from "@/app/context/store-provider";
+import { Stock } from "@prisma/client";
 
-export default function StockSheetk() {
+export default function StockSheet({ stockList }: { stockList: Stock[] }) {
   const { storeLists } = useStore();
+
+  let modifiedStoreList = storeLists.map((store) => {
+    return {
+      ...store,
+      distance: store.distance.toFixed(2),
+      units:
+        stockList.find((stock) => stock.storeId === store.id)?.quantity || 0,
+    };
+  });
 
   return (
     <div className="my-2 leading-10 tracking-wider">
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="link">Stocks availability for Pick up</Button>
+          <Button className="ml-0 pl-0" variant="link">
+            See stock availability for Pick up
+          </Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Pick Up Location and Available Stocks</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </SheetDescription>
+            <SheetTitle>
+              <span className="border-b-2 border-slate-700 pb-4 leading-10">
+                Pick Up Location and Available Stock
+              </span>
+            </SheetTitle>
           </SheetHeader>
-          <div className="flex flex-col gap-5">
-            {storeLists.map((store) => (
-              <div className="my-1 border-b border-slate-500 p-2 text-base ">
-                <h3 className="font-semibold leading-10 tracking-wider">
-                  {store.name}
+          <div className="mt-3 flex flex-col">
+            {modifiedStoreList.map((store) => (
+              <div className="border-b border-slate-500 p-2 text-base ">
+                <h3 className="font-semibold leading-10">
+                  {store.name}{" "}
+                  <span className="text-sm font-medium text-slate-600">
+                    ({store.distance} km away)
+                  </span>
                 </h3>
-                <span className="font-medium leading-7 tracking-wide">
-                  {store.distance.toFixed(2)} km away
-                </span>
+                <p className="leading-8 text-gray-600">{store.address}</p>
+                <div className="text-sm leading-10">
+                  {store.units > 0 ? (
+                    <span className="font-semibold text-green-500">
+                      {store.units} unit(s) left
+                    </span>
+                  ) : (
+                    <span className="font-semibold text-red-500">
+                      Out of stock!
+                    </span>
+                  )}
+                </div>
               </div>
             ))}
           </div>
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button onClick={() => console.log("gg")} variant={"default"}>
-                Select for Pick up
-              </Button>
-            </SheetClose>
-          </SheetFooter>
         </SheetContent>
       </Sheet>
     </div>

@@ -119,6 +119,7 @@ export const getProductById = cache(
           include: {
             attributeValues: { include: { attribute: true } },
             promotion: true,
+            stocks: true,
           },
         },
       },

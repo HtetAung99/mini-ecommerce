@@ -13,20 +13,6 @@ export default async function P({
   params: any;
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const categoryName = decodeURIComponent(
-    params.category[params.category.length - 1],
-  );
-
-  const category = await getCategoryByName(categoryName);
-
-  if (!category) {
-    return redirect("/");
-  }
-
-  const [filteredProducts, count] = await getProductByFilters({
-    ...searchParams,
-    categoryId: category.id,
-  });
   const { storeId } = searchParams;
   const cookieStore = cookies();
 
@@ -42,6 +28,22 @@ export default async function P({
       `/p/${params.category.join("/")}?storeId=${defaultStore.id}`,
     );
   }
+
+  const categoryName = decodeURIComponent(
+    params.category[params.category.length - 1],
+  );
+
+  const category = await getCategoryByName(categoryName);
+
+  if (!category) {
+    return redirect("/");
+  }
+
+  const [filteredProducts, count] = await getProductByFilters({
+    ...searchParams,
+    categoryId: category.id,
+  });
+
   return (
     <>
       <FilterBar params={params} searchParams={searchParams} />

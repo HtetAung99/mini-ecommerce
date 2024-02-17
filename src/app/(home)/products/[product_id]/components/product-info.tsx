@@ -1,4 +1,5 @@
 "use client";
+
 import {
   AttributeValueWithAttribute,
   ProductWithNestedData,
@@ -21,20 +22,13 @@ import { useCart } from "@/app/hooks/useCart";
 import { useSocket } from "@/app/context/socket-provider";
 import { useRouter } from "next/navigation";
 import BuyNow from "./buy-now";
-import Cookies from "js-cookie";
 import StockSheet from "./stock-sheet";
-import { useStore } from "@/app/context/store-provider";
 
 export default function ProductInfo({
   product,
 }: {
   product: ProductWithNestedData;
 }) {
-  // console.log(JSON.parse(Cookies.get("defaultStore")!));
-  const { storeLists } = useStore();
-
-  console.log(storeLists);
-
   const [productState, setProductState] =
     useState<ProductWithNestedData>(product);
   const [selectedVariantPair, setSelectedVariantPair]: any[] = useState({});
@@ -103,7 +97,19 @@ export default function ProductInfo({
     }
   }, [selectedVariantPair]);
 
-  const handleAddToCard = () => {
+  const extractStockFromVariantPair = () => {
+    const stockList = productState.variants.filter((v) => {
+      return v.attributeValues.every((av) => {
+        if (selectedVariantPair[av.attribute.name]) {
+          return av.name === selectedVariantPair[av.attribute.name];
+        }
+      });
+    })[0]?.stocks;
+
+    return stockList;
+  };
+
+  const handleAddToCart = () => {
     const variants = productState.variants.filter((v) => {
       return v.attributeValues.every((av) => {
         if (selectedVariantPair[av.attribute.name]) {
@@ -148,7 +154,7 @@ export default function ProductInfo({
       </CardHeader>
 
       <CardContent>
-        <StockSheet />
+        <StockSheet stockList={extractStockFromVariantPair()} />
         {Object.entries(attributeValues).map(([key, value]: [string, any]) => {
           if (key !== "default")
             return (
@@ -219,7 +225,7 @@ export default function ProductInfo({
       <CardFooter className="flex justify-between">
         <Button
           disabled={!price}
-          onClick={() => handleAddToCard()}
+          onClick={() => handleAddToCart()}
           className="flex items-center justify-around gap-3"
           variant="outline"
         >

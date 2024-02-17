@@ -51,6 +51,7 @@ export interface ProductWithNestedData extends ProductWithPromotion {
 
 export interface VariantWithAttributeValues extends Variant {
   attributeValues: AttributeValueWithAttribute[];
+  stocks: Stock[];
 }
 export interface ProductWithImage extends Product {
   imageUrl: string;
