@@ -64,7 +64,7 @@ export default function ProductCard({
       key={product.id}
       className={clsx(
         "col-span-1 h-[400px] shadow-sm",
-        flex && "w-[20%] min-w-[20%] max-w-[20%]",
+        flex && "md:w-[20%] md:min-w-[20%] md:max-w-[20%]",
       )}
     >
       <CardHeader className="h-[55%] w-full p-4">

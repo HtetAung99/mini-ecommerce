@@ -46,7 +46,7 @@ export default async function ProductDetailPage({
   return (
     <div className="w-full">
       <CategoryHeader product_id={product.id} />
-      <div className=" grid w-full grid-cols-2 gap-10  py-5">
+      <div className=" w-full gap-10 py-5 md:grid  md:grid-cols-2">
         {/* <Image
           width={700}
           height={500}

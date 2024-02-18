@@ -7,11 +7,15 @@ export default function CategoryBreadcrumb({
   categoryPaths: string[];
 }) {
   return (
-    <div className="flex flex-row gap-2 text-sm font-semibold text-slate-600">
+    <div className="flex flex-wrap gap-2 text-sm font-semibold text-slate-600 md:flex-row">
       {categoryPaths.map((c, idx) => {
         if (idx == categoryPaths.length - 1) {
           return (
-            <Badge key={idx} className="cursor-default" variant={"outline"}>
+            <Badge
+              key={idx}
+              className="w-fit cursor-default"
+              variant={"outline"}
+            >
               {c}
             </Badge>
           );

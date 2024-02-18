@@ -20,12 +20,12 @@ export default async function WelcomePage() {
   }
   return (
     <div className="flex h-screen w-full items-center justify-between shadow-lg">
-      <Card className="m-auto h-fit w-1/3">
+      <Card className="m-auto h-fit w-[90%] md:w-1/3">
         <CardHeader>
-          <CardTitle className="leading-10 tracking-wide">
+          <CardTitle className="md:leading-10 md:tracking-wide">
             Choose Your Nearest Store
           </CardTitle>
-          <CardDescription className="leading-8">
+          <CardDescription className="leading-7 md:leading-8">
             Select your default store based on your current location or choose
             manually!
           </CardDescription>

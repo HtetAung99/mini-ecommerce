@@ -34,7 +34,7 @@ export default async function ProductPage({
   const promotionProducts = await getProductsWithPromotions(storeId);
 
   return (
-    <div className="mx-[10vw] block overflow-hidden py-2">
+    <div className="mx-[5vw] block overflow-hidden md:mx-[10vw]">
       {/* <h1 className="text-4xl font-bold">Products</h1>
       <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row">
         {products.map((product) => (
@@ -42,7 +42,7 @@ export default async function ProductPage({
         ))}
       </div> */}
       <div className="self-start">
-        <h3 className="my-3">Best Sellers</h3>
+        <h3 className="my-3 leading-10">Best Sellers</h3>
         <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row ">
           {bestSellers.map((product) => (
             <ProductCard key={product.id} flex={true} product={product} />
@@ -54,7 +54,7 @@ export default async function ProductPage({
         </div>
       </div>
       <div className="self-start">
-        <h3 className="my-3">Promotions</h3>
+        <h3 className="my-3 leading-10">Promotions</h3>
         <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row ">
           {promotionProducts.map((promotionProduct) => (
             <ProductCard
@@ -71,7 +71,7 @@ export default async function ProductPage({
         </div>
       </div>
       <div className="self-start ">
-        <h3 className="my-3">New Arrivals</h3>
+        <h3 className="my-3 leading-10">New Arrivals</h3>
         <div className="flex w-full flex-col gap-5 overflow-auto md:flex-row ">
           {newArrivals.map((product) => (
             <ProductCard key={product.id} flex={true} product={product} />
@@ -82,8 +82,8 @@ export default async function ProductPage({
             ))}
         </div>
       </div>
-      <div className="self-start">
-        <h3>Just For You</h3>
+      <div className="self-start ">
+        <h3 className="my-3 leading-10">Just For You</h3>
       </div>
     </div>
   );

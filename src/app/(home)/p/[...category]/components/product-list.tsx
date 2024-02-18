@@ -14,7 +14,7 @@ export default function ProductList({
     <div className="col-span-3 w-full ">
       <Pagination count={count} />
       <ScrollArea className="col-span-3 overflow-y-auto pl-4">
-        <div className="grid grid-cols-3 gap-x-7 gap-y-7 p-4">
+        <div className="grid gap-x-7 gap-y-7 p-4 md:grid-cols-3">
           {products.map((product) => {
             return (
               <ProductCard

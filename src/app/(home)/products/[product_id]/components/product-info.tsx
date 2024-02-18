@@ -144,7 +144,7 @@ export default function ProductInfo({
   };
 
   return (
-    <Card className="m-auto flex h-full w-full flex-col border-0">
+    <Card className="m-auto flex h-full w-full flex-col border-0 shadow-none">
       <CardHeader className={clsx("gap-8")}>
         <span>
           <CardTitle>{productState.title}</CardTitle>
@@ -221,11 +221,11 @@ export default function ProductInfo({
           )}
         </Badge>
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex flex-col gap-5 md:flex-row md:justify-between">
         <Button
           disabled={!price}
           onClick={() => handleAddToCart()}
-          className="flex items-center justify-around gap-3"
+          className="flex w-full items-center gap-3 md:w-fit md:justify-around"
           variant="outline"
         >
           <ShoppingCart />

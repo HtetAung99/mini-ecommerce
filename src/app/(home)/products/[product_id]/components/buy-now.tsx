@@ -21,19 +21,19 @@ export default function BuyNow({ handleBuyNow }: { handleBuyNow: any }) {
 
   return (
     <Drawer>
-      <DrawerTrigger>
-        <Button className="flex items-center justify-around gap-3">
+      <DrawerTrigger className="w-full md:w-fit">
+        <Button className="flex w-full items-center gap-3 md:w-fit md:justify-around ">
           <CreditCard />
           Buy Now
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-1/3 px-7">
+      <DrawerContent className="h-[45%] px-7 md:h-1/3">
         <DrawerHeader>
-          <DrawerTitle className="mb-2">
+          <DrawerTitle className="mb-2 leading-8">
             How many items of this type would you like to buy now?
           </DrawerTitle>
-          <DrawerDescription className="flex flex-col items-center">
-            <span className="self-start">
+          <DrawerDescription className="mt-4 flex flex-col items-center md:mt-0">
+            <span className="self-start text-left">
               Please select the quantity of items you wish to purchase. You can
               adjust the quantity here.
             </span>
@@ -50,7 +50,7 @@ export default function BuyNow({ handleBuyNow }: { handleBuyNow: any }) {
                   if (currentQty > 0) setQty(currentQty);
                   else setQty(1);
                 }}
-                className="w-1/2"
+                className="mt-3 w-1/2"
                 type="number"
                 id="qty"
                 value={qty}
@@ -58,16 +58,16 @@ export default function BuyNow({ handleBuyNow }: { handleBuyNow: any }) {
             </div>
           </DrawerDescription>
         </DrawerHeader>
-        <DrawerFooter className="m-auto flex w-1/2 flex-row justify-center gap-10">
+        <DrawerFooter className="m-auto flex w-full flex-row justify-center gap-10 md:w-1/2">
           <Button
-            className="flex w-32 items-center justify-around gap-3"
+            className="flex w-full items-center gap-3 md:w-32 md:justify-around"
             onClick={() => handleBuyNow(qty)}
           >
             <CreditCard />
             Buy Now
           </Button>
-          <DrawerClose>
-            <Button className="w-32" variant="outline">
+          <DrawerClose className="hidden md:flex ">
+            <Button className="w-full md:w-32" variant="outline">
               Cancel
             </Button>
           </DrawerClose>

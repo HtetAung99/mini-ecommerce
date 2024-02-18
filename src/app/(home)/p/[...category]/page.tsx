@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getProductByFilters } from "@/app/utils/products";
 import ProductList from "./components/product-list";
 import { cookies } from "next/headers";
+import { SlidersHorizontal } from "lucide-react";
 
 export default async function P({
   params,

@@ -49,7 +49,7 @@ export function Pagination({ count }: { count: number }) {
     setTotalPages(Math.max(Math.ceil(count / pageSize), 1));
   }, [count, pageSize]);
   return (
-    <div className="flex items-center  justify-end px-2">
+    <div className="items-center justify-end  px-2 md:flex">
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>

@@ -36,18 +36,15 @@ export default async function HomeLayout({
       <CartProvider>
         <div
           id="label-bar"
-          className="flex flex-row items-center justify-end gap-5 bg-[#F8F8F8] px-[10vw] py-3"
+          className="flex flex-row  items-center justify-end bg-[#F8F8F8] py-3 md:px-[10vw]"
         >
-          <Link className={buttonVariants({ variant: "ghost" })} href={""}>
-            Customize Your Spec
-          </Link>
           <DefaultStore />
         </div>
         <div
           id="app-bar"
-          className="m-auto my-3 flex flex-row items-center justify-between px-[10vw] py-2"
+          className="m-auto my-3 flex flex-row items-center justify-between px-[5vw] py-2 md:px-[10vw]"
         >
-          <div className="w-[15vw]">
+          <div className="hidden w-[15vw] md:block">
             <Dialog>
               <DialogTrigger>
                 <Menu size={25} />
@@ -59,7 +56,7 @@ export default async function HomeLayout({
           </div>
 
           <SearchBar />
-          <div className="flex flex-row items-center justify-center gap-5">
+          <div className="hidden flex-row items-center justify-center gap-5 md:flex">
             {user ? (
               <UserDropdown user={user} />
             ) : (

@@ -23,9 +23,9 @@ export default async function PLayout({
     return <h1>Category Not Found!</h1>;
 
   return (
-    <div className="mx-[10vw]">
+    <div className="mx-[5vw] md:mx-[10vw]">
       <CategoryBreadcrumb categoryPaths={categoryPaths} />
-      <div className="grid grid-cols-4 py-5">{children}</div>
+      <div className="grid py-5 md:grid-cols-4">{children}</div>
     </div>
   );
 }

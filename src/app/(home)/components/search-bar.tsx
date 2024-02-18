@@ -27,7 +27,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="relative w-[36%]">
+    <div className="relative w-full md:w-[36%]">
       <Input
         onFocus={() => setOnFocus(true)}
         onBlur={() => {

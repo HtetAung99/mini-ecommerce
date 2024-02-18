@@ -21,10 +21,10 @@ export default function ProductImageDisplay({ images }: { images: string[] }) {
         />
       </div>
       {images.length > 1 && (
-        <Carousel className="w-full">
-          <CarouselContent className="ml-12">
+        <Carousel className="md:w-full">
+          <CarouselContent className="ml-2 md:ml-4">
             {images.map((img, i) => (
-              <CarouselItem key={i} className="basis-1/3 ">
+              <CarouselItem key={i} className="basis-1/2 md:basis-1/4 ">
                 <div className="m-2 h-[100px] w-[100px] cursor-pointer rounded-md border border-slate-200 p-2 shadow-md">
                   <img
                     onClick={() => setSelectedImage(img)}
@@ -36,8 +36,8 @@ export default function ProductImageDisplay({ images }: { images: string[] }) {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="ml-4" />
+          <CarouselNext className="mr-4" />
         </Carousel>
       )}
     </div>

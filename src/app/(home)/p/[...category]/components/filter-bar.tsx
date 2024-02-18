@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CategoryWithChild } from "@/app/types";
 import { getCategoriesNested } from "@/app/utils/categories";
 import CategoryFilter from "./category-filter";
-import Link from "next/link";
+import { SlidersHorizontal } from "lucide-react";
 
 export default async function filterBar({
   params,
@@ -18,33 +18,35 @@ export default async function filterBar({
   const categories: CategoryWithChild[] = await getCategoriesNested();
 
   return (
-    <div className="col-span-1 mt-5 flex flex-col gap-4 overflow-y-auto">
-      <div className="mx-4 flex items-center space-x-3">
-        <Checkbox id="stock" />
-        <label
-          htmlFor="stock"
-          className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    <>
+      <div className="col-span-1 mt-5 hidden flex-col gap-4 overflow-y-auto md:flex">
+        <div className="mx-4 flex items-center space-x-3">
+          <Checkbox id="stock" />
+          <label
+            htmlFor="stock"
+            className="text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Show in-stock only
+          </label>
+        </div>
+        <Separator />
+
+        <CategoryFilter categories={categories} />
+        <Separator />
+
+        <PriceSlider />
+        <Separator />
+
+        <Button
+          asChild
+          className="m-0 self-end p-0 text-red-500"
+          variant={"link"}
         >
-          Show in-stock only
-        </label>
+          <a href={`/p/${params.category.join("/")}?storeId=${storeId}`}>
+            Clear all filters
+          </a>
+        </Button>
       </div>
-      <Separator />
-
-      <CategoryFilter categories={categories} />
-      <Separator />
-
-      <PriceSlider />
-      <Separator />
-
-      <Button
-        asChild
-        className="m-0 self-end p-0 text-red-500"
-        variant={"link"}
-      >
-        <a href={`/p/${params.category.join("/")}?storeId=${storeId}`}>
-          Clear all filters
-        </a>
-      </Button>
-    </div>
+    </>
   );
 }
