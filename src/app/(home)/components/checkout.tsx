@@ -19,7 +19,7 @@ export default function Checkout({ next }: { next: boolean }) {
   return (
     <Card
       className={cn(
-        "mt-5 max-h-[320px] w-[550px] shrink border-0 bg-[#F8F8F8]",
+        "mt-5 max-h-[320px] shrink border-0 bg-[#F8F8F8] md:w-[550px]",
       )}
     >
       <CardContent>

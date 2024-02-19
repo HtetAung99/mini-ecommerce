@@ -54,4 +54,57 @@ export default function SelectedAddress() {
       )}
     </div>
   );
+  // }
+  // "use client";
+  // import { Button } from "@/components/ui/button";
+  // import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+  // import { Plus } from "lucide-react";
+  // import { useSession } from "next-auth/react";
+  // import AddressModal from "../addressModal/address-modal";
+
+  // export default function SelectedAddress() {
+  //   const session = useSession();
+  //   const selectedAddress = session.data?.user.selectedAddress;
+
+  //   return (
+  //     <div className="mb-5 w-full">
+  //       {selectedAddress ? (
+  //         <div className="rounded-lg bg-white p-4 shadow">
+  //             <h3 className="mb-2 text-lg font-semibold">Shipping Address</h3>
+  //           <div className="grid grid-cols-2 gap-4">
+  //             <div>
+  //                 <p className="text-sm text-muted-foreground">Receiver Name:</p>
+  //               <p>{selectedAddress?.name}</p>
+  //             </div>
+  //             <div>
+  //                 <p className="text-sm text-muted-foreground">Address Type:</p>
+  //               <p>{selectedAddress?.type}</p>
+  //             </div>
+  //             <div>
+  //                 <p className="text-sm text-muted-foreground">Phone no.:</p>
+  //               <p>{selectedAddress?.phoneNumber}</p>
+  //             </div>
+  //             <div>
+  //                 <p className="text-sm text-muted-foreground">Address:</p>
+  //               <p>{`${selectedAddress?.address}, ${selectedAddress?.city}, ${selectedAddress?.state}, ${selectedAddress?.postalCode}, ${selectedAddress?.country}`}</p>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       ) : (
+  //         <div className="flex w-full items-center justify-center">
+  //           <Dialog>
+  //             <DialogTrigger asChild>
+  //               <Button className="flex items-center space-x-2">
+  //                 <Plus className="h-6 w-6" />
+  //                 <span>Add new address</span> {" "}
+  //               </Button>
+  //             </DialogTrigger>
+  //             <DialogContent className="max-w-md">
+  //                 <AddressModal title="Add Shipping Address" />
+  //             </DialogContent>
+  //           </Dialog>
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
 }

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 export default function DefaultStore() {
   const [defaultStore, setDefaultStore] = useState<Store | null>(null);
   useEffect(() => {
-    const store = JSON.parse(Cookies.get("defaultStore")!);
+    const store = JSON.parse(Cookies.get("defaultStore") || "null");
     setDefaultStore(store);
   }, []);
   const router = useRouter();

@@ -70,7 +70,7 @@ export default function SignUpForm() {
   }, [router]);
   return (
     <form onSubmit={onSubmit}>
-      <Card className="">
+      <Card className="w-full">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>

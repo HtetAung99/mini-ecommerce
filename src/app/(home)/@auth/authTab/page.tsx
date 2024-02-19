@@ -7,7 +7,7 @@ import SignInForm from "./signin-form";
 function AuthTabFrom() {
   return (
     <Modal>
-      <Tabs defaultValue="signIn" className="w-[25vw]">
+      <Tabs defaultValue="signIn" className="md:w-[25vw]">
         <TabsList className="grid grid-cols-2">
           <TabsTrigger value="signIn">Sign In</TabsTrigger>
           <TabsTrigger value="signUp">Sign Up</TabsTrigger>

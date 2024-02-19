@@ -47,8 +47,8 @@ export default function BuyNow({ handleBuyNow }: { handleBuyNow: any }) {
               <Input
                 onChange={(e) => {
                   const currentQty = Number(e.target.value);
-                  if (currentQty > 0) setQty(currentQty);
-                  else setQty(1);
+                  if (currentQty >= 0) setQty(currentQty);
+                  else setQty(0);
                 }}
                 className="mt-3 w-1/2"
                 type="number"

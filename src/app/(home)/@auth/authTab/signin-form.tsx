@@ -69,7 +69,7 @@ export default function SignInForm() {
   }, [router]);
   return (
     <form onKeyDown={handleKeyDown} onSubmit={onSubmit}>
-      <Card className="">
+      <Card className="w-full">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Sign In to an account</CardTitle>
           <CardDescription>
