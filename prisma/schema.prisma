@@ -119,19 +119,22 @@ model VerificationToken {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  email         String    @unique
-  emailVerified DateTime?
-  name          String?
-  password      String?
-  role          Role      @default(USER)
-  accounts      Account[]
-  sessions      Session[]
-  image         String?
-  orders        Order[]
-  addresses     Address[]
+  id              String            @id @default(cuid())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  email           String            @unique
+  emailVerified   DateTime?
+  name            String?
+  password        String?
+  role            Role              @default(USER)
+  accounts        Account[]
+  sessions        Session[]
+  image           String?
+  orders          Order[]
+  addresses       Address[]
+  groups          Group[]           @relation("GroupMembers")
+  permissions     Permission[]      @relation("UserPermissions")
+  UserPermissions UserPermissions[]
 }
 
 model Address {
@@ -215,9 +218,11 @@ enum OrderStatus {
 }
 
 enum Role {
-  USER
-  ADMIN
   SUPERADMIN
+  ADMIN
+  STOREMANAGER
+  STAFF
+  USER
 }
 
 enum ShippingType {
@@ -229,4 +234,41 @@ enum ShippingMethod {
   STANDARD
   NEXTDAY
   ONEDAY
+}
+
+model Permission {
+  id               String             @id @default(cuid())
+  name             String             @unique
+  description      String?
+  groups           Group[]            @relation("GroupPermissions")
+  users            User[]             @relation("UserPermissions")
+  GroupPermissions GroupPermissions[]
+  UserPermissions  UserPermissions[]
+}
+
+model Group {
+  id               String             @id @default(cuid())
+  name             String             @unique
+  description      String?
+  users            User[]             @relation("GroupMembers")
+  permissions      Permission[]       @relation("GroupPermissions")
+  GroupPermissions GroupPermissions[]
+}
+
+model GroupPermissions {
+  groupId      String
+  permissionId String
+  group        Group      @relation(fields: [groupId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([groupId, permissionId])
+}
+
+model UserPermissions {
+  userId       String
+  permissionId String
+  user         User       @relation(fields: [userId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([userId, permissionId])
 }
