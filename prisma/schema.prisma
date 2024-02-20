@@ -119,24 +119,23 @@ model VerificationToken {
 }
 
 model User {
-  id              String            @id @default(cuid())
-  active          Boolean           @default(true)
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  email           String            @unique
-  emailVerified   DateTime?
-  name            String?
-  password        String?
-  role            Role              @default(USER)
-  accounts        Account[]
-  sessions        Session[]
-  image           String?
-  orders          Order[]
-  addresses       Address[]
-  groups          Group[]           @relation("GroupMembers")
-  permissions     Permission[]      @relation("UserPermissions")
+  id            String       @id @default(cuid())
+  active        Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  email         String       @unique
+  emailVerified DateTime?
+  name          String?
+  password      String?
+  role          Role         @default(USER)
+  accounts      Account[]
+  sessions      Session[]
+  image         String?
+  orders        Order[]
+  addresses     Address[]
+  groups        Group[]      @relation("GroupMembers")
+  permissionRoles PermissionRole[] @relation("UserRole")
   // UserPermissions UserPermissions[]
-  
 }
 
 model Address {
@@ -238,14 +237,30 @@ enum ShippingMethod {
   ONEDAY
 }
 
+
+
 model Permission {
   id               String             @id @default(cuid())
   name             String             @unique
-  description      String?
+  entity           Entity             @relation(fields: [entityId], references: [id])
+  action           Action[]
   groups           Group[]            @relation("GroupPermissions")
-  users            User[]             @relation("UserPermissions")
+  permissionsRoles PermissionRole[]   @relation("RolePermissions")
   GroupPermissions GroupPermissions[]
-  // UserPermissions  UserPermissions[]
+  entityId         String
+}
+
+model Entity {
+  id         String       @id @default(cuid())
+  name       String       @unique
+  Permission Permission[]
+}
+
+enum Action {
+  CREATE
+  READ
+  UPDATE
+  DELETE
 }
 
 model Group {
@@ -257,6 +272,14 @@ model Group {
   GroupPermissions GroupPermissions[]
 }
 
+model PermissionRole {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  description  String?
+  permissions  Permission[] @relation("RolePermissions")
+  users        User[]     @relation("UserRole")
+}
+
 model GroupPermissions {
   groupId      String
   permissionId String
@@ -266,11 +289,4 @@ model GroupPermissions {
   @@unique([groupId, permissionId])
 }
 
-// model UserPermissions {
-//   userId       String
-//   permissionId String
-//   user         User       @relation(fields: [userId], references: [id])
-//   permission   Permission @relation(fields: [permissionId], references: [id])
 
-//   @@unique([userId, permissionId])
-// }

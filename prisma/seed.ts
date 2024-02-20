@@ -9,11 +9,13 @@ import { seedCategories } from "./dataPopulation/category_seeding";
 import { seedOrders } from "./dataPopulation/order_seeding";
 import { seedAddresses } from "./dataPopulation/address_seeding";
 import { seedPromotion } from "./dataPopulation/promotion_seeding";
+import { seedEntities } from "./dataPopulation/entity_seeding";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log(`Start seeding ...`);
+  await seedEntities();
   await seedUsers();
   await seedStores();
   await seedCategories();
