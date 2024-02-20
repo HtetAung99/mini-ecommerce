@@ -120,6 +120,7 @@ model VerificationToken {
 
 model User {
   id              String            @id @default(cuid())
+  active          Boolean           @default(true)
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   email           String            @unique
@@ -134,7 +135,8 @@ model User {
   addresses       Address[]
   groups          Group[]           @relation("GroupMembers")
   permissions     Permission[]      @relation("UserPermissions")
-  UserPermissions UserPermissions[]
+  // UserPermissions UserPermissions[]
+  
 }
 
 model Address {
@@ -243,7 +245,7 @@ model Permission {
   groups           Group[]            @relation("GroupPermissions")
   users            User[]             @relation("UserPermissions")
   GroupPermissions GroupPermissions[]
-  UserPermissions  UserPermissions[]
+  // UserPermissions  UserPermissions[]
 }
 
 model Group {
@@ -264,11 +266,11 @@ model GroupPermissions {
   @@unique([groupId, permissionId])
 }
 
-model UserPermissions {
-  userId       String
-  permissionId String
-  user         User       @relation(fields: [userId], references: [id])
-  permission   Permission @relation(fields: [permissionId], references: [id])
+// model UserPermissions {
+//   userId       String
+//   permissionId String
+//   user         User       @relation(fields: [userId], references: [id])
+//   permission   Permission @relation(fields: [permissionId], references: [id])
 
-  @@unique([userId, permissionId])
-}
+//   @@unique([userId, permissionId])
+// }

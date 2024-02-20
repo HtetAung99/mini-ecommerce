@@ -22,7 +22,7 @@ export default function HeaderBox() {
                     className="text-xs font-medium tracking-wide"
                     key={index}
                   >
-                    {p}
+                    {p.split("-").join(" ")}
                   </span>{" "}
                   {index !== path.split("/").length - 2 && (
                     <ChevronRight className="ml-3" size={12} />
