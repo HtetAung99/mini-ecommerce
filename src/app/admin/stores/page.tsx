@@ -28,7 +28,7 @@ export default async function StorePage() {
           <Link href={"#"}>Add Store</Link>
         </Button>
       </div>
-      <Separator className="mt-5" />
+      <Separator className="my-5" />
       <div className="grid grid-cols-2 gap-3">
         {stores.map((store) => (
           <Card className="">
