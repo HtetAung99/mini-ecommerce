@@ -84,14 +84,14 @@ export default function ModalForm({
   return (
     <Card className="my-2 min-w-[30vw] max-w-[50vw] p-4 ">
       <CardHeader>
-        <CardTitle className="text-2xl font-semibold">
+        <CardTitle className="text-lg font-semibold">
           Add new category
         </CardTitle>
       </CardHeader>
-      <CardContent className="my-4">
+      <CardContent className="">
         <form>
           <div className="grid w-full items-center justify-items-start gap-4">
-            <div className="mb-4 flex flex-row items-center gap-2 text-sm font-bold leading-8 tracking-wider text-blue-500">
+            <div className="flex flex-row items-center gap-2 text-sm font-bold leading-8 tracking-wider text-blue-500">
               {rootId && (
                 <>
                   <p className="text-sm font-semibold">{root}</p>
@@ -108,10 +108,10 @@ export default function ModalForm({
             </div>
             <div className="flex w-full items-center gap-5">
               <Label
-                className="text-base font-semibold leading-9 tracking-wider"
+                className="text-sm font-semibold leading-10 tracking-wider"
                 htmlFor="name"
               >
-                Name:{" "}
+                Name:
               </Label>
               <Input
                 {...register("name", {

@@ -7,14 +7,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowDownNarrowWide } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 export default function PermissionFilter() {
   return (
     <div className="flex items-center justify-between">
-      <Button className="flex" variant={"default"}>
-        <span className="">Add New Permission</span>
+      <Button asChild className="flex" variant={"default"}>
+        <Link href="/admin/users-management/addPermission" className="">
+          Add New Permission
+        </Link>
       </Button>
 
       <div className="flex flex-row items-center gap-10">
