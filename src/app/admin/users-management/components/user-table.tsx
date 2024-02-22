@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { getAllUsers } from "@/app/utils/users";
 import { cn } from "@/lib/utils";
+import RoleEdit from "./role-edit";
 
 export default async function UserTable() {
   const users = await getAllUsers();
@@ -28,26 +29,30 @@ export default async function UserTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell className="font-medium">{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell className="font-bold capitalize text-slate-500">
-                {user.role.toLowerCase()}
-              </TableCell>
-              <TableCell
-                className={cn(
-                  user.active ? "text-green-500" : "text-red-500",
-                  "font-semibold",
-                )}
-              >
-                {user.active ? "Active" : "Inactive"}
-              </TableCell>
-              <TableCell className="text-right">
-                <button className="font-semibold text-blue-600">Edit</button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {users
+            .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""))
+            .map((user) => (
+              <TableRow key={user.id}>
+                <TableCell className="border-r font-medium">
+                  {user.name}
+                </TableCell>
+                <TableCell className="border-r">{user.email}</TableCell>
+                <TableCell>
+                  <RoleEdit user={user} />
+                </TableCell>
+                <TableCell
+                  className={cn(
+                    user.active ? "text-green-500" : "text-red-500",
+                    "font-semibold",
+                  )}
+                >
+                  {user.active ? "Active" : "Inactive"}
+                </TableCell>
+                <TableCell className="text-right">
+                  <button className="font-semibold text-blue-600">Edit</button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

@@ -1,6 +1,6 @@
 import { Modal } from "@/app/components/modal";
 import React from "react";
-import PremissionFrom from "./components/permissionForm";
+import PremissionFrom from "./components/permission-form";
 import prisma from "../../../../../../lib/prisma";
 import { Entity, Permission } from "@prisma/client";
 

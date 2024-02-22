@@ -39,7 +39,7 @@ export default async function PermissionTable({
           <TableRow>
             <TableHead className="w-[25%] border-r">Name</TableHead>
             <TableHead className="w-[20%] border-r">Entity</TableHead>
-            <TableHead className="w-[40%]">Access</TableHead>
+            <TableHead className="w-[40%] border-r">Access</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { isAdmin, isAuthenticted, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
-import { PermissionAddFormValue } from "../admin/users-management/@permission/addPermission/components/permissionForm";
+import { PermissionAddFormValue } from "../admin/users-management/@permission/addPermission/components/permission-form";
 
 export async function addPermission(formData: PermissionAddFormValue) {
   const isLogin: boolean = await isAuthenticted();
@@ -20,7 +20,6 @@ export async function addPermission(formData: PermissionAddFormValue) {
     const permission = await prisma.permission.create({
       data: formData,
     });
-    console.log(permission);
   } catch (e) {
     console.error(e);
   }

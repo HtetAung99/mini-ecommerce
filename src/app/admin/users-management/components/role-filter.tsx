@@ -10,12 +10,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Link from "next/link";
 
 export default function RoleFilter() {
   return (
     <div className="flex items-center justify-between">
-      <Button className="flex" variant={"default"}>
-        <span className="">Add New Role</span>
+      <Button asChild className="flex" variant={"default"}>
+        <Link href="/admin/users-management/addRole" className="">
+          Add New Role
+        </Link>
       </Button>
 
       <div className="flex min-w-[15vw] flex-row items-center gap-10">

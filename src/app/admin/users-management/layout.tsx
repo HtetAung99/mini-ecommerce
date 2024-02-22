@@ -5,12 +5,15 @@ import { Separator } from "@/components/ui/separator";
 export default function UserManagementPage({
   children,
   permission,
+  role,
 }: {
   children: React.ReactNode;
   permission: React.ReactNode;
+  role: React.ReactNode;
 }) {
   return (
     <>
+      {role}
       {permission}
       <Tabs defaultValue="users">
         <TabsList className="mb-3 flex w-[30%] justify-between">
