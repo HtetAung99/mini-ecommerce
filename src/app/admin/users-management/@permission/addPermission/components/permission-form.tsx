@@ -26,7 +26,7 @@ import { Action, Entity } from "@prisma/client";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, useFormState } from "react-hook-form";
 
 export type PermissionAddFormValue = {
@@ -53,12 +53,10 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
       : setActions(actions.filter((act) => act !== action));
 
   const onSubmit = handleSubmit(async (data: PermissionAddFormValue, e) => {
-    e?.preventDefault();
     data.action = actions;
 
     try {
       await addPermission(data);
-      router.back();
       toast({
         title: "Permission Created",
         description: "Permission has been created successfully",
@@ -69,6 +67,7 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
         description: "There was a problem with your request.",
       });
     }
+    router.back();
   });
   return (
     <Card className="m-auto max-h-fit  w-[30vw]">

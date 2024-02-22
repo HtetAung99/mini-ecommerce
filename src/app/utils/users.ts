@@ -12,6 +12,7 @@ const getAllUsers = cache(async () => {
       createdAt: true,
       active: true,
       updatedAt: true,
+      permissionRoles: true,
     },
   });
   return users;

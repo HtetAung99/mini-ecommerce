@@ -21,9 +21,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Permission } from "@prisma/client";
 import { ChevronDown, X } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 export type RoleAddFormValue = {
@@ -48,8 +49,6 @@ export default function AddRoleForm({
   const { toast } = useToast();
 
   const onSubmit = handleSubmit(async (data: RoleAddFormValue, e) => {
-    e?.preventDefault();
-
     await addRole(data);
 
     try {
@@ -69,7 +68,7 @@ export default function AddRoleForm({
     <Card className="m-auto max-h-fit  w-[30vw]">
       <CardHeader>
         <CardTitle className="mb-3 flex items-center justify-between py-2">
-          <span>Add Permission</span>
+          <span>Add Role</span>
           <X
             className="cursor-pointer"
             onClick={(e) => {
@@ -146,7 +145,10 @@ export default function AddRoleForm({
                 </PopoverTrigger>
                 <PopoverContent className="flex flex-col  gap-5">
                   {permissions.map((permission) => (
-                    <div className="flex w-full flex-row items-center gap-3 rounded-sm px-2 py-2 hover:bg-slate-200 hover:font-semibold">
+                    <div
+                      key={permission.id}
+                      className="flex w-full flex-row items-center gap-3 rounded-sm px-2 py-2 hover:bg-slate-200 hover:font-semibold"
+                    >
                       <Checkbox
                         onCheckedChange={(val) => {
                           if (val) {
@@ -184,9 +186,14 @@ export default function AddRoleForm({
             </div>
           </form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex w-full flex-row items-center justify-between">
+          <Button asChild className="" variant={"default"}>
+            <Link href={"/admin/users-management/addPermission"}>
+              Add New Permission &gt;
+            </Link>
+          </Button>
           <Button onClick={onSubmit} className="ml-auto" variant={"default"}>
-            Add Permission
+            Add Role
           </Button>
         </CardFooter>
       </CardHeader>

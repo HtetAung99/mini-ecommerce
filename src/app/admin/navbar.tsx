@@ -10,30 +10,30 @@ const navlinks: NavLinkType[] = [
   { name: "Dashboard", href: "/", access: [Role.ADMIN, Role.SUPERADMIN] },
   {
     name: "Products",
-    href: "/products",
+    href: "products",
     access: [Role.ADMIN, Role.SUPERADMIN],
   },
   {
     name: "Categories",
-    href: "/categories",
+    href: "categories",
     access: [Role.ADMIN, Role.SUPERADMIN],
   },
   {
     name: "Attributes",
-    href: "/attributes",
+    href: "attributes",
     access: [Role.ADMIN, Role.SUPERADMIN],
   },
-  { name: "Stores", href: "/stores", access: [Role.SUPERADMIN] },
+  { name: "Stores", href: "stores", access: [Role.SUPERADMIN] },
   {
     name: "Users Management",
-    href: "/users-management",
+    href: "users-management",
     access: [Role.SUPERADMIN],
   },
-  { name: "Groups", href: "/groups", access: [Role.SUPERADMIN] },
-  { name: "Orders", href: "/orders", access: [Role.SUPERADMIN] },
+  { name: "Groups", href: "groups", access: [Role.SUPERADMIN] },
+  { name: "Orders", href: "orders", access: [Role.SUPERADMIN] },
   {
     name: "Settings",
-    href: "/settings",
+    href: "settings",
     access: [Role.ADMIN, Role.SUPERADMIN],
   },
 ];

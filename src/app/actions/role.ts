@@ -30,7 +30,7 @@ export async function addRole(formData: RoleAddFormValue) {
     console.error(e);
   }
 
-  revalidatePath("/admin/user-management");
+  revalidatePath("/admin/users-management");
 }
 
 export async function editRole(userId: string, role: Role) {
@@ -52,7 +52,7 @@ export async function editRole(userId: string, role: Role) {
         role,
       },
     });
-    revalidatePath("/admin/user-management");
+    revalidatePath("/admin/users-management");
   } catch (e) {
     console.error(e);
   }

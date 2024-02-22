@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { isAdmin, isAuthenticted, isSuperAdmin } from "../../../lib/session";
+import { isAuthenticted, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { PermissionAddFormValue } from "../admin/users-management/@permission/addPermission/components/permission-form";
@@ -20,9 +20,11 @@ export async function addPermission(formData: PermissionAddFormValue) {
     const permission = await prisma.permission.create({
       data: formData,
     });
+    // if not return permission, router get stuck on modal
+    return permission;
   } catch (e) {
-    console.error(e);
+    throw new Error("Failed to add permission");
   }
 
-  revalidatePath("/admin/user-management");
+  revalidatePath("/admin/users-management");
 }
