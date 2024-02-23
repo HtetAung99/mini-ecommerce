@@ -28,6 +28,7 @@ import { Group, PermissionRole } from "@prisma/client";
 import Link from "next/link";
 import { addPermissionRole } from "@/app/actions/permissionRole";
 import { activateUser } from "@/app/actions/user";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function UserTableEditButton({
   user,
@@ -38,6 +39,26 @@ export default function UserTableEditButton({
   roles: PermissionRole[];
   groups: Group[];
 }) {
+  const { toast } = useToast();
+  const handleCheckedChange = async (
+    checked: boolean,
+    roleId: string,
+    userId: string,
+  ) => {
+    try {
+      await addPermissionRole(roleId, userId, checked);
+      toast({
+        title: "Permission Role",
+        description: "Permission Role has been added successfully",
+      });
+    } catch (e) {
+      console.error(e);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    }
+  };
   const activateHandler = async (userId: string, status: boolean) => {
     console.log("clicked");
     try {
@@ -83,7 +104,8 @@ export default function UserTableEditButton({
                       (pr: any) => pr.id === role.id,
                     )}
                     onCheckedChange={(checked: boolean) => {
-                      addPermissionRole(role.id, user.id, checked);
+                      // try catch
+                      handleCheckedChange(checked, role.id, user.id);
                     }}
                     key={role.id}
                   >

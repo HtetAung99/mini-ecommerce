@@ -48,7 +48,7 @@ function OrderList({ orders }: { orders: OrderWithAllDetails[] }) {
 
   return (
     <div>
-      <div className="mb-4 mt-2 grid grid-cols-5 rounded-md bg-slate-100 p-4 font-semibold leading-7 tracking-wider shadow-md">
+      <div className="mb-4 mt-2 grid grid-cols-5 rounded-md bg-slate-100 p-4 text-sm font-bold leading-7 tracking-wider shadow-md">
         <span>Order Id</span>
         <span className="">Customer Info</span>
         <span className="">Amount Charged</span>

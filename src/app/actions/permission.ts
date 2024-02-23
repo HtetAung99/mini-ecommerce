@@ -21,10 +21,9 @@ export async function addPermission(formData: PermissionAddFormValue) {
       data: formData,
     });
     // if not return permission, router get stuck on modal
+    revalidatePath("/admin/users-management");
     return permission;
   } catch (e) {
     throw new Error("Failed to add permission");
   }
-
-  revalidatePath("/admin/users-management");
 }
