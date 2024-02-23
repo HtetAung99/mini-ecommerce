@@ -16,19 +16,36 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 
-import { Plus, PlusCircle, ShieldCheck, ShieldX, UserCog2 } from "lucide-react";
-import { PermissionRole } from "@prisma/client";
+import {
+  Plus,
+  PlusCircle,
+  ShieldCheck,
+  ShieldX,
+  UserCog2,
+  Users,
+} from "lucide-react";
+import { Group, PermissionRole } from "@prisma/client";
 import Link from "next/link";
-import { addPermission } from "@/app/actions/permission";
 import { addPermissionRole } from "@/app/actions/permissionRole";
+import { activateUser } from "@/app/actions/user";
 
 export default function UserTableEditButton({
   user,
   roles,
+  groups,
 }: {
   user: any;
   roles: PermissionRole[];
+  groups: Group[];
 }) {
+  const activateHandler = async (userId: string, status: boolean) => {
+    console.log("clicked");
+    try {
+      await activateUser(userId, status);
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="font-semibold text-blue-500 focus:ring-0 focus-visible:hidden">
@@ -39,16 +56,18 @@ export default function UserTableEditButton({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {!user.active ? (
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => activateHandler(user.id, !user.active)}
+            >
               <ShieldCheck className="mr-2 h-4 w-4" />
               <span>Activate</span>
-              <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
             </DropdownMenuItem>
           ) : (
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => activateHandler(user.id, !user.active)}
+            >
               <ShieldX className="mr-2 h-4 w-4" />
               <span>Deactivate</span>
-              <DropdownMenuShortcut>⇧⌘A</DropdownMenuShortcut>
             </DropdownMenuItem>
           )}
           <DropdownMenuSub>
@@ -84,11 +103,38 @@ export default function UserTableEditButton({
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-          <DropdownMenuItem>
-            <Plus className="mr-2 h-4 w-4" />
-            <span>New Team</span>
-            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Users className="mr-2 h-4 w-4" />
+              <span>Add to Group</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                {groups.map((gp) => (
+                  <DropdownMenuCheckboxItem
+                    checked={true}
+                    // onCheckedChange={(checked: boolean) => {
+                    //   addPermissionRole(role.id, user.id, checked);
+                    // }}
+                    onCheckedChange={() => {}}
+                    key={gp.id}
+                  >
+                    {gp.name}
+                  </DropdownMenuCheckboxItem>
+                ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link
+                    href={"/admin/groups/addGroup"}
+                    className="flex items-center"
+                  >
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    <span>Create Group</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

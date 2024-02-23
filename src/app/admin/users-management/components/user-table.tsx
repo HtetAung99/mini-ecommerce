@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 export default async function UserTable() {
   const users = await getAllUsers();
   const roles = await prisma.permissionRole.findMany();
+  const groups = await prisma.group.findMany();
 
   return (
     <div className="my-4">
@@ -75,6 +76,7 @@ export default async function UserTable() {
                     key={user.id}
                     user={user}
                     roles={roles}
+                    groups={groups}
                   />
                 </TableCell>
               </TableRow>
