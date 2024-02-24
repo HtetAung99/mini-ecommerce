@@ -1,5 +1,5 @@
 "use client";
-import { addRole } from "@/app/actions/role";
+import { addGroup } from "@/app/actions/group";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,16 +22,17 @@ import { Permission } from "@prisma/client";
 import { ChevronDown, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+
+import React from "react";
 import { useForm } from "react-hook-form";
 
-export type RoleAddFormValue = {
+export type GroupAddFormValue = {
   name: string;
   permissionIds: string[];
   descritption?: string;
 };
 
-export default function AddRoleForm({
+export default function GroupForm({
   permissions,
 }: {
   permissions: Permission[];
@@ -42,17 +43,17 @@ export default function AddRoleForm({
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<RoleAddFormValue>();
-  const [checkList, setCheckList] = useState<string[]>([]);
+  } = useForm<GroupAddFormValue>();
+  const [checkList, setCheckList] = React.useState<string[]>([]);
   const { toast } = useToast();
 
-  const onSubmit = handleSubmit(async (data: RoleAddFormValue, e) => {
+  const onSubmit = handleSubmit(async (data: GroupAddFormValue, e) => {
     try {
-      await addRole(data);
+      await addGroup(data);
       router.back();
       toast({
-        title: "Permission Created",
-        description: "Permission has been created successfully",
+        title: "Group Created",
+        description: "Group has been created successfully",
       });
     } catch (e) {
       toast({
@@ -62,10 +63,10 @@ export default function AddRoleForm({
     }
   });
   return (
-    <Card className="m-auto max-h-fit w-[30vw]">
+    <Card className="m-auto max-h-fit  w-[30vw]">
       <CardHeader>
         <CardTitle className="mb-3 flex items-center justify-between py-2">
-          <span>Add Role</span>
+          <span>Add Group</span>
           <X
             className="cursor-pointer"
             onClick={(e) => {
@@ -96,7 +97,7 @@ export default function AddRoleForm({
                 id="name"
               />
               {errors?.name && (
-                <p className="col-span-3 my-2 w-full pl-[34%] text-left text-sm italic text-red-600">
+                <p className="col-span-3 my-2 w-full pl-[34%]   text-left text-sm italic text-red-600">
                   {errors.name.message}
                 </p>
               )}
@@ -184,13 +185,8 @@ export default function AddRoleForm({
           </form>
         </CardContent>
         <CardFooter className="flex w-full flex-row items-center justify-between">
-          <Button asChild className="" variant={"default"}>
-            <Link href={"/admin/users-management/addPermission"}>
-              Add New Permission &gt;
-            </Link>
-          </Button>
           <Button onClick={onSubmit} className="ml-auto" variant={"default"}>
-            Add Role
+            Create Group
           </Button>
         </CardFooter>
       </CardHeader>

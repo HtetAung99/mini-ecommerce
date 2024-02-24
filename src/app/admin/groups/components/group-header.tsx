@@ -9,14 +9,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Users } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 export default function GroupHeader() {
   return (
     <div className="flex items-center justify-between">
-      <Button className="flex" variant={"default"}>
-        <Users size={"18px"} />
-        <span className="ml-2">Add New Group</span>
+      <Button asChild className="flex" variant={"default"}>
+        <Link href="/admin/groups/addGroup">
+          <Users size={"18px"} />
+          <span className="ml-2">Add New Group</span>
+        </Link>
       </Button>
       <Input className="ml-9 mr-auto w-[25%]" placeholder="Search Group ...." />
       <div className="flex w-[10%] flex-row items-center gap-10">

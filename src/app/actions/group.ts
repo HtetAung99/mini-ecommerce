@@ -1,12 +1,11 @@
 "use server";
-
 import { redirect } from "next/navigation";
 import { isAuthenticted, isSuperAdmin } from "../../../lib/session";
+import { GroupAddFormValue } from "../admin/groups/@gp/addGroup/components/group-form";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
-import { PermissionAddFormValue } from "../admin/users-management/@permission/addPermission/components/permission-form";
 
-export async function addPermission(formData: PermissionAddFormValue) {
+export async function addGroup(formData: GroupAddFormValue) {
   const isLogin: boolean = await isAuthenticted();
   const hasPermission: boolean = await isSuperAdmin();
   // FIXME: need more auth check
@@ -17,13 +16,16 @@ export async function addPermission(formData: PermissionAddFormValue) {
     throw new Error("You don't have permission to add permission");
 
   try {
-    const permission = await prisma.permission.create({
-      data: formData,
+    const group = await prisma.group.create({
+      data: {
+        name: formData.name,
+        description: formData.descritption,
+        permissions: { connect: formData.permissionIds.map((id) => ({ id })) },
+      },
     });
-    // if not return permission, router get stuck on modal
-    revalidatePath("/admin/users-management");
-    return permission;
   } catch (e) {
-    throw new Error("Failed to add permission");
+    console.error(e);
   }
+
+  revalidatePath("/admin/groups");
 }

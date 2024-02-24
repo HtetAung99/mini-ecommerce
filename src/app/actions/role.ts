@@ -1,12 +1,11 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { isAdmin, isAuthenticted, isSuperAdmin } from "../../../lib/session";
+import { isAuthenticted, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
-import { PermissionAddFormValue } from "../admin/users-management/@permission/addPermission/components/permission-form";
 import { RoleAddFormValue } from "../admin/users-management/@role/addRole/components/role-form";
-import { Role, User } from "@prisma/client";
+import { Role } from "@prisma/client";
 
 export async function addRole(formData: RoleAddFormValue) {
   const isLogin: boolean = await isAuthenticted();

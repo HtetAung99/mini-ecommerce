@@ -8,8 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import prisma from "../../../../../lib/prisma";
+import { Permission } from "@prisma/client";
 
 export default async function GroupTable() {
+  // FIXME: need to change to utils later
+  const groups = await prisma.group.findMany({
+    include: { permissions: true, users: true },
+  });
   return (
     <div className="my-4">
       <Table>
@@ -24,7 +30,27 @@ export default async function GroupTable() {
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody></TableBody>
+        <TableBody>
+          {groups.map((group) => (
+            <TableRow key={group.id}>
+              <TableCell className="border-r font-medium">
+                {group.name}
+              </TableCell>
+              <TableCell className="border-r">{group.description}</TableCell>
+              <TableCell className="border-r">{group.users.length}</TableCell>
+              <TableCell className="flex-wrap border-r">
+                {group.permissions
+                  .map((per: Permission) => per.name)
+                  .join(", ")}
+              </TableCell>
+              <TableCell className="text-right">
+                <div className="flex justify-end">
+                  <button className="text-blue-500">Edit</button>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
       </Table>
     </div>
   );
