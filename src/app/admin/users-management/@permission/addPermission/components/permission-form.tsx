@@ -21,13 +21,11 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
-
 import { Action, Entity } from "@prisma/client";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-import React, { useEffect } from "react";
-import { useForm, useFormState } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export type PermissionAddFormValue = {
   name: string;
@@ -45,7 +43,9 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
   } = useForm<PermissionAddFormValue>();
 
   const { toast } = useToast();
-  const [actions, setActions] = React.useState<Action[]>([Action.READ]);
+  const [actions, setActions] = useState<Action[]>([Action.READ]);
+
+  console.log(Object.values(Action));
 
   const handleSwitch = (action: Action, checked: boolean) =>
     checked
@@ -73,7 +73,7 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
     <Card className="m-auto max-h-fit  w-[30vw]">
       <CardHeader>
         <CardTitle className="mb-3 flex items-center justify-between py-2">
-          <span>Add Permission</span>
+          <span>New Permission</span>
           <X
             className="cursor-pointer"
             onClick={(e) => {
@@ -114,7 +114,7 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
                 className="col-span-1 text-left text-sm font-semibold leading-10 tracking-wider text-slate-500"
                 htmlFor="entity"
               >
-                Entity (Table):
+                Entity:
               </Label>
               <Select
                 {...register("entityId", {
@@ -125,10 +125,7 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
                 }}
               >
                 <SelectTrigger className="col-span-2" id="entity">
-                  <SelectValue
-                    defaultValue={""}
-                    placeholder="Select Table or DataBase"
-                  />
+                  <SelectValue defaultValue={""} placeholder="Select Entity" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -140,14 +137,6 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
                           {entity.name}
                         </SelectItem>
                       ))}
-                  </SelectGroup>
-                  <SelectGroup>
-                    <SelectLabel>DBs</SelectLabel>
-                    <SelectItem value="apple">Apple</SelectItem>
-                    <SelectItem value="banana">Banana</SelectItem>
-                    <SelectItem value="blueberry">Blueberry</SelectItem>
-                    <SelectItem value="grapes">Grapes</SelectItem>
-                    <SelectItem value="pineapple">Pineapple</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -163,47 +152,23 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
               })}
             >
               <div className="my-3 flex flex-row justify-between">
-                <div className="flex flex-col items-center gap-4">
-                  <Label htmlFor="read">Read</Label>
-                  <Switch
-                    checked={actions.includes(Action.READ)}
-                    onCheckedChange={(checked) =>
-                      handleSwitch(Action.READ, checked)
-                    }
-                    id="read"
-                    // defaultChecked
-                  />
-                </div>
-                <div className="flex flex-col items-center gap-4 ">
-                  <Label htmlFor="create">Write</Label>
-                  <Switch
-                    checked={actions.includes(Action.CREATE)}
-                    onCheckedChange={(checked) =>
-                      handleSwitch(Action.CREATE, checked)
-                    }
-                    id="create"
-                  />
-                </div>
-                <div className="flex flex-col items-center gap-4 ">
-                  <Label htmlFor="update">Update</Label>
-                  <Switch
-                    checked={actions.includes(Action.UPDATE)}
-                    onCheckedChange={(checked) =>
-                      handleSwitch(Action.UPDATE, checked)
-                    }
-                    id="update"
-                  />
-                </div>
-                <div className="flex flex-col items-center gap-4 ">
-                  <Label htmlFor="delete">Delete</Label>
-                  <Switch
-                    checked={actions.includes(Action.DELETE)}
-                    onCheckedChange={(checked) =>
-                      handleSwitch(Action.DELETE, checked)
-                    }
-                    id="delete"
-                  />
-                </div>
+                {Object.values(Action).map((action) => (
+                  <div
+                    key={action}
+                    className="flex flex-col items-center gap-4 "
+                  >
+                    <Label className="capitalize" htmlFor={action}>
+                      {action.toLowerCase()}
+                    </Label>
+                    <Switch
+                      checked={actions.includes(action)}
+                      onCheckedChange={(checked) =>
+                        handleSwitch(action, checked)
+                      }
+                      id={action}
+                    />
+                  </div>
+                ))}
               </div>
               {errors?.action && (
                 <p className="col-span-3 my-2 w-full  text-left text-sm italic text-red-600">

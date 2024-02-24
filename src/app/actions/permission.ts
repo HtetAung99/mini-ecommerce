@@ -20,11 +20,9 @@ export async function addPermission(formData: PermissionAddFormValue) {
     const permission = await prisma.permission.create({
       data: formData,
     });
-    // if not return permission, router get stuck on modal
+    revalidatePath("/admin/users-management");
     return permission;
   } catch (e) {
     throw new Error("Failed to add permission");
   }
-
-  revalidatePath("/admin/users-management");
 }

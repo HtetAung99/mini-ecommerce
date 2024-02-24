@@ -156,12 +156,6 @@ model Address {
   orders      Order[]
 }
 
-enum AddressType {
-  HOUSE
-  CONDO
-  APARTMENT
-}
-
 model Order {
   id             String         @id @default(uuid())
   createdAt      DateTime       @default(now())
@@ -199,6 +193,50 @@ model Promotion {
   variants     Variant[]
 }
 
+model Permission {
+  id               String             @id @default(cuid())
+  name             String             @unique
+  entity           Entity             @relation(fields: [entityId], references: [id])
+  action           Action[]
+  groups           Group[]            @relation("GroupPermissions")
+  permissionsRoles PermissionRole[]   @relation("RolePermissions")
+  GroupPermissions GroupPermissions[]
+  entityId         String
+}
+
+model Entity {
+  id         String       @id @default(cuid())
+  name       String       @unique
+  Permission Permission[]
+}
+
+model Group {
+  id               String             @id @default(cuid())
+  name             String             @unique
+  description      String?
+  users            User[]             @relation("GroupMembers")
+  permissions      Permission[]       @relation("GroupPermissions")
+  GroupPermissions GroupPermissions[]
+}
+
+model PermissionRole {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  description  String?
+  permissions  Permission[] @relation("RolePermissions")
+  users        User[]     @relation("UserRole")
+}
+
+model GroupPermissions {
+  groupId      String
+  permissionId String
+  group        Group      @relation(fields: [groupId], references: [id])
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([groupId, permissionId])
+}
+
+// enums
 enum DiscountType {
   FLAT_PRICE
   PERCENTAGE
@@ -208,6 +246,12 @@ enum PaymentStatus {
   PENDING
   SUCCESS
   FAILED
+}
+
+enum AddressType {
+  HOUSE
+  CONDO
+  APARTMENT
 }
 
 enum OrderStatus {
@@ -237,56 +281,9 @@ enum ShippingMethod {
   ONEDAY
 }
 
-
-
-model Permission {
-  id               String             @id @default(cuid())
-  name             String             @unique
-  entity           Entity             @relation(fields: [entityId], references: [id])
-  action           Action[]
-  groups           Group[]            @relation("GroupPermissions")
-  permissionsRoles PermissionRole[]   @relation("RolePermissions")
-  GroupPermissions GroupPermissions[]
-  entityId         String
-}
-
-model Entity {
-  id         String       @id @default(cuid())
-  name       String       @unique
-  Permission Permission[]
-}
-
 enum Action {
-  CREATE
   READ
+  CREATE
   UPDATE
   DELETE
 }
-
-model Group {
-  id               String             @id @default(cuid())
-  name             String             @unique
-  description      String?
-  users            User[]             @relation("GroupMembers")
-  permissions      Permission[]       @relation("GroupPermissions")
-  GroupPermissions GroupPermissions[]
-}
-
-model PermissionRole {
-  id           String   @id @default(cuid())
-  name         String   @unique
-  description  String?
-  permissions  Permission[] @relation("RolePermissions")
-  users        User[]     @relation("UserRole")
-}
-
-model GroupPermissions {
-  groupId      String
-  permissionId String
-  group        Group      @relation(fields: [groupId], references: [id])
-  permission   Permission @relation(fields: [permissionId], references: [id])
-
-  @@unique([groupId, permissionId])
-}
-
-

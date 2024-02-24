@@ -18,7 +18,7 @@ const userData: Prisma.UserCreateInput[] = [
     email: "htetaung@gmail.com",
     password: bcrypt.hashSync("helloworld", 10),
     name: "Htet Aung",
-    role: "ADMIN",
+    role: "SUPERADMIN",
   },
   {
     email: "phyoSuperAdmin@gmail.com",

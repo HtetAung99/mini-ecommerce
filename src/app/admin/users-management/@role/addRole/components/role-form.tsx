@@ -16,15 +16,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Permission } from "@prisma/client";
 import { ChevronDown, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-import React, { useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export type RoleAddFormValue = {
@@ -45,7 +43,7 @@ export default function AddRoleForm({
     formState: { errors },
     setValue,
   } = useForm<RoleAddFormValue>();
-  const [checkList, setCheckList] = React.useState<string[]>([]);
+  const [checkList, setCheckList] = useState<string[]>([]);
   const { toast } = useToast();
 
   const onSubmit = handleSubmit(async (data: RoleAddFormValue, e) => {
@@ -65,7 +63,7 @@ export default function AddRoleForm({
     }
   });
   return (
-    <Card className="m-auto max-h-fit  w-[30vw]">
+    <Card className="m-auto max-h-fit w-[30vw]">
       <CardHeader>
         <CardTitle className="mb-3 flex items-center justify-between py-2">
           <span>Add Role</span>
@@ -99,7 +97,7 @@ export default function AddRoleForm({
                 id="name"
               />
               {errors?.name && (
-                <p className="col-span-3 my-2 w-full pl-[34%]   text-left text-sm italic text-red-600">
+                <p className="col-span-3 my-2 w-full pl-[34%] text-left text-sm italic text-red-600">
                   {errors.name.message}
                 </p>
               )}
