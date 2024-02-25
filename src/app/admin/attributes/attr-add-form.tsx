@@ -2,6 +2,7 @@
 
 import { addAttribute } from "@/app/actions/attribute";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 
 function AttributeAddForm() {
@@ -16,8 +17,21 @@ function AttributeAddForm() {
     reset,
   } = useForm<FormValues>();
 
+  const { toast } = useToast();
+
   const onSubmit = handleSubmit(async (data) => {
-    await addAttribute(data);
+    try {
+      await addAttribute(data);
+      toast({
+        title: "Attribute Created",
+        description: "Attribute has been created successfully",
+      });
+    } catch (e: any) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: e.message,
+      });
+    }
     reset();
   });
 

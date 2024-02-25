@@ -3,6 +3,7 @@
 import { addAttributeValue } from "@/app/actions/attribute";
 import { AttributeWithAttributeValue } from "@/app/types";
 import { Input } from "@/components/ui/input";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 
@@ -16,6 +17,8 @@ function AttributeValueAddForm({
     value?: string;
   };
 
+  const { toast } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -24,7 +27,18 @@ function AttributeValueAddForm({
   } = useForm<FormValues>();
 
   const onSubmit = handleSubmit(async (data) => {
-    await addAttributeValue({ ...data, attributeId: attribute.id });
+    try {
+      await addAttributeValue({ ...data, attributeId: attribute.id });
+      toast({
+        title: "Attribute Value Created",
+        description: "Attribute value has been created successfully",
+      });
+    } catch (e: any) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: e.message,
+      });
+    }
     reset();
   });
 

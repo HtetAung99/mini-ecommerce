@@ -1,51 +1,36 @@
 "use server";
 
-import { isAdmin } from "../../../lib/session";
-import { redirect } from "next/navigation";
-import prisma from "../../../lib/prisma";
+import { getExtendedPrisma } from "../../../lib/extendedPrisma";
 import { revalidatePath } from "next/cache";
-import P from "../(home)/p/[...category]/page";
-import { connect } from "http2";
 
 export async function addAttribute(formData: any) {
-  const hasPermission: boolean = await isAdmin();
+  const prisma = await getExtendedPrisma();
 
-  if (!hasPermission) redirect("/admin/attributes/?message=authFailed");
-
-  try {
-    await prisma.attribute.create({
-      data: {
-        name: formData["name"],
-      },
-    });
-  } catch (e) {
-    console.error(e);
-  }
+  await prisma.attribute.create({
+    data: {
+      name: formData["name"],
+    },
+  });
 
   revalidatePath("/admin/attributes");
 }
 
 export async function addAttributeValue(formData: any) {
-  const hasPermission: boolean = await isAdmin();
+  const { name, value, attributeId } = formData;
 
-  if (!hasPermission) redirect("/admin/attributes/?message=authFailed");
+  const prisma = await getExtendedPrisma();
 
-  try {
-    const { name, value, attributeId } = formData;
-    await prisma.attributeValue.create({
-      data: {
-        name,
-        value,
-        attribute: {
-          connect: {
-            id: parseInt(attributeId),
-          },
+  await prisma.attributeValue.create({
+    data: {
+      name,
+      value,
+      attribute: {
+        connect: {
+          id: parseInt(attributeId),
         },
       },
-    });
-  } catch (e) {
-    console.error(e);
-  }
+    },
+  });
 
   revalidatePath("/admin/attributes");
 }
