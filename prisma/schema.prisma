@@ -134,7 +134,7 @@ model User {
   orders        Order[]
   addresses     Address[]
   groups        Group[]      @relation("GroupMembers")
-  GroupAddFormpermissionRoles PermissionRole[] @relation("UserRole")
+  permissionRoles PermissionRole[] @relation("UserRole")
   // UserPermissions UserPermissions[]
 }
 

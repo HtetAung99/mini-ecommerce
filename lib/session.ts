@@ -1,6 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Role } from "@prisma/client";
-import { NextApiRequest } from "next";
 import { getServerSession } from "next-auth";
 
 export async function getCurrentUser() {

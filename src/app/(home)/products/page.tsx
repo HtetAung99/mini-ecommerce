@@ -1,4 +1,3 @@
-import React from "react";
 import ProductCard from "../p/[...category]/components/product-card";
 
 import {

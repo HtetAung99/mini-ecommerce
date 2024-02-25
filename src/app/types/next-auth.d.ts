@@ -1,4 +1,11 @@
-import { Address, Role } from "@prisma/client";
+import {
+  Address,
+  Entity,
+  Group,
+  Permission,
+  PermissionRole,
+  Role,
+} from "@prisma/client";
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
@@ -12,6 +19,12 @@ declare module "next-auth" {
       name: string;
       role: Role;
       addresses: Address[];
+      groups: Group[];
+      permissionRoles: (PermissionRole & {
+        permissions: (Permission & {
+          entity: Entity;
+        })[];
+      })[];
       selectedAddress: Address;
     };
   }

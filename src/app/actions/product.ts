@@ -2,10 +2,10 @@
 
 import { isAdmin, isAuthenticted } from "../../../lib/session";
 import { redirect } from "next/navigation";
-import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { AttributeValue } from "@prisma/client";
 import { ProductAddFormValues } from "../admin/products/@productModal/addProduct/components/form";
+import { getExtendedPrisma } from "../../../lib/extendedPrisma";
 
 export async function addProduct(formData: ProductAddFormValues) {
   const isLogin: boolean = await isAuthenticted();
@@ -21,6 +21,8 @@ export async function addProduct(formData: ProductAddFormValues) {
 
   if (!hasPermission) redirect("/admin/products/?message=authFailed");
   // create new product and connect with variant
+
+  const prisma = await getExtendedPrisma();
   try {
     await prisma.product.create({
       data: {

@@ -33,8 +33,18 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         const user = await prisma.user.findUnique({
-          where: { email: credentials?.email },
-          include: { addresses: true },
+          where: { email: credentials!.email },
+          include: {
+            addresses: true,
+            groups: true,
+            permissionRoles: {
+              include: {
+                permissions: {
+                  include: { entity: true },
+                },
+              },
+            },
+          },
         });
 
         if (user) {
@@ -45,6 +55,8 @@ export const authOptions: NextAuthOptions = {
                 email: user.email,
                 role: user.role,
                 addresses: user.addresses,
+                groups: user.groups,
+                permissionRoles: user.permissionRoles,
                 selectedAddress: user?.addresses.filter(
                   (add: Address) => add?.default,
                 )[0],
