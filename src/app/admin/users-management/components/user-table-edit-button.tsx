@@ -8,7 +8,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -17,7 +16,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import {
-  Plus,
   PlusCircle,
   ShieldCheck,
   ShieldX,
@@ -26,9 +24,10 @@ import {
 } from "lucide-react";
 import { Group, PermissionRole } from "@prisma/client";
 import Link from "next/link";
-import { addPermissionRole } from "@/app/actions/permissionRole";
+import { assignPermissionRole } from "@/app/actions/permissionRole";
 import { activateUser } from "@/app/actions/user";
 import { useToast } from "@/components/ui/use-toast";
+import { assignGroup } from "@/app/actions/group";
 
 export default function UserTableEditButton({
   user,
@@ -40,17 +39,51 @@ export default function UserTableEditButton({
   groups: Group[];
 }) {
   const { toast } = useToast();
-  const handleCheckedChange = async (
+  const roleChangeHandler = async (
     checked: boolean,
     roleId: string,
     userId: string,
   ) => {
     try {
-      await addPermissionRole(roleId, userId, checked);
+      await assignPermissionRole(roleId, userId, checked);
+      if (checked) {
+        toast({
+          title: "Permission Role",
+          description: "Permission Role has been added successfully",
+        });
+      } else {
+        toast({
+          title: "Permission Role",
+          description: "Permission Role has been removed successfully",
+        });
+      }
+    } catch (e) {
+      console.error(e);
       toast({
-        title: "Permission Role",
-        description: "Permission Role has been added successfully",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
       });
+    }
+  };
+
+  const groupChangeHandler = async (
+    checked: boolean,
+    groupId: string,
+    userId: string,
+  ) => {
+    try {
+      await assignGroup(groupId, userId, checked);
+      if (checked) {
+        toast({
+          title: "User Group",
+          description: "User Group has been assigned successfully",
+        });
+      } else {
+        toast({
+          title: "User Group",
+          description: "User Group has been removed successfully",
+        });
+      }
     } catch (e) {
       console.error(e);
       toast({
@@ -60,7 +93,6 @@ export default function UserTableEditButton({
     }
   };
   const activateHandler = async (userId: string, status: boolean) => {
-    console.log("clicked");
     try {
       await activateUser(userId, status);
     } catch (e) {
@@ -105,7 +137,7 @@ export default function UserTableEditButton({
                     )}
                     onCheckedChange={(checked: boolean) => {
                       // try catch
-                      handleCheckedChange(checked, role.id, user.id);
+                      roleChangeHandler(checked, role.id, user.id);
                     }}
                     key={role.id}
                   >
@@ -132,16 +164,15 @@ export default function UserTableEditButton({
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                {groups.map((gp) => (
+                {groups.map((group) => (
                   <DropdownMenuCheckboxItem
-                    checked={true}
-                    // onCheckedChange={(checked: boolean) => {
-                    //   addPermissionRole(role.id, user.id, checked);
-                    // }}
-                    onCheckedChange={() => {}}
-                    key={gp.id}
+                    checked={user.groups.some((gp: any) => gp.id === group.id)}
+                    onCheckedChange={(checked: boolean) => {
+                      groupChangeHandler(checked, group.id, user.id);
+                    }}
+                    key={group.id}
                   >
-                    {gp.name}
+                    {group.name}
                   </DropdownMenuCheckboxItem>
                 ))}
                 <DropdownMenuSeparator />

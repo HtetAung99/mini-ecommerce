@@ -1,5 +1,7 @@
+import { Group, Permission, PermissionRole } from "@prisma/client";
 import prisma from "./prisma";
 import { getCurrentUser } from "./session";
+import { GroupWithNestedData, PermissionRoleWithNestedData } from "@/app/types";
 
 export const getExtendedPrisma = async () => {
   const permissions: any = await extractPermissions();
@@ -40,9 +42,23 @@ const METHODS = {
 export const extractPermissions = async () => {
   const currentUser = await getCurrentUser();
 
+  if (!currentUser) {
+    throw new Error("No user found");
+  }
+
   let result = {};
 
-  currentUser?.permissionRoles.forEach((role) => {
+  result = getPermissionSet(currentUser.permissionRoles, result);
+  result = getPermissionSet(currentUser.groups, result);
+
+  return result;
+};
+
+const getPermissionSet = (
+  target: PermissionRoleWithNestedData[] | GroupWithNestedData[],
+  result: {},
+) => {
+  target.forEach((role) => {
     const inside = role.permissions?.reduce((prev: any, permission) => {
       if (prev[permission.entity.name] == null) {
         return {

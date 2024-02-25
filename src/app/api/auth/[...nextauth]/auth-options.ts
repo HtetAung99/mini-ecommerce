@@ -36,7 +36,15 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials!.email },
           include: {
             addresses: true,
-            groups: true,
+            groups: {
+              include: {
+                permissions: {
+                  include: {
+                    entity: true,
+                  },
+                },
+              },
+            },
             permissionRoles: {
               include: {
                 permissions: {

@@ -29,3 +29,35 @@ export async function addGroup(formData: GroupAddFormValue) {
 
   revalidatePath("/admin/groups");
 }
+
+export const assignGroup = async (
+  groupId: string,
+  userId: string,
+  isGrant: boolean,
+) => {
+  const isLogin: boolean = await isAuthenticted();
+  const hasPermission: boolean = await isSuperAdmin();
+  // FIXME: need more auth check
+
+  if (!isLogin) redirect("/admin/categories/?message=authFailed");
+
+  if (!hasPermission)
+    throw new Error("You don't have permission to add permission");
+
+  try {
+    if (isGrant) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { groups: { connect: { id: groupId } } },
+      });
+    } else {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { groups: { disconnect: { id: groupId } } },
+      });
+    }
+    revalidatePath("/admin/groups");
+  } catch (error) {
+    console.error(error);
+  }
+};

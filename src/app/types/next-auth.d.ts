@@ -7,6 +7,7 @@ import {
   Role,
 } from "@prisma/client";
 import NextAuth from "next-auth";
+import { GroupWithNestedData, PermissionRoleWithNestedData } from ".";
 
 declare module "next-auth" {
   /**
@@ -19,12 +20,8 @@ declare module "next-auth" {
       name: string;
       role: Role;
       addresses: Address[];
-      groups: Group[];
-      permissionRoles: (PermissionRole & {
-        permissions: (Permission & {
-          entity: Entity;
-        })[];
-      })[];
+      groups: GroupWithNestedData[];
+      permissionRoles: PermissionRoleWithNestedData[];
       selectedAddress: Address;
     };
   }

@@ -1,5 +1,5 @@
 "use client";
-import { addRole } from "@/app/actions/role";
+import { addPermissionRole } from "@/app/actions/permissionRole";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -48,7 +48,7 @@ export default function AddRoleForm({
 
   const onSubmit = handleSubmit(async (data: RoleAddFormValue, e) => {
     try {
-      await addRole(data);
+      await addPermissionRole(data);
       router.back();
       toast({
         title: "Permission Created",

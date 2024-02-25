@@ -8,6 +8,10 @@ import type {
   User,
   Address,
   Role,
+  PermissionRole,
+  Permission,
+  Entity,
+  Group,
 } from "@prisma/client";
 
 import { Server as NetServer, Socket } from "net";
@@ -83,4 +87,16 @@ export interface CartItem {
 
 export interface AttributeWithAttributeValue extends Attribute {
   attributeValues: AttributeValue[];
+}
+
+export interface PermissionWithEntity extends Permission {
+  entity: Entity;
+}
+
+export interface PermissionRoleWithNestedData extends PermissionRole {
+  permissions: PermissionWithEntity[];
+}
+
+export interface GroupWithNestedData extends Group {
+  permissions: PermissionWithEntity[];
 }
