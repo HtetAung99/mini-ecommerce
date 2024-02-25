@@ -10,29 +10,16 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-import { get } from "http";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { use, useCallback, useEffect } from "react";
-import { useForm, Resolver, set } from "react-hook-form";
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+
 type FormValues = {
   name: string;
 };
-
-// const resolver: Resolver<FormValues> = async (values) => {
-//   return {
-//     values: values.name ? values : { ...values, name: undefined },
-//     errors: !values.name
-//       ? {
-//           name: {
-//             type: "required",
-//             message: "Category Name is required.",
-//           },
-//         }
-//       : {},
-//   };
-// };
 
 export default function ModalForm({
   parent,
@@ -47,11 +34,25 @@ export default function ModalForm({
     formState: { errors },
   } = useForm<FormValues>();
   const router = useRouter();
+
+  const { toast } = useToast();
   const onSubmit = handleSubmit(async (data) => {
-    await addCategory({
-      ...data,
-      parentId: Number(parent) || null,
-    });
+    try {
+      await addCategory({
+        ...data,
+        parentId: Number(parent) || null,
+      });
+
+      toast({
+        title: "Category Created",
+        description: "Category has been created successfully",
+      });
+    } catch (e: any) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: e.message,
+      });
+    }
 
     onDismiss();
   });
@@ -61,8 +62,8 @@ export default function ModalForm({
   }, [router]);
 
   const { rootId, firstId } = searchParams;
-  const [first, setFirst] = React.useState("");
-  const [root, setRoot] = React.useState("");
+  const [first, setFirst] = useState("");
+  const [root, setRoot] = useState("");
 
   const getCatName = async (id: Number) => {
     console.log("called");

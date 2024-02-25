@@ -133,9 +133,9 @@ model User {
   image         String?
   orders        Order[]
   addresses     Address[]
+  storeAccesses Int[]
   groups        Group[]      @relation("GroupMembers")
   permissionRoles PermissionRole[] @relation("UserRole")
-  // UserPermissions UserPermissions[]
 }
 
 model Address {
@@ -265,7 +265,8 @@ enum OrderStatus {
 enum Role {
   SUPERADMIN
   ADMIN
-  STOREMANAGER
+  GENERAL_MANAGER
+  MANAGER
   STAFF
   USER
 }

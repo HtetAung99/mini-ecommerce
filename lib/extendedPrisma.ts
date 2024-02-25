@@ -1,10 +1,24 @@
-import { Group, Permission, PermissionRole } from "@prisma/client";
 import prisma from "./prisma";
 import { getCurrentUser } from "./session";
-import { GroupWithNestedData, PermissionRoleWithNestedData } from "@/app/types";
+import {
+  GroupWithNestedData,
+  PermissionRoleWithNestedData,
+  SessionUser,
+} from "@/app/types";
 
 export const getExtendedPrisma = async () => {
-  const permissions: any = await extractPermissions();
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    throw new Error("No user found");
+  }
+
+  if (currentUser.role === "SUPERADMIN") {
+    return prisma;
+  }
+
+  const permissions: any = extractPermissions(currentUser);
+
   return prisma.$extends({
     name: "permission",
     query: {
@@ -12,7 +26,9 @@ export const getExtendedPrisma = async () => {
         $allOperations({ model, operation, args, query }) {
           /* your custom logic for modifying all operations on all models here */
           if (!Object.keys(permissions).includes(model)) {
-            throw new Error(`No access to this table: ${model}`);
+            throw new Error(
+              `You don't have permission to perform this operation`,
+            );
           }
           Object.entries(METHODS).forEach(
             ([key, value]: [string, string[]]) => {
@@ -39,13 +55,7 @@ const METHODS = {
   DELETE: ["delete", "deleteMany"],
 };
 
-export const extractPermissions = async () => {
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser) {
-    throw new Error("No user found");
-  }
-
+export const extractPermissions = (currentUser: SessionUser) => {
   let result = {};
 
   result = getPermissionSet(currentUser.permissionRoles, result);

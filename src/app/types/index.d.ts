@@ -100,3 +100,13 @@ export interface PermissionRoleWithNestedData extends PermissionRole {
 export interface GroupWithNestedData extends Group {
   permissions: PermissionWithEntity[];
 }
+
+export interface SessionUser {
+  id: string;
+  name: string;
+  role: Role;
+  addresses: Address[];
+  groups: GroupWithNestedData[];
+  permissionRoles: PermissionRoleWithNestedData[];
+  selectedAddress: Address;
+}

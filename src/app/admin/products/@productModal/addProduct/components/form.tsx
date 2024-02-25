@@ -15,7 +15,6 @@ import AttributeSelectList from "./attribute-select-list";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { X } from "lucide-react";
-import { spec } from "node:test/reporters";
 
 export type ProductAddFormValues = {
   title: string;
@@ -45,28 +44,14 @@ export default function ModalForm({
   const [published, setPublished] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
 
+  const router = useRouter();
+
   const [selectedAttributes, setSelectedAttributes] = useState<any>({});
 
   const handleImagesInput = (e: any) => {
     e.preventDefault();
     const files = e.target.files;
     setFiles((prev) => [...prev, ...files]);
-
-    // Array.from(files).forEach(async (file: any) => {
-    //   const formData = new FormData();
-    //   formData.set("file", file);
-    //   const res = await fetch("/api/products/image", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-
-    //   if (res.ok) {
-    //     const { signedUrl } = await res.json();
-
-    //     setFiles((prev) => [...prev, signedUrl]);
-    //     setLoading(false);
-    //   }
-    // });
   };
 
   const handleImageDelete = (target: any) => {
@@ -97,26 +82,22 @@ export default function ModalForm({
         console.error(e);
       }
     });
-    // attributeValues must not be empty
-    await addProduct(data)
-      .then(() => {
-        router.back();
-      })
-      .catch((e) => {
-        toast({
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-        });
-      })
-      .finally(() => {
-        toast({
-          title: "Product Created",
-          description: "Product has been created successfully",
-        });
-      });
-  });
 
-  const router = useRouter();
+    try {
+      await addProduct(data);
+      toast({
+        title: "Product Created",
+        description: "Product has been created successfully",
+      });
+    } catch (e: any) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: e.message,
+      });
+    }
+
+    router.back();
+  });
 
   return (
     <form className="flex max-h-[90vh] w-[60vw] flex-col overflow-auto rounded-md bg-slate-50 p-5 px-7 shadow-md">

@@ -6,7 +6,6 @@ import { getCurrentUser, isAuthenticted } from "../../../lib/session";
 import SearchCommandBox from "./components/search-command-box";
 import HeaderBox from "./components/header-box";
 import { authOptions } from "../api/auth/[...nextauth]/auth-options";
-import { extractPermissions } from "../../../lib/extendedPrisma";
 
 export default async function DashboardLayout({
   children,
@@ -24,8 +23,6 @@ export default async function DashboardLayout({
   if ((await getCurrentUser())?.role === Role.USER) {
     redirect("/");
   }
-
-  console.log(await extractPermissions());
 
   return (
     <>

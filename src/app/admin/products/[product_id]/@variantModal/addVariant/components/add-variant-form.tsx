@@ -27,6 +27,9 @@ export default function AddVaraintForm({
 }) {
   const [selectedAttributes, setSelectedAttributes] = useState<any>({});
   const [files, setFiles] = useState<string[]>([]);
+
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const handleFilesUpload = async (e: any) => {
     setLoading(true);
@@ -56,35 +59,33 @@ export default function AddVaraintForm({
     priceDiff: number;
     attributeValues: AttributeValue[];
   };
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
   const { toast } = useToast();
-  const onSubmit = handleSubmit((data: FormValues) => {
+  const onSubmit = handleSubmit(async (data: FormValues) => {
     data.productId = Number(productId);
     data.imageUrls = files;
     data.attributeValues = Object.values(selectedAttributes);
-    addVariant(data)
-      .then(() => {
-        router.back();
-      })
-      .catch((e) => {
-        toast({
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-        });
-      })
-      .finally(() => {
-        toast({
-          title: "Variant Created",
-          description: "Variant has been added to this product successfully",
-        });
+    try {
+      await addVariant(data);
+      toast({
+        title: "Variant Created",
+        description: "Variant has been added to this product successfully",
       });
+    } catch (e: any) {
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: e.message,
+      });
+    }
+
+    router.back();
   });
 
-  const router = useRouter();
   return (
     <Card className="max-h-[800px] w-2/3">
       <CardHeader>
@@ -117,7 +118,6 @@ export default function AddVaraintForm({
                   </p>
                 )}
                 <div className="flew-row my-4 flex  h-48 w-full flex-wrap justify-around gap-5 overflow-auto rounded-md border border-dashed border-slate-400 bg-slate-200 p-4">
-                  {/* <Skeleton className="my-4 h-48 w-full rounded-md border border-dashed border-slate-400 bg-slate-200" /> */}
                   {files.length > 0 &&
                     files.map((file) => (
                       <img
@@ -135,14 +135,6 @@ export default function AddVaraintForm({
                   />
                 </div>
               </div>
-              {/* <div className="relative mb-4 cursor-pointer self-center">
-                <button
-                  onClick={(e) => e.preventDefault()}
-                  className="primary-btn  w-full "
-                >
-                  Add more photos
-                </button>
-              </div> */}
 
               <div className="my-3 flex w-full flex-row items-center gap-4 px-2">
                 <Label
