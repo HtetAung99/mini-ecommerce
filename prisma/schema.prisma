@@ -170,6 +170,7 @@ model Order {
   paymentStatus  PaymentStatus  @default(PENDING)
   addressID      Int
   address        Address        @relation(fields: [addressID], references: [id])
+  storeID        Int
 }
 
 model OrderItem {

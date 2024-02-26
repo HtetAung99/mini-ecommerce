@@ -9,12 +9,17 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { StripeError } from "@stripe/stripe-js";
+import { useSession } from "next-auth/react";
+
 import React, { useContext, useEffect, useState } from "react";
 
 export default function StripeCheckout() {
   const stripe = useStripe();
   const elements = useElements();
   const { items } = useCart();
+  const { data } = useSession();
+
+  console.log(data);
   const orderItems = items.map((item: CartItem) => {
     return { id: item.variantId, quantity: item.quantity };
   });

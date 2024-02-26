@@ -4,16 +4,19 @@ import { getCurrentUser } from "../../../../lib/session";
 import { redirect } from "next/navigation";
 import { io } from "socket.io-client";
 import { calculateTotal } from "@/app/utils/orders";
+import { cookies } from "next/headers";
 
 const socket = new (io as any)("http://localhost:4000");
 
 export async function POST(request: NextRequest) {
   const user = await getCurrentUser();
+
   if (!user) redirect("/admin/categories/?message=authFailed");
   const { items, shippingFee, tax, shippingMethod, shippingType } =
     await request.json();
 
   const total = await calculateTotal(items, shippingFee, tax);
+  const defaultStoreId = JSON.parse(cookies().get("defaultStore")!.value).id;
 
   try {
     const newOrder = await prisma.order.create({
@@ -31,6 +34,7 @@ export async function POST(request: NextRequest) {
         addressID: user?.selectedAddress.id,
         shippingMethod: shippingMethod,
         shippingType: shippingType,
+        storeID: defaultStoreId,
       },
       include: { orderItems: { include: { variant: true } } },
     });

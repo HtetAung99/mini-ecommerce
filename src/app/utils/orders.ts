@@ -1,6 +1,7 @@
-import { getCurrentUser, isAdmin } from "../../../lib/session";
+import { getCurrentUser, isAdmin, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { OrderWithAllDetails } from "../types";
+import { getExtendedPrisma } from "../../../lib/extendedPrisma";
 
 export const getOrders = async () => {
   const user = await getCurrentUser();
@@ -31,20 +32,25 @@ export const getOrderById = async (id: string) => {
 };
 
 export const getOrdersForAdmin = async (): Promise<OrderWithAllDetails[]> => {
-  const hasAccess = await isAdmin();
+  // const hasAccess = (await isAdmin()) || (await isSuperAdmin());
+
+  const prisma = await getExtendedPrisma();
+  const currentUser = await getCurrentUser();
   // including customer is dangerouse, because it includes password
-  if (hasAccess) {
-    const orders: OrderWithAllDetails[] = (await prisma.order.findMany({
-      include: {
-        orderItems: true,
-        customer: { select: { id: true, email: true, name: true, role: true } },
-        address: true,
+  const orders: OrderWithAllDetails[] = (await prisma.order.findMany({
+    include: {
+      orderItems: true,
+      customer: { select: { id: true, email: true, name: true, role: true } },
+      address: true,
+    },
+    where: {
+      storeID: {
+        in: currentUser?.storeAccesses,
       },
-      orderBy: { createdAt: "desc" },
-    })) as OrderWithAllDetails[];
-    return orders;
-  }
-  return [];
+    },
+    orderBy: { createdAt: "desc" },
+  })) as OrderWithAllDetails[];
+  return orders;
 };
 
 export const calculateTotal = async (
