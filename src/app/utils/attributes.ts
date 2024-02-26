@@ -12,3 +12,11 @@ export const getAttributes = cache(async () => {
 
   return attributes;
 });
+
+export const getAttributeById = cache(async (id: number) => {
+  return await prisma.attribute.findUnique({ where: { id } });
+});
+
+export const getAttributesValueById = cache(async (id: number) => {
+  return await prisma.attributeValue.findUnique({ where: { id } });
+});

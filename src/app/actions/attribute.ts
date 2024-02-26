@@ -15,6 +15,21 @@ export async function addAttribute(formData: any) {
   revalidatePath("/admin/attributes");
 }
 
+export async function editAttribute(id: number, name: string) {
+  const prisma = await getExtendedPrisma();
+
+  await prisma.attribute.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+    },
+  });
+
+  revalidatePath("/admin/attributes");
+}
+
 export async function addAttributeValue(formData: any) {
   const { name, value, attributeId } = formData;
 
@@ -29,6 +44,26 @@ export async function addAttributeValue(formData: any) {
           id: parseInt(attributeId),
         },
       },
+    },
+  });
+
+  revalidatePath("/admin/attributes");
+}
+
+export async function editAttributeValue(
+  id: number,
+  name: string,
+  value?: string,
+) {
+  const prisma = await getExtendedPrisma();
+
+  await prisma.attributeValue.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      value,
     },
   });
 

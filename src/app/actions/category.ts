@@ -21,3 +21,17 @@ export async function addCategory(formData: any) {
 
   revalidatePath("/admin/categories");
 }
+
+export async function editCategory(catId: number, newName: string) {
+  const prisma = await getExtendedPrisma();
+
+  await prisma.category.update({
+    where: {
+      id: catId,
+    },
+    data: {
+      name: newName,
+    },
+  });
+  revalidatePath("/admin/categories");
+}
