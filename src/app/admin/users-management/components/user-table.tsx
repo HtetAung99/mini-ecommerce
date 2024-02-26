@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Table,
   TableBody,
@@ -14,11 +13,13 @@ import RoleEdit from "./role-edit";
 import UserTableEditButton from "./user-table-edit-button";
 import prisma from "../../../../../lib/prisma";
 import { Badge } from "@/components/ui/badge";
+import { getStores } from "@/app/utils/stores";
 
 export default async function UserTable() {
   const users = await getAllUsers();
   const roles = await prisma.permissionRole.findMany();
   const groups = await prisma.group.findMany();
+  const stores = await getStores();
 
   return (
     <div className="my-4">
@@ -77,6 +78,7 @@ export default async function UserTable() {
                     user={user}
                     roles={roles}
                     groups={groups}
+                    stores={stores}
                   />
                 </TableCell>
               </TableRow>

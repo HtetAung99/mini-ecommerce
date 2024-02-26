@@ -13,6 +13,7 @@ const getAllUsers = cache(async () => {
       active: true,
       updatedAt: true,
       permissionRoles: true,
+      storeAccesses: true,
       groups: true,
     },
   });

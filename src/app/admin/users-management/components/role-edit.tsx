@@ -9,6 +9,15 @@ import {
 } from "@/components/ui/popover";
 import { editRole } from "@/app/actions/role";
 
+const roles = [
+  Role.SUPERADMIN,
+  Role.ADMIN,
+  Role.GENERAL_MANAGER,
+  Role.MANAGER,
+  Role.STAFF,
+  Role.USER,
+];
+
 export default function RoleEdit({ user }: { user: any }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const handleEdit = async (userId: string, role: Role) => {
@@ -45,11 +54,3 @@ export default function RoleEdit({ user }: { user: any }) {
     </Popover>
   );
 }
-
-const roles = [
-  Role.SUPERADMIN,
-  Role.ADMIN,
-  Role.STOREMANAGER,
-  Role.STAFF,
-  Role.USER,
-];

@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,21 +21,24 @@ import {
   UserCog2,
   Users,
 } from "lucide-react";
-import { Group, PermissionRole } from "@prisma/client";
+import { Group, PermissionRole, Store } from "@prisma/client";
 import Link from "next/link";
 import { assignPermissionRole } from "@/app/actions/permissionRole";
 import { activateUser } from "@/app/actions/user";
 import { useToast } from "@/components/ui/use-toast";
 import { assignGroup } from "@/app/actions/group";
+import { assignStore } from "@/app/actions/store";
 
 export default function UserTableEditButton({
   user,
   roles,
   groups,
+  stores,
 }: {
   user: any;
   roles: PermissionRole[];
   groups: Group[];
+  stores: Store[];
 }) {
   const { toast } = useToast();
   const roleChangeHandler = async (
@@ -82,6 +84,33 @@ export default function UserTableEditButton({
         toast({
           title: "User Group",
           description: "User Group has been removed successfully",
+        });
+      }
+    } catch (e) {
+      console.error(e);
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+    }
+  };
+
+  const storeChangeHanlder = async (
+    checked: boolean,
+    storeId: number,
+    userId: string,
+  ) => {
+    try {
+      await assignStore(storeId, userId, checked);
+      if (checked) {
+        toast({
+          title: "Store Permission",
+          description: "Store has been assigned successfully",
+        });
+      } else {
+        toast({
+          title: "Store Permission",
+          description: "Store has been removed successfully",
         });
       }
     } catch (e) {
@@ -157,6 +186,30 @@ export default function UserTableEditButton({
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
+
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <UserCog2 className="mr-2 h-4 w-4" />
+              <span>Assign Store</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                {stores.map((store) => (
+                  <DropdownMenuCheckboxItem
+                    checked={user.storeAccesses.includes(store.id)}
+                    onCheckedChange={(checked: boolean) => {
+                      // try catch
+                      storeChangeHanlder(checked, store.id, user.id);
+                    }}
+                    key={store.id}
+                  >
+                    {store.name}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <Users className="mr-2 h-4 w-4" />

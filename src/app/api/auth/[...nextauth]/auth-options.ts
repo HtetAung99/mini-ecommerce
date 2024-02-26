@@ -68,6 +68,7 @@ export const authOptions: NextAuthOptions = {
                 selectedAddress: user?.addresses.filter(
                   (add: Address) => add?.default,
                 )[0],
+                storeAccesses: user.storeAccesses,
               }
             : null;
         }

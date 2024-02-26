@@ -109,4 +109,5 @@ export interface SessionUser {
   groups: GroupWithNestedData[];
   permissionRoles: PermissionRoleWithNestedData[];
   selectedAddress: Address;
+  storeAccesses: number[];
 }
