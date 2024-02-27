@@ -22,7 +22,7 @@ import { Permission } from "@prisma/client";
 import { ChevronDown, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export type RoleAddFormValue = {
@@ -49,7 +49,6 @@ export default function AddRoleForm({
   const onSubmit = handleSubmit(async (data: RoleAddFormValue, e) => {
     try {
       await addPermissionRole(data);
-      router.back();
       toast({
         title: "Permission Created",
         description: "Permission has been created successfully",
@@ -60,6 +59,7 @@ export default function AddRoleForm({
         description: "There was a problem with your request.",
       });
     }
+    router.back();
   });
   return (
     <Card className="m-auto max-h-fit w-[30vw]">
@@ -185,7 +185,7 @@ export default function AddRoleForm({
         </CardContent>
         <CardFooter className="flex w-full flex-row items-center justify-between">
           <Button asChild className="" variant={"default"}>
-            <Link href={"/admin/users-management/addPermission"}>
+            <Link href={"/admin/users-management/addPermission"} replace={true}>
               Add New Permission &gt;
             </Link>
           </Button>

@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import prisma from "../../../lib/prisma";
 import { isAuthenticted } from "../../../lib/session";
 import { revalidatePath } from "next/cache";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/auth-options";
 
 export async function addAddress(formData: any) {
   const isLogin: boolean = await isAuthenticted();
@@ -37,4 +39,28 @@ export async function addAddress(formData: any) {
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function updateDefault(val: boolean, userId: string, id: number) {
+  const session = await getServerSession(authOptions);
+  try {
+    const defaultAddress = await prisma.address.findFirst({
+      where: { userId, default: true },
+    });
+
+    if (val && defaultAddress) {
+      await prisma.address.update({
+        where: { id: defaultAddress.id },
+        data: { default: false },
+      });
+    }
+    await prisma.address.update({
+      where: { id },
+      data: { default: val },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+
+  revalidatePath("/checkout/information");
 }

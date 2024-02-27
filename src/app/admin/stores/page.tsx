@@ -31,7 +31,7 @@ export default async function StorePage() {
       <Separator className="my-5" />
       <div className="grid grid-cols-2 gap-3">
         {stores.map((store) => (
-          <Card className="">
+          <Card key={store.id} className="">
             <CardHeader>
               <CardTitle className={cn("text-lg font-bold")}>
                 {store.name}

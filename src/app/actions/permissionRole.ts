@@ -27,7 +27,6 @@ export async function addPermissionRole(formData: RoleAddFormValue) {
   } catch (e) {
     console.error(e);
   }
-
   revalidatePath("/admin/users-management");
 }
 

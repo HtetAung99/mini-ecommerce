@@ -8,9 +8,28 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import AddressModal from "../addressModal/address-modal";
 import { OrderContext, shippingConstants } from "@/app/context/order-provider";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useSession } from "next-auth/react";
+import { updateDefault } from "@/app/actions/address";
 
 export default function DeliveryOption() {
+  const session = useSession();
+  const selectedAddress = session.data?.user.selectedAddress;
   const { shippingMethod, setShippingMethod } = useContext(OrderContext);
+  const handleCheckChange = async (val: boolean) => {
+    try {
+      await updateDefault(val, session.data?.user.id!, selectedAddress!.id);
+      session.update({
+        isUpdateDefault: true,
+        selectedAddressId: selectedAddress?.id,
+        val,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div className="mt-4 flex w-full items-center justify-between ">
@@ -20,7 +39,6 @@ export default function DeliveryOption() {
         <Dialog>
           <DialogTrigger asChild>
             <Button
-              onClick={() => console.log("edit")}
               variant={"ghost"}
               className={cn(" flex items-center gap-4 text-base ")}
             >
@@ -38,6 +56,13 @@ export default function DeliveryOption() {
         </Dialog>
       </div>
       <SelectedAddress />
+      <div className="mb-6 flex flex-row items-center gap-3 p-2 font-semibold leading-10 tracking-wider">
+        <Checkbox
+          onCheckedChange={(val: boolean) => handleCheckChange(val)}
+          checked={selectedAddress?.default}
+        />
+        <Label htmlFor="setDefault">Set as Default Address</Label>
+      </div>
       {/* <div className="mt-2 flex items-center gap-1 space-x-2">
         <Checkbox id="billing-address" />
         <label

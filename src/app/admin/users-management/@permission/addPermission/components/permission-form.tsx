@@ -45,8 +45,6 @@ export default function PremissionFrom({ entities }: { entities: Entity[] }) {
   const { toast } = useToast();
   const [actions, setActions] = useState<Action[]>([Action.READ]);
 
-  console.log(Object.values(Action));
-
   const handleSwitch = (action: Action, checked: boolean) =>
     checked
       ? setActions([...actions, action])

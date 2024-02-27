@@ -48,7 +48,11 @@ export default function NameEditForm({ attribute }: { attribute: Attribute }) {
   };
 
   return (
-    <Card>
+    <Card
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.preventDefault();
+      }}
+    >
       <CardHeader>
         <CardTitle>Edit Attribute Name</CardTitle>
       </CardHeader>

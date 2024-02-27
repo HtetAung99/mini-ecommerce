@@ -56,7 +56,11 @@ export default function ValueEditForm({
     }
   };
   return (
-    <Card>
+    <Card
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.preventDefault();
+      }}
+    >
       <CardHeader>
         <CardTitle>Edit Attribute Value</CardTitle>
       </CardHeader>

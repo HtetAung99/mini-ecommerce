@@ -18,7 +18,7 @@ export default async function ValueEditPage({
   return (
     <Modal>
       <ValueEditForm
-        valueSet={attribute!.name === "color"}
+        valueSet={attribute!.name.toLowerCase() === "color"}
         attributeValue={attributeValue!}
       />
     </Modal>

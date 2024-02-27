@@ -85,6 +85,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: async ({ token, user, trigger, session }: any) => {
       user && (token.user = user);
+
+      // trigger when user changes their selected address
       if (trigger === "update" && session?.selectedAddress) {
         // Note, that `session` can be any arbitrary object, remember to validate it!
         token.user.selectedAddress = session.selectedAddress;
@@ -96,6 +98,15 @@ export const authOptions: NextAuthOptions = {
         token?.user.selectedAddress?.id === session?.id
       ) {
         token.user.selectedAddress = null;
+      }
+
+      if (trigger === "update" && session?.isUpdateDefault) {
+        token.user.selectedAddress.default = session?.val;
+        token.user.addresses = token.user.addresses.map((add: any) =>
+          add.id === session?.selectedAddressId
+            ? { ...add, default: session?.val }
+            : add,
+        );
       }
 
       return token;
