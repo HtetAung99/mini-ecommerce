@@ -17,8 +17,6 @@ import Link from "next/link";
 import { Role } from "@prisma/client";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 
 export default function UserFilter({}: {}) {
   const searchParams = useSearchParams();

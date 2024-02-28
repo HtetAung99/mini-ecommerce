@@ -11,6 +11,7 @@ import {
 import { Action, Entity, Permission } from "@prisma/client";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default async function PermissionTable({
   permissions,
@@ -62,7 +63,15 @@ export default async function PermissionTable({
                 ))}
               </TableCell>
               <TableCell className="text-right">
-                <button className="font-semibold text-blue-600">Edit</button>
+                <Link
+                  href={
+                    "users-management/editPermission?permissionId=" +
+                    permission.id
+                  }
+                  className="font-semibold text-blue-600"
+                >
+                  Edit
+                </Link>
               </TableCell>
             </TableRow>
           ))}
