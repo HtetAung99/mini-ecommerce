@@ -15,8 +15,14 @@ import prisma from "../../../../../lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { getStores } from "@/app/utils/stores";
 
-export default async function UserTable() {
-  const users = await getAllUsers();
+export default async function UserTable({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const { role: roleFilter, status: statusFilter } = searchParams;
+
+  const users = await getAllUsers({ roleFilter, statusFilter });
   const roles = await prisma.permissionRole.findMany();
   const groups = await prisma.group.findMany();
   const stores = await getStores();

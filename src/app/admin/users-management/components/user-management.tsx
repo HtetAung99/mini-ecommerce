@@ -9,8 +9,8 @@ export default function UserManagement({
 }) {
   return (
     <TabsContent value="users">
-      <UserFilter searchParams={searchParams} />
-      <UserTable />
+      <UserFilter />
+      <UserTable searchParams={searchParams} />
     </TabsContent>
   );
 }

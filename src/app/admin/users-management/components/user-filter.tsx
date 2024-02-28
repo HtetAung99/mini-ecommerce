@@ -7,43 +7,49 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Role } from "@prisma/client";
-import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
-export default function UserFilter({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const { role: rolesSearchParams, status } = searchParams;
+export default function UserFilter({}: {}) {
+  const searchParams = useSearchParams();
+  const pathName = usePathname();
+  const currentChecked = Boolean(searchParams.get("status"));
 
-  const rolesFromUrl = !rolesSearchParams
-    ? []
-    : typeof rolesSearchParams === "string"
-      ? [rolesSearchParams]
-      : rolesSearchParams;
-
-  // const [selectedRoles, setSelectedRoles] = useState<string[] | undefined>(
-  //   typeof rolesFromUrl === "string" ? [rolesFromUrl] : rolesFromUrl,
-  // );
-
-  const test = (name: string) => {
-    console.log("inside test", rolesFromUrl);
-    let str = "";
-    rolesFromUrl.forEach((r) => {
-      if (r != name) {
-        str += `role=${r}&`;
+  const createSearchQuery = useCallback(
+    (name: string, value: string) => {
+      if (name === "status") {
+        if (searchParams.has(name)) {
+          const params = new URLSearchParams(searchParams.toString());
+          params.set(name, value);
+          return params.toString();
+        } else {
+          return searchParams.toString() + `&${name}=${value}`;
+        }
       }
-    });
 
-    console.log("Str", str);
-    return str;
-  };
+      if (searchParams.has(name)) {
+        const searchParamsValue = searchParams.getAll(name);
+        if (searchParamsValue.includes(value)) {
+          return searchParams.toString().replace(`${name}=${value}`, "");
+        } else {
+          return searchParams.toString() + `&${name}=${value}`;
+        }
+      } else {
+        return searchParams.toString() + `&${name}=${value}`;
+      }
+    },
+    [searchParams],
+  );
 
   const roles = [
     Role.ADMIN,
@@ -60,43 +66,62 @@ export default function UserFilter({
         <span className="ml-2">Add User</span>
       </Button>
       <Input className="ml-9 mr-auto w-[20%]" placeholder="Search User ...." />
-      <div className="flex w-[50%] flex-row items-center gap-10">
+      <div className="flex flex-row items-center gap-10">
         <span className="min-w-fit pl-2 text-sm font-semibold leading-8 tracking-wider text-slate-400">
           Filter by
         </span>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="link">Open</Button>
+          <DropdownMenuTrigger
+            className=" focus:bg-none focus:outline-none focus:ring-0"
+            asChild
+          >
+            <Button className="no-underline" variant="link">
+              Roles
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>Roles</DropdownMenuLabel>
-            <DropdownMenuSeparator />
             {roles.map((role) => (
               <Link
+                className="capitalize"
                 key={role}
-                href={`/admin/users-management?${test(role)}status=${
-                  status ?? ""
-                }`}
+                href={`${pathName}?${createSearchQuery("role", role)}`}
               >
                 <DropdownMenuCheckboxItem
                   key={role}
-                  checked={rolesFromUrl?.includes(role)}
-                  // onCheckedChange={(checked) => {
-                  //   if (checked) {
-                  //     setSelectedRoles((prev) => [...(prev ?? []), role]);
-                  //   } else {
-                  //     setSelectedRoles(
-                  //       (prev) => prev?.filter((item) => item !== role),
-                  //     );
-                  //   }
-                  // }}
+                  checked={searchParams.getAll("role")?.includes(role)}
                 >
-                  {role}
+                  {role.toLowerCase()}
                 </DropdownMenuCheckboxItem>
               </Link>
             ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Status</DropdownMenuLabel>
+
+            <DropdownMenuRadioGroup value={searchParams.get("status")!}>
+              <Link
+                href={`${pathName}?${createSearchQuery("status", "active")}`}
+              >
+                <DropdownMenuRadioItem value={"active"}>
+                  Active
+                </DropdownMenuRadioItem>
+              </Link>
+              <Link
+                href={`${pathName}?${createSearchQuery("status", "inactive")}`}
+              >
+                <DropdownMenuRadioItem value={"inactive"}>
+                  Inactive
+                </DropdownMenuRadioItem>
+              </Link>
+            </DropdownMenuRadioGroup>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Link
+          className="text-sm font-medium leading-8 tracking-wide text-red-300"
+          href={`${pathName}`}
+        >
+          Clear all filters
+        </Link>
       </div>
     </div>
   );
