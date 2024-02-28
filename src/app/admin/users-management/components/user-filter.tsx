@@ -23,30 +23,27 @@ import { Checkbox } from "@/components/ui/checkbox";
 export default function UserFilter({}: {}) {
   const searchParams = useSearchParams();
   const pathName = usePathname();
-  const currentChecked = Boolean(searchParams.get("status"));
+  const arrayQueries: string[] = ["role"];
 
   const createSearchQuery = useCallback(
     (name: string, value: string) => {
-      if (name === "status") {
-        if (searchParams.has(name)) {
-          const params = new URLSearchParams(searchParams.toString());
-          params.set(name, value);
-          return params.toString();
-        } else {
-          return searchParams.toString() + `&${name}=${value}`;
-        }
-      }
-
-      if (searchParams.has(name)) {
+      const params = new URLSearchParams(searchParams.toString());
+      if (searchParams.has(name) && arrayQueries.includes(name)) {
         const searchParamsValue = searchParams.getAll(name);
         if (searchParamsValue.includes(value)) {
-          return searchParams.toString().replace(`${name}=${value}`, "");
+          params.delete(name, value);
         } else {
-          return searchParams.toString() + `&${name}=${value}`;
+          params.append(name, value);
         }
-      } else {
-        return searchParams.toString() + `&${name}=${value}`;
+        return params.toString();
       }
+      if (searchParams.has(name) && searchParams.get(name) === value) {
+        params.delete(name);
+        return params.toString();
+      }
+
+      params.set(name, value);
+      return params.toString();
     },
     [searchParams],
   );
