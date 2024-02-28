@@ -3,10 +3,14 @@ import UserManagement from "./components/user-management";
 import RoleManagement from "./components/role-management";
 import PermissionManagement from "./components/permission-management";
 
-export default function UserRole() {
+export default function UserRole({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   return (
     <div className="my-2 rounded-lg p-2 shadow-sm">
-      <UserManagement />
+      <UserManagement searchParams={searchParams} />
       <RoleManagement />
       <PermissionManagement />
     </div>
