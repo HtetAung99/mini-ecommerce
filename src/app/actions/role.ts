@@ -30,3 +30,8 @@ export async function editRole(userId: string, role: Role) {
     console.error(e);
   }
 }
+
+export async function deleteRole(roleId: string) {
+  await prisma.permissionRole.delete({ where: { id: roleId } });
+  revalidatePath("/admin/users-management");
+}

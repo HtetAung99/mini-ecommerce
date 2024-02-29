@@ -38,3 +38,8 @@ export async function editPermission(formData: PermissionEditFormValue) {
   }
   revalidatePath("/admin/users-management");
 }
+
+export async function deletePermission(pid: string) {
+  await prisma.permission.delete({ where: { id: pid } });
+  revalidatePath("/admin/users-management");
+}

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import prisma from "../../../../../lib/prisma";
 import { Permission } from "@prisma/client";
+import { GroupDeleteButton } from "./group-delete-btn";
 
 export default async function GroupTable() {
   // FIXME: need to change to utils later
@@ -23,11 +24,15 @@ export default async function GroupTable() {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[15%] border-r">Group Name</TableHead>
-            <TableHead className="w-[25%] text-left">Descritpion</TableHead>
+            <TableHead className="w-[25%] border-r text-left">
+              Descritpion
+            </TableHead>
 
-            <TableHead className="w-[25%] ">Members</TableHead>
-            <TableHead className="w-[25%]">Permissions</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead className="w-[40%] border-r">Permissions</TableHead>
+            <TableHead className="w-[10%] border-r text-center">
+              Members
+            </TableHead>
+            <TableHead className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -37,15 +42,18 @@ export default async function GroupTable() {
                 {group.name}
               </TableCell>
               <TableCell className="border-r">{group.description}</TableCell>
-              <TableCell className="border-r">{group.users.length}</TableCell>
               <TableCell className="flex-wrap border-r">
                 {group.permissions
                   .map((per: Permission) => per.name)
                   .join(", ")}
               </TableCell>
-              <TableCell className="text-right">
-                <div className="flex justify-end">
+              <TableCell className="border-r text-center">
+                {group.users.length}
+              </TableCell>
+              <TableCell className="">
+                <div className="m-auto flex flex-row justify-around">
                   <button className="text-blue-500">Edit</button>
+                  <GroupDeleteButton groupId={group.id} />
                 </div>
               </TableCell>
             </TableRow>

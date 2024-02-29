@@ -61,3 +61,8 @@ export const assignGroup = async (
     console.error(error);
   }
 };
+
+export async function deleteGroup(groupId: string) {
+  await prisma.group.delete({ where: { id: groupId } });
+  revalidatePath("/admin/groups");
+}

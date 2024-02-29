@@ -12,6 +12,7 @@ import { Action, Entity, Permission } from "@prisma/client";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { PermissionDeleteButton } from "./permission-delete-btn";
 
 export default async function PermissionTable({
   permissions,
@@ -40,15 +41,17 @@ export default async function PermissionTable({
           <TableRow>
             <TableHead className="w-[25%] border-r">Name</TableHead>
             <TableHead className="w-[20%] border-r">Entity</TableHead>
-            <TableHead className="w-[40%] border-r">Access</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead className="w-[45%] border-r">Access</TableHead>
+            <TableHead className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="w-full">
           {permissions.map((permission) => (
             <TableRow key={permission.id}>
-              <TableCell className="border-r">{permission.name}</TableCell>
-              <TableCell className="border-r">
+              <TableCell className="border-r font-semibold">
+                {permission.name}
+              </TableCell>
+              <TableCell className="border-r font-semibold text-slate-600">
                 {permission.entity.name}
               </TableCell>
               <TableCell className="flex gap-3 border-r">
@@ -62,16 +65,19 @@ export default async function PermissionTable({
                   </Badge>
                 ))}
               </TableCell>
-              <TableCell className="text-right">
-                <Link
-                  href={
-                    "users-management/editPermission?permissionId=" +
-                    permission.id
-                  }
-                  className="font-semibold text-blue-600"
-                >
-                  Edit
-                </Link>
+              <TableCell className="">
+                <div className="flex flex-row items-center justify-around gap-3">
+                  <Link
+                    href={
+                      "users-management/editPermission?permissionId=" +
+                      permission.id
+                    }
+                    className="font-semibold text-blue-600"
+                  >
+                    Edit
+                  </Link>
+                  <PermissionDeleteButton pid={permission.id} />
+                </div>
               </TableCell>
             </TableRow>
           ))}
