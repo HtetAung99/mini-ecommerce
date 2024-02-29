@@ -4,6 +4,7 @@ import { isAuthenticted, isSuperAdmin } from "../../../lib/session";
 import { GroupAddFormValue } from "../admin/groups/@gp/addGroup/components/group-form";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
+import { GroupEditFormValue } from "../admin/groups/@gp/editGroup/components/gp-edit-form";
 
 export async function addGroup(formData: GroupAddFormValue) {
   const isLogin: boolean = await isAuthenticted();
@@ -64,5 +65,18 @@ export const assignGroup = async (
 
 export async function deleteGroup(groupId: string) {
   await prisma.group.delete({ where: { id: groupId } });
+  revalidatePath("/admin/groups");
+}
+
+export async function editGroup(formData: GroupEditFormValue) {
+  const { gpId, ...data } = formData;
+  const updatedGroup = await prisma.group.update({
+    where: { id: gpId },
+    data: {
+      name: data.name,
+      description: data.descritption,
+      permissions: { set: data.permissionIds.map((id) => ({ id })) },
+    },
+  });
   revalidatePath("/admin/groups");
 }

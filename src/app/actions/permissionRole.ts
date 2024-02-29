@@ -5,6 +5,7 @@ import { isAuthenticted, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { RoleAddFormValue } from "../admin/users-management/@role/addRole/components/role-form";
+import { RoleEditFormValue } from "../admin/users-management/@role/editRole/components/edit-form";
 
 export async function addPermissionRole(formData: RoleAddFormValue) {
   const isLogin: boolean = await isAuthenticted();
@@ -61,3 +62,16 @@ export const assignPermissionRole = async (
     console.error(error);
   }
 };
+
+export async function editPermissionRole(formData: RoleEditFormValue) {
+  const { roleId, ...data } = formData;
+  const updatedGroup = await prisma.permissionRole.update({
+    where: { id: roleId },
+    data: {
+      name: data.name,
+      description: data.descritption,
+      permissions: { set: data.permissionIds.map((id) => ({ id })) },
+    },
+  });
+  revalidatePath("/admin/users-management");
+}

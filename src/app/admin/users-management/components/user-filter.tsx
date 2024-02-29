@@ -17,6 +17,7 @@ import Link from "next/link";
 import { Role } from "@prisma/client";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { cn } from "@/lib/utils";
 
 export default function UserFilter({}: {}) {
   const searchParams = useSearchParams();
@@ -112,7 +113,12 @@ export default function UserFilter({}: {}) {
           </DropdownMenuContent>
         </DropdownMenu>
         <Link
-          className="text-sm font-medium leading-8 tracking-wide text-red-300"
+          className={cn(
+            "text-sm font-medium leading-8 tracking-wide text-red-600",
+            searchParams.toString() === ""
+              ? "pointer-events-none text-red-300"
+              : "",
+          )}
           href={`${pathName}`}
         >
           Clear all filters

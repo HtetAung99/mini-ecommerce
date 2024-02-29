@@ -11,6 +11,9 @@ import {
 import prisma from "../../../../../lib/prisma";
 import { Permission } from "@prisma/client";
 import { GroupDeleteButton } from "./group-delete-btn";
+import { Badge } from "@/components/ui/badge";
+import { getRandomVariant } from "../../users-management/components/role-table";
+import Link from "next/link";
 
 export default async function GroupTable() {
   // FIXME: need to change to utils later
@@ -42,17 +45,24 @@ export default async function GroupTable() {
                 {group.name}
               </TableCell>
               <TableCell className="border-r">{group.description}</TableCell>
-              <TableCell className="flex-wrap border-r">
-                {group.permissions
-                  .map((per: Permission) => per.name)
-                  .join(", ")}
+              <TableCell className="flex flex-wrap gap-3 border-r">
+                {group.permissions.map((per: Permission, idx: number) => (
+                  <Badge key={per.id} variant={getRandomVariant(idx) as any}>
+                    {per.name}
+                  </Badge>
+                ))}
               </TableCell>
               <TableCell className="border-r text-center">
                 {group.users.length}
               </TableCell>
               <TableCell className="">
                 <div className="m-auto flex flex-row justify-around">
-                  <button className="text-blue-500">Edit</button>
+                  <Link
+                    href={"/admin/groups/editGroup?gpId=" + group.id}
+                    className="font-semibold text-blue-500"
+                  >
+                    Edit
+                  </Link>
                   <GroupDeleteButton groupId={group.id} />
                 </div>
               </TableCell>

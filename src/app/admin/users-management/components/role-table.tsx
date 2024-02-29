@@ -14,17 +14,18 @@ import { Permission } from "@prisma/client";
 import { Span } from "next/dist/trace";
 import { Badge } from "@/components/ui/badge";
 import { RoleDeleteBtn } from "./role-delete-btn";
+import Link from "next/link";
 
+export const getRandomVariant = (idx: number): string => {
+  // without repeating the same variant
+  const variants = ["default", "secondary", "destructive", "outline"];
+  return variants[idx % variants.length];
+};
 export default async function RoleTable() {
   //FIXME: need to change to utils
   const roles = await prisma.permissionRole.findMany({
     include: { permissions: true, users: true },
   });
-  const getRandomVariant = (idx: number): string => {
-    // without repeating the same variant
-    const variants = ["default", "secondary", "destructive", "outline"];
-    return variants[idx % variants.length];
-  };
   return (
     <div className="my-4">
       <Table>
@@ -61,7 +62,12 @@ export default async function RoleTable() {
               </TableCell>
               <TableCell className="">
                 <div className="m-auto flex flex-row justify-around">
-                  <button className="font-semibold text-blue-500">Edit</button>
+                  <Link
+                    href={"/admin/users-management/editRole?roleId=" + role.id}
+                    className="font-semibold text-blue-500"
+                  >
+                    Edit
+                  </Link>
                   <RoleDeleteBtn roleId={role.id} />
                 </div>
               </TableCell>
