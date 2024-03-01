@@ -1,7 +1,7 @@
 import React from "react";
 import RoleEditForm from "./components/edit-form";
 import { Modal } from "@/app/components/modal";
-import prisma from "../../../../../../lib/prisma";
+import prisma from "../../../../../../../lib/prisma";
 
 export default async function RoleEdit({
   searchParams,

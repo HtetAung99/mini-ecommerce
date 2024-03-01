@@ -1,28 +1,33 @@
 import React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export default function UserManagementPage({
   children,
-  permission,
-  role,
 }: {
   children: React.ReactNode;
-  permission: React.ReactNode;
-  role: React.ReactNode;
 }) {
+  const currentUrl = headers().get("x-pathname")?.split("/");
+
   return (
     <>
-      {role}
-      {permission}
-      <Tabs defaultValue="users">
+      <Tabs defaultValue={currentUrl?.at(-1)}>
         <TabsList className="mb-3 flex w-[30%] justify-between">
-          <TabsTrigger value="users">Users</TabsTrigger>
-          <TabsTrigger value="roles">Roles</TabsTrigger>
-          <TabsTrigger value="permissions">Permissions</TabsTrigger>
+          <TabsTrigger asChild value="users">
+            <Link href="/admin/users-management/users">Users</Link>
+          </TabsTrigger>
+          <TabsTrigger asChild value="roles">
+            <Link href="/admin/users-management/roles">Roles</Link>
+          </TabsTrigger>
+          <TabsTrigger asChild value="permissions">
+            <Link href="/admin/users-management/permissions">Permissions</Link>
+          </TabsTrigger>
         </TabsList>
         <Separator className="px-5" />
-        {children}
+        <div className="my-2 rounded-lg p-2 shadow-sm">{children}</div>
       </Tabs>
     </>
   );

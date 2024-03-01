@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import prisma from "../../../../../lib/prisma";
+import prisma from "../../../../../../lib/prisma";
 import { X } from "lucide-react";
 import { Permission } from "@prisma/client";
 import { Span } from "next/dist/trace";

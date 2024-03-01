@@ -1,6 +1,6 @@
 import { Modal } from "@/app/components/modal";
 import React from "react";
-import prisma from "../../../../../../lib/prisma";
+import prisma from "../../../../../../../lib/prisma";
 import PremissionEditFrom from "./components/edit-form";
 
 export default async function page({ searchParams }: { searchParams: any }) {

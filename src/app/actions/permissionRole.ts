@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import { isAuthenticted, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
-import { RoleAddFormValue } from "../admin/users-management/@role/addRole/components/role-form";
-import { RoleEditFormValue } from "../admin/users-management/@role/editRole/components/edit-form";
+import { RoleAddFormValue } from "../admin/users-management/(role)/@role/addRole/components/role-form";
+import { RoleEditFormValue } from "../admin/users-management/(role)/@role/editRole/components/edit-form";
 
 export async function addPermissionRole(formData: RoleAddFormValue) {
   const isLogin: boolean = await isAuthenticted();

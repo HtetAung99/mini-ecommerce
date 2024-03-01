@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/table";
 import { getAllUsers } from "@/app/utils/users";
 import { cn } from "@/lib/utils";
-import RoleEdit from "./role-edit";
+import RoleEdit from "../../(role)/components/role-edit";
 import UserTableEditButton from "./user-table-edit-button";
-import prisma from "../../../../../lib/prisma";
+import prisma from "../../../../../../lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { getStores } from "@/app/utils/stores";
 

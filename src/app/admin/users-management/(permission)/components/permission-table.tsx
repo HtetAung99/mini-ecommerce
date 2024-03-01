@@ -69,7 +69,7 @@ export default async function PermissionTable({
                 <div className="flex flex-row items-center justify-around gap-3">
                   <Link
                     href={
-                      "users-management/editPermission?permissionId=" +
+                      "/admin/users-management/editPermission?permissionId=" +
                       permission.id
                     }
                     className="font-semibold text-blue-600"

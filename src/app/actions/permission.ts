@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { isAuthenticted, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
-import { PermissionEditFormValue } from "../admin/users-management/@permission/editPermission/components/edit-form";
+import { PermissionEditFormValue } from "../admin/users-management/(permission)/@permission/editPermission/components/edit-form";
 
 export async function addPermission(formData: PermissionEditFormValue) {
   const isLogin: boolean = await isAuthenticted();

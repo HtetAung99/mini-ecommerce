@@ -12,7 +12,7 @@ import prisma from "../../../../../lib/prisma";
 import { Permission } from "@prisma/client";
 import { GroupDeleteButton } from "./group-delete-btn";
 import { Badge } from "@/components/ui/badge";
-import { getRandomVariant } from "../../users-management/components/role-table";
+import { getRandomVariant } from "../../users-management/(role)/components/role-table";
 import Link from "next/link";
 
 export default async function GroupTable() {
