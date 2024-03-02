@@ -2,7 +2,6 @@ import React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 
 export default function UserManagementPage({

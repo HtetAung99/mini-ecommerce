@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { UserPlus } from "lucide-react";
 import React from "react";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
