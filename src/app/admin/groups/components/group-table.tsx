@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "../../../../../lib/prisma";
-import { Permission } from "@prisma/client";
+import { Permission, Role } from "@prisma/client";
 import { GroupActionButton } from "./group-action-btn";
 import { Badge } from "@/components/ui/badge";
 import { getRandomVariant } from "../../users-management/(role)/components/role-table";
@@ -21,7 +21,9 @@ export default async function GroupTable() {
   const groups = await prisma.group.findMany({
     include: { permissions: true, users: true },
   });
-  const users = await getAllUsers([]);
+  const users = await getAllUsers({
+    roleFilter: [Role.ADMIN, Role.GENERAL_MANAGER, Role.MANAGER, Role.STAFF],
+  });
   return (
     <div className="my-4">
       <Table>
