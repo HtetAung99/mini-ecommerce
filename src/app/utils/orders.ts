@@ -5,7 +5,7 @@ import { getExtendedPrisma } from "../../../lib/extendedPrisma";
 
 export const getOrders = async () => {
   const user = await getCurrentUser();
-  console.log("inside getOrders:", user);
+
   const userId = user?.id;
   if (!userId) {
     return [];

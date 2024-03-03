@@ -13,7 +13,7 @@ export default function UserManagementPage({
 
   return (
     <>
-      <Tabs defaultValue={currentUrl?.at(-1)}>
+      <Tabs defaultValue={currentUrl?.at(3) || "users"}>
         <TabsList className="mb-3 flex w-[30%] justify-between">
           <TabsTrigger asChild value="users">
             <Link href="/admin/users-management/users">Users</Link>
