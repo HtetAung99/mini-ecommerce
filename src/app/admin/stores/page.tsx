@@ -44,7 +44,7 @@ export default async function StorePage() {
                 <Link href={"#"}>Manage Store</Link>
               </Button>
               <Button variant={"outline"} asChild className="px-6">
-                <Link href={"#"}>Store DashBoard</Link>
+                <Link href={"/admin/stores/" + store.id}>Store DashBoard</Link>
               </Button>
             </CardFooter>
           </Card>

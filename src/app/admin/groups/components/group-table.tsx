@@ -10,16 +10,18 @@ import {
 } from "@/components/ui/table";
 import prisma from "../../../../../lib/prisma";
 import { Permission } from "@prisma/client";
-import { GroupDeleteButton } from "./group-delete-btn";
+import { GroupActionButton } from "./group-action-btn";
 import { Badge } from "@/components/ui/badge";
 import { getRandomVariant } from "../../users-management/(role)/components/role-table";
 import Link from "next/link";
+import { getAllUsers } from "@/app/utils/users";
 
 export default async function GroupTable() {
   // FIXME: need to change to utils later
   const groups = await prisma.group.findMany({
     include: { permissions: true, users: true },
   });
+  const users = await getAllUsers([]);
   return (
     <div className="my-4">
       <Table>
@@ -57,13 +59,7 @@ export default async function GroupTable() {
               </TableCell>
               <TableCell className="">
                 <div className="m-auto flex flex-row justify-around">
-                  <Link
-                    href={"/admin/groups/editGroup?gpId=" + group.id}
-                    className="font-semibold text-blue-500"
-                  >
-                    Edit
-                  </Link>
-                  <GroupDeleteButton groupId={group.id} />
+                  <GroupActionButton groupId={group.id} users={users} />
                 </div>
               </TableCell>
             </TableRow>

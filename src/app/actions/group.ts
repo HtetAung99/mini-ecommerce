@@ -80,3 +80,26 @@ export async function editGroup(formData: GroupEditFormValue) {
   });
   revalidatePath("/admin/groups");
 }
+
+export async function assginUsersToGroup(groupId: string, userIds: string[]) {
+  const existingUserIds = (
+    await prisma.group.findUnique({
+      where: { id: groupId },
+      include: { users: true },
+    })
+  )?.users.map((user) => user.id);
+
+  const group = await prisma.group.update({
+    where: { id: groupId },
+    data: {
+      users: {
+        connect: userIds.map((id) => ({ id })),
+        disconnect: existingUserIds
+          ?.filter((id) => !userIds.includes(id))
+          .map((id) => ({ id })),
+      },
+    },
+  });
+  revalidatePath("/admin/groups");
+  revalidatePath("/admin/users-management/users");
+}

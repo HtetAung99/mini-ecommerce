@@ -13,5 +13,5 @@ export const activateUser = async (userId: string, status: boolean) => {
     throw new Error(e);
   }
 
-  revalidatePath("/admin/users-management");
+  revalidatePath("/admin/users-management/users");
 };
