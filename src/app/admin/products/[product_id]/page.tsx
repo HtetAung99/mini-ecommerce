@@ -2,7 +2,7 @@ import { getProductById } from "@/app/utils/products";
 import React from "react";
 import prisma from "../../../../../lib/prisma";
 import { attributesValuesByProductId } from "@/app/utils/variants";
-import PrductDetailCardAdmin from "./components/product-detail-card-admin";
+import ProductDetailCardAdmin from "./components/product-detail-card-admin";
 
 export default async function ProductDetail({
   params,
@@ -55,7 +55,7 @@ export default async function ProductDetail({
       </div>
       <div></div> */}
 
-      <PrductDetailCardAdmin
+      <ProductDetailCardAdmin
         attributeValues={attributeValues}
         product={product}
       />

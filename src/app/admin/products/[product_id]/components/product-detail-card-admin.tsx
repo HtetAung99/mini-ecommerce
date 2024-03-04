@@ -9,16 +9,19 @@ import {
 } from "@/components/ui/card";
 import { Edit } from "lucide-react";
 import clsx from "clsx";
-import { ProductWithNestedData } from "@/app/types";
+import { ProductWithNestedData, VariantWithAttributeValues } from "@/app/types";
 import VaraintOptionsList from "./variant-option-list";
+import { set } from "date-fns";
 
-export default function PrductDetailCardAdmin({
+export default function ProductDetailCardAdmin({
   product,
   attributeValues,
 }: {
   product: ProductWithNestedData;
   attributeValues: any;
 }) {
+  const [images, setImages] = useState<string[]>();
+  const [mainImage, setMainImage] = useState<string>();
   const [variantOptions, setVariantOptions]: any[] = useState([]);
   useEffect(() => {
     const variantList = product.variants.map((v) =>
@@ -35,6 +38,34 @@ export default function PrductDetailCardAdmin({
 
     setVariantOptions(variantList);
   }, [product.variants]);
+
+  useEffect(() => {
+    const fetchedImages = async () => {
+      const imgUrls = product.variants
+        .map((v: VariantWithAttributeValues) => v.imageUrls)
+        .flat();
+      const fetchedUrls = await Promise.all(
+        imgUrls.map(async (i) => {
+          const res = await fetch("/api/products/image?imgUrl=" + i);
+          const { url } = await res.json();
+          return url;
+        }),
+      );
+      setImages(fetchedUrls);
+    };
+    fetchedImages();
+  }, [product.variants]);
+
+  useEffect(() => {
+    if (product.imageUrl) {
+      fetch("/api/products/image?imgUrl=" + product.imageUrl)
+        .then(async (res) => res.json())
+        .then(({ url }) => {
+          setMainImage(url);
+        });
+    }
+  }, []);
+
   return (
     <Card className="relative m-auto flex w-full flex-col border-0 p-7">
       <div className="absolute -right-8 -top-8 flex w-fit cursor-pointer items-center justify-center rounded-full border border-slate-500 bg-black p-2">
@@ -44,18 +75,19 @@ export default function PrductDetailCardAdmin({
         <CardTitle>{product.title}</CardTitle>
         <div className="grid grid-cols-2">
           <div className="mx-auto flex flex-row items-center justify-center rounded-lg p-2">
-            <div className="mr-3 flex flex-col gap-2">
-              {[1, 2, 3, 4].map((i) => (
+            <div className="mr-3 flex flex-col gap-3">
+              {images?.map((i: string) => (
                 <img
+                  onClick={() => setMainImage(i)}
                   key={i}
-                  className="h-12 w-12 self-end object-contain"
-                  src="/images/iphone15.jpg"
+                  className="h-12 w-12 cursor-pointer self-end object-contain"
+                  src={i || "default-product-image.jpg"}
                 />
               ))}
             </div>
             <img
               className="w-2/3 rounded-lg border border-slate-200 object-fill p-12"
-              src="/images/iphone15.jpg"
+              src={mainImage || "default-product-image.jpg"}
               alt=""
             />
           </div>
@@ -102,7 +134,10 @@ export default function PrductDetailCardAdmin({
               </div>
             );
         })} */}
-        <VaraintOptionsList variantOptionsFromParent={variantOptions} />
+        <VaraintOptionsList
+          key={variantOptions}
+          variantOptionsFromParent={variantOptions}
+        />
       </CardContent>
     </Card>
   );
