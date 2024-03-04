@@ -51,6 +51,7 @@ export default function VaraintOptionsList({
               <span className="flex min-w-[150px] items-center justify-center  gap-5 border-l border-slate-300 pl-2  leading-8 tracking-wider">
                 $ {vo.price}
                 <VariantDeleteBtn
+                  key={vo.id}
                   setVariantOptions={setVariantOptions}
                   id={vo.id}
                 />

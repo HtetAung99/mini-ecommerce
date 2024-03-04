@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../lib/prisma";
 import { VariantWithProductAndAttributeValues } from "@/app/types";
-import { isAdmin } from "../../../../lib/session";
+import { isAdmin, isSuperAdmin } from "../../../../lib/session";
 
 export async function GET(request: NextRequest) {
   try {
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get("id");
 
-  const isAuthorized = await isAdmin();
+  const isAuthorized = await isSuperAdmin();
 
   if (!isAuthorized) {
     return NextResponse.json({ message: "authFailed" }, { status: 403 });

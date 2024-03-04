@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { AttributeWithAttributeValue } from "@/app/types";
 import { addVariant } from "@/app/actions/variant";
 import { useToast } from "@/components/ui/use-toast";
+import { kMaxLength } from "buffer";
 
 export default function AddVaraintForm({
   attributes,
@@ -26,31 +27,34 @@ export default function AddVaraintForm({
   productId: number;
 }) {
   const [selectedAttributes, setSelectedAttributes] = useState<any>({});
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
 
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const handleFilesUpload = async (e: any) => {
-    setLoading(true);
+  // const handleFilesUpload = async (e: any) => {
+  //   setLoading(true);
+  //   e.preventDefault();
+  //   const files = e.target.files;
+
+  //   Array.from(files).forEach(async (file: any) => {
+  //     const formData = new FormData();
+  //     formData.set("file", file);
+  //     const res = await fetch("/api/products/image", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+
+  //     if (res.ok) {
+  //       setFiles((prev) => [...prev, file.name]);
+  //       setLoading(false);
+  //     }
+  //   });
+  // };
+  const handleImagesInput = (e: any) => {
     e.preventDefault();
     const files = e.target.files;
-
-    Array.from(files).forEach(async (file: any) => {
-      const formData = new FormData();
-      formData.set("file", file);
-      const res = await fetch("/api/products/image", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (res.ok) {
-        const { signedUrl } = await res.json();
-
-        setFiles((prev) => [...prev, signedUrl]);
-        setLoading(false);
-      }
-    });
+    setFiles((prev) => [...prev, ...files]);
   };
 
   type FormValues = {
@@ -68,9 +72,18 @@ export default function AddVaraintForm({
   const { toast } = useToast();
   const onSubmit = handleSubmit(async (data: FormValues) => {
     data.productId = Number(productId);
-    data.imageUrls = files;
+    data.imageUrls = files.map((file) => file.name);
     data.attributeValues = Object.values(selectedAttributes);
     try {
+      files.forEach(async (file) => {
+        const tmp = new FormData();
+        tmp.append("file", file);
+
+        const res = await fetch("/api/products/image", {
+          method: "POST",
+          body: tmp,
+        });
+      });
       await addVariant(data);
       toast({
         title: "Variant Created",
@@ -122,7 +135,7 @@ export default function AddVaraintForm({
                     files.map((file) => (
                       <img
                         className="h-16 w-20 rounded-md border border-slate-300 object-contain"
-                        src={file}
+                        src={URL.createObjectURL(file)}
                       />
                     ))}
                   <input
@@ -130,7 +143,7 @@ export default function AddVaraintForm({
                     accept="image/*"
                     placeholder="Upload Photo"
                     className="absolute inset-0 left-0 top-0 h-full w-full cursor-pointer self-center px-4 py-2 align-middle opacity-0"
-                    onChange={handleFilesUpload}
+                    onChange={handleImagesInput}
                     multiple
                   />
                 </div>

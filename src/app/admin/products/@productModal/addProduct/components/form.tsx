@@ -66,24 +66,19 @@ export default function ModalForm({
   const onSubmit = handleSubmit(async (data: ProductAddFormValues) => {
     data.categoryId = selected.id;
     data.published = published;
-    (data.images = files.map((file) => file.name)),
-      (data.attributeValues = Object.values(selectedAttributes));
+    data.images = files.map((file) => file.name);
+    data.attributeValues = Object.values(selectedAttributes);
 
-    files.forEach(async (file) => {
-      const tmp = new FormData();
-      tmp.append("file", file);
-      try {
+    try {
+      files.forEach(async (file) => {
+        const tmp = new FormData();
+        tmp.append("file", file);
+
         const res = await fetch("/api/products/image", {
           method: "POST",
           body: tmp,
         });
-        console.log((await res.json()).message);
-      } catch (e) {
-        console.error(e);
-      }
-    });
-
-    try {
+      });
       await addProduct(data);
       toast({
         title: "Product Created",
