@@ -100,7 +100,7 @@ export default function AddVaraintForm({
   });
 
   return (
-    <Card className="max-h-[800px] w-2/3">
+    <Card className="max-h-[800px] w-1/2">
       <CardHeader>
         <CardTitle className="font-xl px-2 font-bold leading-10 tracking-widest">
           Add New Variant

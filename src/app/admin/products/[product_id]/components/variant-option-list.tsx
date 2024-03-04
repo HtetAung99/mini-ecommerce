@@ -18,7 +18,7 @@ export default function VaraintOptionsList({
     setVariantOptions(variantOptionsFromParent);
   }, [variantOptionsFromParent]);
   return (
-    <div className=" w-1/2">
+    <div className="max-h-[40vh] w-full overflow-auto">
       <span className="mb-5 flex flex-row items-center justify-between">
         <h4 className="text-lg font-bold leading-10 tracking-widest">
           Variants

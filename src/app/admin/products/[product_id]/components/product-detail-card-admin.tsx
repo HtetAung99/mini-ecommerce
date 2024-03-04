@@ -12,6 +12,8 @@ import clsx from "clsx";
 import { ProductWithNestedData, VariantWithAttributeValues } from "@/app/types";
 import VaraintOptionsList from "./variant-option-list";
 import { set } from "date-fns";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function ProductDetailCardAdmin({
   product,
@@ -66,16 +68,20 @@ export default function ProductDetailCardAdmin({
     }
   }, []);
 
+  const path = usePathname();
+
   return (
-    <Card className="relative m-auto flex w-full flex-col border-0 p-7">
+    <Card className="relative m-auto flex w-full flex-col border-0 p-3 shadow-none ">
       <div className="absolute -right-8 -top-8 flex w-fit cursor-pointer items-center justify-center rounded-full border border-slate-500 bg-black p-2">
-        <Edit className="self-center text-slate-100" size={18} />
+        <Link href={`${path}/editProduct`}>
+          <Edit className="self-center text-slate-100" size={18} />
+        </Link>
       </div>
       <CardHeader className={clsx("gap-8")}>
         <CardTitle>{product.title}</CardTitle>
-        <div className="grid grid-cols-2">
-          <div className="mx-auto flex flex-row items-center justify-center rounded-lg p-2">
-            <div className="mr-3 flex flex-col gap-3">
+        <div className="my-4 grid grid-cols-2">
+          <div className="ml-7 flex  h-[40vh] w-3/4 flex-row items-center justify-center rounded-lg p-2">
+            <div className="mr-3 flex max-h-full  flex-col gap-3 overflow-auto">
               {images?.map((i: string) => (
                 <img
                   onClick={() => setMainImage(i)}
@@ -86,59 +92,22 @@ export default function ProductDetailCardAdmin({
               ))}
             </div>
             <img
-              className="w-2/3 rounded-lg border border-slate-200 object-fill p-12"
+              className="h-full w-4/5 rounded-lg border border-slate-200 object-fill p-12"
               src={mainImage || "default-product-image.jpg"}
               alt=""
             />
           </div>
-          <CardDescription className="self-start p-7 indent-4 text-base font-medium leading-8 tracking-wider text-slate-400">
-            {product.description}
-          </CardDescription>
+          <VaraintOptionsList
+            key={variantOptions}
+            variantOptionsFromParent={variantOptions}
+          />
         </div>
+        <CardDescription className="self-start p-7 indent-4 text-base font-medium leading-8 tracking-wider text-slate-400">
+          {product.description}
+        </CardDescription>
       </CardHeader>
 
-      <CardContent>
-        {/* {Object.entries(attributeValues).map(([key, value]: [string, any]) => {
-          if (key !== "default")
-            return (
-              <div key={key}>
-                <h3 className="my-2 w-[10vw] pt-2 text-left text-base font-semibold capitalize text-slate-700">
-                  {key}
-                </h3>
-
-                <div className="flex flex-row justify-items-center gap-5">
-                  {Array.from(value).map((v: any) => {
-                    v = JSON.parse(v);
-
-                    if (key === "color") {
-                      return (
-                        <div
-                          key={v.id}
-                          className={clsx(
-                            "flex h-7 w-7 cursor-pointer items-center justify-center rounded-full",
-                          )}
-                        >
-                          <div
-                            className={clsx(
-                              "h-5 w-5 rounded-full border border-gray-500 ",
-                              `bg-${v.name}-500`,
-                            )}
-                          ></div>
-                        </div>
-                      );
-                    } else {
-                      return <Button key={v.id}>{v.name}</Button>;
-                    }
-                  })}
-                </div>
-              </div>
-            );
-        })} */}
-        <VaraintOptionsList
-          key={variantOptions}
-          variantOptionsFromParent={variantOptions}
-        />
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   );
 }
