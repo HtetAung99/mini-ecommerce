@@ -2,7 +2,7 @@ import { getCategoryByName } from "@/app/utils/categories";
 import React from "react";
 import FilterBar from "./components/filter-bar";
 import { redirect } from "next/navigation";
-import { getProductByFilters } from "@/app/utils/products";
+import { getProductsByFilters } from "@/app/utils/products";
 import ProductList from "./components/product-list";
 import { cookies } from "next/headers";
 
@@ -39,7 +39,7 @@ export default async function P({
     return redirect("/");
   }
 
-  const [filteredProducts, count] = await getProductByFilters({
+  const [filteredProducts, count] = await getProductsByFilters({
     ...searchParams,
     categoryId: category.id,
   });

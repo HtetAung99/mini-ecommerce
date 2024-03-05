@@ -36,16 +36,9 @@ export const getProductsWithCategories = cache(
   },
 ); // main Page
 
-export const getProductByFilters = cache(
+export const getProductsByFilters = cache(
   async (filters: any): Promise<[ProductWithNestedData[], number]> => {
-    const {
-      rest,
-      price,
-      categoryId,
-      pageNum = 1,
-      pageSize = 9,
-      storeId,
-    } = filters;
+    const { price, categoryId, pageNum = 1, pageSize = 9, storeId } = filters;
     const category = await prisma.category.findUnique({
       where: { id: categoryId },
       include: { children: { include: { children: true } } },
