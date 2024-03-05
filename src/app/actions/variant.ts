@@ -26,3 +26,13 @@ export async function addVariant(formData: any) {
 
   revalidatePath(`/admin`);
 }
+
+export async function deleteVariant(id: number) {
+  const prisma = await getExtendedPrisma();
+
+  await prisma.variant.delete({
+    where: { id },
+  });
+
+  revalidatePath(`/admin/products/${id}`);
+}

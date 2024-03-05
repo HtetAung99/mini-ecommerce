@@ -18,7 +18,7 @@ export default function VaraintOptionsList({
     setVariantOptions(variantOptionsFromParent);
   }, [variantOptionsFromParent]);
   return (
-    <div className=" w-1/2">
+    <div className="max-h-[40vh] w-full overflow-auto">
       <span className="mb-5 flex flex-row items-center justify-between">
         <h4 className="text-lg font-bold leading-10 tracking-widest">
           Variants
@@ -51,6 +51,7 @@ export default function VaraintOptionsList({
               <span className="flex min-w-[150px] items-center justify-center  gap-5 border-l border-slate-300 pl-2  leading-8 tracking-wider">
                 $ {vo.price}
                 <VariantDeleteBtn
+                  key={vo.id}
                   setVariantOptions={setVariantOptions}
                   id={vo.id}
                 />

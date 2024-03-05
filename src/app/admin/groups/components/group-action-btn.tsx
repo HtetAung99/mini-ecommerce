@@ -67,7 +67,6 @@ export function GroupActionButton({
   const { toast } = useToast();
 
   const assignHandler = async () => {
-    // console.log(assignedUser);
     try {
       await assginUsersToGroup(groupId, assignedUser);
       setChanged(false);

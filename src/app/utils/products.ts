@@ -105,6 +105,7 @@ const generateFilters = (
 
 export const getProductById = cache(
   async (id: number): Promise<ProductWithNestedData | null> => {
+    console.log("inside", id);
     const product: any = await prisma.product.findFirst({
       include: {
         category: true,
