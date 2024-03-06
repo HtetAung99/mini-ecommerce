@@ -8,6 +8,17 @@ interface NavLinkType {
 
 const navlinks: NavLinkType[] = [
   {
+    name: "Dashboard",
+    href: "/",
+    access: [
+      Role.ADMIN,
+      Role.SUPERADMIN,
+      Role.GENERAL_MANAGER,
+      Role.MANAGER,
+      Role.STAFF,
+    ],
+  },
+  {
     name: "Products",
     href: "products",
     access: [Role.ADMIN, Role.SUPERADMIN],

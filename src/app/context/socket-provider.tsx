@@ -1,7 +1,9 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { signOut } from "next-auth/react";
 
 type SocketContextType = {
   socket: any | null;
@@ -18,8 +20,9 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const user = useSession().data?.user;
 
   useEffect(() => {
     const socket = new (io as any)("http://localhost:4000");
@@ -39,6 +42,17 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       socket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    console.log(user);
+
+    if (socket) {
+      socket.on(`auth-changed-${user?.id}`, async () => {
+        console.log("auth changed");
+        await signOut();
+      });
+    }
+  }, [user]);
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>
