@@ -8,9 +8,8 @@ import { Role } from "@prisma/client";
 
 import { io } from "socket.io-client";
 
-const socket = new (io as any)("http://localhost:4000");
-
 export async function editRole(userId: string, role: Role) {
+  const socket = new (io as any)("http://localhost:4000");
   const isLogin: boolean = await isAuthenticted();
   const hasPermission: boolean = await isSuperAdmin();
   // FIXME: need more auth check
@@ -31,7 +30,10 @@ export async function editRole(userId: string, role: Role) {
     });
 
     socket.emit("role-changed", { userId }, () => {
-      console.log("admin event emitted socket is now disconnected");
+      console.log(
+        `role-changed event emitted socket (${socket.id}) is now disconnected`,
+      );
+      socket.disconnect();
     });
 
     revalidatePath("/admin/users-management");
