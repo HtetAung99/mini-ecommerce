@@ -6,6 +6,8 @@ import { getCurrentUser, isAuthenticted } from "../../../lib/session";
 import SearchCommandBox from "./components/search-command-box";
 import HeaderBox from "./components/header-box";
 import { authOptions } from "../api/auth/[...nextauth]/auth-options";
+import { headers } from "next/headers";
+import navlinks from "../../../lib/links";
 
 export default async function DashboardLayout({
   children,
@@ -16,12 +18,29 @@ export default async function DashboardLayout({
 }) {
   const session: any = await getServerSession(authOptions);
 
+  const user = await getCurrentUser();
+
   if (!(await isAuthenticted())) {
     redirect("/api/auth/signin?callbackUrl=/admin");
   }
 
-  if ((await getCurrentUser())?.role === Role.USER) {
+  if (user!.role === Role.USER) {
     redirect("/");
+  }
+
+  const h = headers();
+
+  const matchedPath = navlinks.find((navlink) => {
+    const pathNameFromHeader = h
+      .get("x-pathname")!
+      .split("/")
+      .slice(2)
+      .join("/");
+    return pathNameFromHeader.startsWith(navlink.href);
+  });
+
+  if (matchedPath && !matchedPath?.access.includes(user!.role)) {
+    redirect("/admin");
   }
 
   return (

@@ -1,52 +1,10 @@
 "use client";
 
-import { Role } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
-
-const navlinks: NavLinkType[] = [
-  { name: "Dashboard", href: "/", access: [Role.ADMIN, Role.SUPERADMIN] },
-  {
-    name: "Products",
-    href: "products",
-    access: [Role.ADMIN, Role.SUPERADMIN],
-  },
-  {
-    name: "Categories",
-    href: "categories",
-    access: [Role.ADMIN, Role.SUPERADMIN],
-  },
-  {
-    name: "Attributes",
-    href: "attributes",
-    access: [Role.ADMIN, Role.SUPERADMIN],
-  },
-  { name: "Stores", href: "stores", access: [Role.SUPERADMIN] },
-  {
-    name: "Users Management",
-    href: "users-management",
-    access: [Role.SUPERADMIN],
-  },
-  { name: "Groups", href: "groups", access: [Role.SUPERADMIN] },
-  {
-    name: "Orders",
-    href: "orders",
-    access: [Role.SUPERADMIN, Role.ADMIN, Role.STAFF],
-  },
-  {
-    name: "Settings",
-    href: "settings",
-    access: [Role.ADMIN, Role.SUPERADMIN],
-  },
-];
-
-interface NavLinkType {
-  name: string;
-  href: string;
-  access: Role[];
-}
+import navlinks from "../../../lib/links";
 
 export default function NavBar() {
   const user = useSession().data?.user;
