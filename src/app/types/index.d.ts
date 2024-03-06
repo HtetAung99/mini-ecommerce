@@ -101,13 +101,16 @@ export interface GroupWithNestedData extends Group {
   permissions: PermissionWithEntity[];
 }
 
-export interface SessionUser {
-  id: string;
-  name: string;
-  role: Role;
+export interface SessionUser extends SubSessionUser {
+  selectedAddress: Address;
   addresses: Address[];
+}
+
+export interface SubSessionUser {
+  id: string;
+  name: string?;
+  role: Role;
   groups: GroupWithNestedData[];
   permissionRoles: PermissionRoleWithNestedData[];
-  selectedAddress: Address;
   storeAccesses: number[];
 }

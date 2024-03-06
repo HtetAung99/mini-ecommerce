@@ -3,11 +3,41 @@ import { getCurrentUser } from "./session";
 import {
   GroupWithNestedData,
   PermissionRoleWithNestedData,
-  SessionUser,
+  SubSessionUser,
 } from "@/app/types";
 
 export const getExtendedPrisma = async () => {
-  const currentUser = await getCurrentUser();
+  const sessionUser = await getCurrentUser();
+
+  if (!sessionUser) {
+    throw new Error("No user found");
+  }
+
+  const currentUser = await prisma.user.findUnique({
+    where: { id: sessionUser.id },
+    select: {
+      id: true,
+      name: true,
+      groups: {
+        include: {
+          permissions: {
+            include: {
+              entity: true,
+            },
+          },
+        },
+      },
+      permissionRoles: {
+        include: {
+          permissions: {
+            include: { entity: true },
+          },
+        },
+      },
+      role: true,
+      storeAccesses: true,
+    },
+  });
 
   if (!currentUser) {
     throw new Error("No user found");
@@ -55,7 +85,7 @@ const METHODS = {
   DELETE: ["delete", "deleteMany"],
 };
 
-export const extractPermissions = (currentUser: SessionUser) => {
+export const extractPermissions = (currentUser: SubSessionUser) => {
   let result = {};
 
   result = getPermissionSet(currentUser.permissionRoles, result);

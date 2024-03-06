@@ -32,7 +32,6 @@ export async function editRole(userId: string, role: Role) {
 
     socket.emit("role-changed", { userId }, () => {
       console.log("admin event emitted socket is now disconnected");
-      socket.disconnect();
     });
 
     revalidatePath("/admin/users-management");
