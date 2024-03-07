@@ -4,7 +4,7 @@ import { Menu, ShoppingCart, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { getCategories } from "../utils/categories";
-import { CategoryWithChild } from "../types";
+import { CategoryWithChild, SessionUser } from "../types";
 import CategoryMenu from "./components/category-menu";
 import { DialogContent, Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { CartProvider } from "../context/cart-provider";
@@ -23,12 +23,7 @@ export default async function HomeLayout({
   auth: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-  const user:
-    | {
-        name: string;
-        role: $Enums.Role;
-      }
-    | undefined = session?.user;
+  const user: SessionUser | undefined = session?.user;
   const categories: CategoryWithChild[] = await getCategories();
 
   return (

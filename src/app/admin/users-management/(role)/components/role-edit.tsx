@@ -8,7 +8,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { editRole } from "@/app/actions/role";
-
 const roles = [
   Role.SUPERADMIN,
   Role.ADMIN,

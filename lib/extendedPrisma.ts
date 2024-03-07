@@ -1,3 +1,4 @@
+import { cache } from "react";
 import prisma from "./prisma";
 import { getCurrentUser } from "./session";
 import {
@@ -6,7 +7,7 @@ import {
   SubSessionUser,
 } from "@/app/types";
 
-export const getExtendedPrisma = async () => {
+export const getExtendedPrisma = cache(async () => {
   const sessionUser = await getCurrentUser();
 
   if (!sessionUser) {
@@ -76,7 +77,7 @@ export const getExtendedPrisma = async () => {
       },
     },
   });
-};
+});
 
 const METHODS = {
   CREATE: ["create", "createMany", "upsert"],

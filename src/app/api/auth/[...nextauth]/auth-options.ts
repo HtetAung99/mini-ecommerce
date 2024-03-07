@@ -1,13 +1,16 @@
 import GoogleProvider from "next-auth/providers/google";
 import prisma from "../../../../../lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import bcrpyt from "bcrypt";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { Address } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  pages: {
+    error: "/",
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -23,6 +26,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
+
       credentials: {
         email: {
           label: "Email",
@@ -56,6 +60,10 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (user) {
+          if (!user.active)
+            throw new Error(
+              "Your account has been deactivated. Please contact to admin.",
+            );
           return bcrpyt.compareSync(credentials!.password, user.password!)
             ? {
                 id: user.id,
@@ -64,6 +72,7 @@ export const authOptions: NextAuthOptions = {
                 role: user.role,
                 addresses: user.addresses,
                 groups: user.groups,
+                active: user.active,
                 permissionRoles: user.permissionRoles,
                 selectedAddress: user?.addresses.filter(
                   (add: Address) => add?.default,
@@ -76,6 +85,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+
   secret: "asdfasdf",
   session: {
     strategy: "jwt",
@@ -83,15 +93,17 @@ export const authOptions: NextAuthOptions = {
   }, // 30 days},
   // pages: { signIn: "/admin/login" },
   callbacks: {
+    // async signIn({ user }: { user: any }) {
+    //   if (user.active) return true;
+    //   return "/authError";
+    // },
     jwt: async ({ token, user, trigger, session }: any) => {
       user && (token.user = user);
-
       // trigger when user changes their selected address
       if (trigger === "update" && session?.selectedAddress) {
         // Note, that `session` can be any arbitrary object, remember to validate it!
         token.user.selectedAddress = session.selectedAddress;
       }
-
       if (
         trigger === "update" &&
         session?.isDeleteCall &&
@@ -99,7 +111,6 @@ export const authOptions: NextAuthOptions = {
       ) {
         token.user.selectedAddress = null;
       }
-
       if (trigger === "update" && session?.isUpdateDefault) {
         token.user.selectedAddress.default = session?.val;
         token.user.addresses = token.user.addresses.map((add: any) =>
@@ -108,7 +119,6 @@ export const authOptions: NextAuthOptions = {
             : add,
         );
       }
-
       return token;
     },
     session: async ({ session, token }: any) => {
