@@ -2,6 +2,7 @@ import { getCurrentUser, isAdmin, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { OrderWithAllDetails } from "../types";
 import { getExtendedPrisma } from "../../../lib/extendedPrisma";
+import { Role } from "@prisma/client";
 
 export const getOrders = async () => {
   const user = await getCurrentUser();
@@ -36,6 +37,19 @@ export const getOrdersForAdmin = async (): Promise<OrderWithAllDetails[]> => {
 
   const prisma = await getExtendedPrisma();
   const currentUser = await getCurrentUser();
+  if (currentUser?.role === Role.SUPERADMIN) {
+    const orders: OrderWithAllDetails[] = (await prisma.order.findMany({
+      include: {
+        orderItems: true,
+        customer: { select: { id: true, email: true, name: true, role: true } },
+        address: true,
+      },
+
+      orderBy: { createdAt: "desc" },
+    })) as OrderWithAllDetails[];
+    return orders;
+  }
+
   // including customer is dangerouse, because it includes password
   const orders: OrderWithAllDetails[] = (await prisma.order.findMany({
     include: {

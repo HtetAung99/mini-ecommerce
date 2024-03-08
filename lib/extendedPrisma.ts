@@ -55,7 +55,6 @@ export const getExtendedPrisma = cache(async () => {
     query: {
       $allModels: {
         $allOperations({ model, operation, args, query }) {
-          /* your custom logic for modifying all operations on all models here */
           if (!Object.keys(permissions).includes(model)) {
             throw new Error(
               `You don't have permission to perform this operation`,

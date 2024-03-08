@@ -4,11 +4,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions, User } from "next-auth";
 import bcrpyt from "bcrypt";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { Address } from "@prisma/client";
+import { Address, Role } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   pages: {
+    signIn: "/authTab",
     error: "/",
   },
   providers: [
@@ -93,10 +94,6 @@ export const authOptions: NextAuthOptions = {
   }, // 30 days},
   // pages: { signIn: "/admin/login" },
   callbacks: {
-    // async signIn({ user }: { user: any }) {
-    //   if (user.active) return true;
-    //   return "/authError";
-    // },
     jwt: async ({ token, user, trigger, session }: any) => {
       user && (token.user = user);
       // trigger when user changes their selected address

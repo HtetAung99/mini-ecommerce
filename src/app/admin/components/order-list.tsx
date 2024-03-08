@@ -5,13 +5,30 @@ import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { OrderWithAllDetails } from "@/app/types";
 import AdminOrderItem from "./admin-order-item";
-import { Order } from "@prisma/client";
+import { Order, OrderStatus } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
 
 function OrderList({ orders }: { orders: OrderWithAllDetails[] }) {
   const [orderList, setOrderList] = useState<OrderWithAllDetails[]>(orders);
 
   const { socket, isConnected } = useSocket();
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("o");
+
+  useEffect(() => {
+    if (tab === "completed-orders") {
+      setOrderList(
+        orders.filter((order: Order) => order.status === OrderStatus.DELIVERED),
+      );
+    } else if (tab === "cancelled-orders") {
+      setOrderList(
+        orders.filter((order) => order.status === OrderStatus.CANCELED),
+      );
+    } else {
+      setOrderList(orders);
+    }
+  }, [tab]);
 
   useEffect(() => {
     if (isConnected) {
