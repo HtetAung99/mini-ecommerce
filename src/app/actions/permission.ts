@@ -1,12 +1,12 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { isAuthenticted, isSuperAdmin } from "../../../lib/session";
 import prisma from "../../../lib/prisma";
 import { revalidatePath } from "next/cache";
+import { PermissionAddFormValue } from "../admin/users-management/(permission)/@permission/addPermission/components/permission-form";
 import { PermissionEditFormValue } from "../admin/users-management/(permission)/@permission/editPermission/components/edit-form";
 
-export async function addPermission(formData: PermissionEditFormValue) {
+export async function addPermission(formData: PermissionAddFormValue) {
   const isLogin: boolean = await isAuthenticted();
   const hasPermission: boolean = await isSuperAdmin();
   // FIXME: need more auth check
