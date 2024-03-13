@@ -5,7 +5,7 @@ import { OrderStatus } from "@prisma/client";
 
 import { io } from "socket.io-client";
 
-const socket = new (io as any)("http://localhost:4000");
+const socket = new (io as any)(process.env.NEXT_PUBLIC_SOCKET_URL);
 
 export const handleOrder = async (
   orderStatus: OrderStatus,
