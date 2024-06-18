@@ -115,7 +115,7 @@ const attributeData = [
 // You can continue extending the array with more attributes and values.
 
 export const seedAttributes = async () => {
-  for (const a of attributeData) {
+  for (const a of [...attributeData]) {
     const attribute = await prisma.attribute.create({ data: a });
     console.log(`Created attribute with id: ${attribute.id}`);
   }

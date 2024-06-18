@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
 // reduandant code??
 export async function GET(request: NextRequest) {
   const q = request.nextUrl.searchParams.get("q");
+  const storeId = request.nextUrl.searchParams.get("storeId");
 
   if (!q) {
     return NextResponse.json({
@@ -51,7 +52,16 @@ export async function GET(request: NextRequest) {
   }
 
   const products = await prisma.product.findMany({
-    where: { title: { contains: q, mode: "insensitive" } },
+    where: {
+      AND: [
+        { title: { contains: q, mode: "insensitive" } },
+        {
+          variants: {
+            some: { stocks: { some: { storeId: Number(storeId) } } },
+          },
+        },
+      ],
+    },
     select: { id: true, title: true },
     take: 5,
   });

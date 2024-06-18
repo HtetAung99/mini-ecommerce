@@ -10,6 +10,8 @@ import { seedOrders } from "./dataPopulation/order_seeding";
 import { seedAddresses } from "./dataPopulation/address_seeding";
 import { seedPromotion } from "./dataPopulation/promotion_seeding";
 import { seedEntities } from "./dataPopulation/entity_seeding";
+import { seedComputerComponents } from "./dataPopulation/computer_components";
+import { seedComputerAttributes } from "./dataPopulation/computer_related_attributes";
 
 const prisma = new PrismaClient();
 
@@ -26,6 +28,8 @@ async function main() {
   await seedOrders();
   await seedAddresses();
   await seedPromotion();
+  await seedComputerAttributes();
+  await seedComputerComponents();
 
   console.log(`Seeding finished.`);
 }

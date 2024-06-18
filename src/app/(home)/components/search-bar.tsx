@@ -3,11 +3,15 @@
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Cookies from "js-cookie";
 import { useState } from "react";
 
 export default function SearchBar() {
   const [suggestions, setSuggestions] = useState<ProductSuggestion[]>([]);
   const [onFocus, setOnFocus] = useState(false);
+  const storeId = Cookies.get("defaultStore")
+    ? JSON.parse(Cookies.get("defaultStore")!).id
+    : 0;
 
   interface ResponseProductData {
     products: ProductSuggestion[];
@@ -20,7 +24,7 @@ export default function SearchBar() {
 
   const handleChange = async (query: string) => {
     const resJson: ResponseProductData = await (
-      await fetch(`/api/products?q=${query}`)
+      await fetch(`/api/products?q=${query}&storeId=${storeId}`)
     ).json();
 
     setSuggestions(resJson.products);
